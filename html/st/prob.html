@@ -1,0 +1,700 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>機率統計 -- 使用 R 軟體 >>  機率的概念</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">機率統計 -- 使用 R 軟體</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="prob.html" class="pure-menu-link">2. 機率的概念</a></li>
+<li class="pure-menu-item"><a href="randvar.html" class="pure-menu-link">3. 隨機變數</a></li>
+<li class="pure-menu-item"><a href="distribution.html" class="pure-menu-link">4. 機率分布</a></li>
+<li class="pure-menu-item"><a href="exp.html" class="pure-menu-link">5. 期望值</a></li>
+<li class="pure-menu-item"><a href="joint.html" class="pure-menu-link">6. 聯合分布</a></li>
+<li class="pure-menu-item"><a href="descriptive.html" class="pure-menu-link">7. 敘述統計</a></li>
+<li class="pure-menu-item"><a href="CentralLimit.html" class="pure-menu-link">8. 中央極限定理</a></li>
+<li class="pure-menu-item"><a href="test1.html" class="pure-menu-link">9. 估計與檢定</a></li>
+<li class="pure-menu-item"><a href="test2.html" class="pure-menu-link">10. 再論檢定</a></li>
+<li class="pure-menu-item"><a href="anova.html" class="pure-menu-link">11. 變異數分析</a></li>
+<li class="pure-menu-item"><a href="regression.html" class="pure-menu-link">12. 迴歸分析</a></li>
+<li class="pure-menu-item"><a href="PCA.html" class="pure-menu-link">13. 主成分分析</a></li>
+<li class="pure-menu-item"><a href="discrete.html" class="pure-menu-link">A. 離散分布</a></li>
+<li class="pure-menu-item"><a href="continuous.html" class="pure-menu-link">B. 連續分布</a></li>
+<li class="pure-menu-item"><a href="axiom.html" class="pure-menu-link">C. 機率公理系統</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">機率的概念</h1>
+<h2 id="-">樣本空間</h2>
+<p>機率論中，樣本空間是一個實驗或隨機試驗所有可能結果的集合，而隨機試驗中的每個可能結果稱為樣本點。通常用 S、&Omega; 或 U 表示。例如，如果拋擲一枚硬幣，那麼樣本空間就是集合{正面，反面}。如果投擲一個骰子，那麼樣本空間就是 {1,2,3,4,5,6} 。</p>
+<h2 id="-">事件</h2>
+<p>一個事件是由樣本空間中的一個子集合，例如令 A 為骰子的點數為 {1, 3, 5} 的事件，其機率可以寫為 P(A) = P({1,3,5})。</p>
+<h2 id="-">機率的詮釋方法</h2>
+<p>某個事件的發生率，機率很低代表該事件不太可能出現 (很罕見，但是並非不會出現)，機率很高代表該事件非常可能發生。</p>
+<p>機率的詮釋方式可以分為下列三種方式。</p>
+<p>詮釋 1. 個人方式：(Personal Approach) : 完全按照個人直覺的解釋方式 (不客觀)。</p>
+<p>詮釋 2. 相對頻率方式 (Relative Frequency Approach) ： <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>[</mo><mi>A</mi><mo>]</mo><mo>=</mo><mfrac><mrow><mi>f</mi></mrow><mrow><mi>n</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">P[A] = \frac{f}{n}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.9322159999999999em;"></span><span class="strut bottom" style="height:1.277216em;vertical-align:-0.345em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">[</span><span class="mord mathit">A</span><span class="mclose">]</span><span class="mrel">=</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9322159999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">n</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.10764em;">f</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<ul>
+<li>說明：f 為實驗中事件 A 出現的次數，n 為實驗進行的次數。 此方法乃是基於實驗觀察的結果的方式。</li>
+</ul>
+<p>詮釋 3. 古典方式 (Classical Approach) ： <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>[</mo><mi>A</mi><mo>]</mo><mo>=</mo><mfrac><mrow><mi>n</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow><mrow><mi>n</mi><mo>(</mo><mi>S</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P[A] = \frac{n(A)}{n(S)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">[</span><span class="mord mathit">A</span><span class="mclose">]</span><span class="mrel">=</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">n</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.05764em;">S</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">n</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<ul>
+<li>說明： n(A) 為事件 A 可能出現的次數 N(S) 為實驗可能進行的次數。此方法乃是將將實驗的可能出像 (outcome) 假設為等可能發生 (equaly likely)。</li>
+</ul>
+<h2 id="-">機率公理</h2>
+<p>一般人學習數學的時候都是從直覺概念開始的，例如我們小學的時候透過算幾個蘋果學到加法，然後用好幾排的蘋果學到乘法，接著就會背誦九九乘法表，然後在中學的時候導入變數的觀念，於是學會了聯立方程式的解法。</p>
+<p>但是數學家們看數學往往是從公理系統開始的，透過公理系統進行推論以建立定理，然後推論出整個數學體系。讓我們學習一下數學家的想法，先來看看機率的公理系統有何特色。</p>
+<p>以下三條法則是機率的基本公理：(初等機率測度)</p>
+<blockquote>
+<p>公理 (1). <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">P(S) = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span></p>
+<p>公理 (2). <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">P(A) \ge 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mrel">≥</span><span class="mord mathrm">0</span></span></span></span></p>
+<p>公理 (3). <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∪</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>2</mn><mo>)</mo><mspace width="0.277778em"></mspace><mo separator="true">;</mo><mspace width="0.277778em"></mspace><mi>i</mi><mi>f</mi><mspace width="0.277778em"></mspace><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>=</mo><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">P(A1 \cup A2) = P(A1) + P(A2) \; ; \; if \; A1 \cap A2 = \emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mpunct"><span class="mspace thickspace"></span><span class="mpunct">;</span></span><span class="mord mathit"><span class="mspace thickspace"></span><span class="mord mathit">i</span></span><span class="mord mathit" style="margin-right:0.10764em;">f</span><span class="mord mathit"><span class="mspace thickspace"></span><span class="mord mathit">A</span></span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mrel">=</span><span class="mord mathrm">∅</span></span></span></span></p>
+</blockquote>
+<p>公理 (1) 中的 S 代表機率的樣本空間，也就是所有可能發生的事件所形成的集合，這個集合的發生機率為 1，意義是沒有任何事件落在樣本空間之外。</p>
+<p>公理 (2) 中的 A 代表任一事件，而 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">P(A) \ge 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mrel">≥</span><span class="mord mathrm">0</span></span></span></span>  則代表任何事件的發生機率必須是正的，沒有負的機率值。</p>
+<p>公理 (3) 中的 A1, A2 代表任兩個事件，如果 A1 與 A2 沒有交集，那麼其聯集發生的機率將會是其機率的總和，也就是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∪</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>2</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A1 \cup A2) = P(A1) + P(A2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span> 。</p>
+<p>以上機率公理稱為《初等機率測度》公理，但 Kolmogorov 後來又提出了 《Kolmogorov 機率測度》公理系統，將上述的第三條公理改為如下版本：</p>
+<blockquote>
+<p>第三公理：任意兩兩不相交事件 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>E</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>E</mi><mn>2</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">E_1, E_2, ...</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mpunct">,</span><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mpunct">,</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span></span></span></span> 的可數序列滿足 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><msub><mi>E</mi><mn>1</mn></msub><mo>∪</mo><msub><mi>E</mi><mn>2</mn></msub><mo>∪</mo><mo>⋯</mo><mspace width="0.16667em"></mspace><mo>)</mo><mo>=</mo><mo>∑</mo><mi>P</mi><mo>(</mo><msub><mi>E</mi><mi>i</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">P(E_1 \cup E_2 \cup \cdots) = \sum P(E_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.00001em;vertical-align:-0.25001em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mbin">∪</span><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mbin">∪</span><span class="minner">⋯</span><span class="mclose"><span class="mspace thinspace"></span><span class="mclose">)</span></span><span class="mrel">=</span><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span></span></span></span> 。即，不相交子集的並的事件集合的機率為那些子集的機率的和。這也被稱為是σ可加性。如果存在子集間的重疊，這一關係不成立。</p>
+</blockquote>
+<p>這兩個公理系統之間，雖然看來差不多，但《Kolmogorov 機率測度》的涵蓋性較好，可以適用在一些《初等機率測度》所無法適用的領域，因此現在的機率教科書上大多是採用《Kolmogorov 機率測度》的公理系統。</p>
+<p>有關為何要將《初等機率測度》延伸成《Kolmogorov 機率測度》公理系統，請參考下列文章。</p>
+<ul>
+<li><a href="st:axioms">《初等機率測度》與《Kolmogorov 機率測度》之間的差異！</a></li>
+<li><a href="http://w3.math.sinica.edu.tw/math_media/d202/20207.pdf">《機率論為何要建立在機率空間上面?》 (PDF)</a>  -- 蔡聰明</li>
+</ul>
+<p>當公理系統確定下來之後，我們就可以透過這些法則進行一些基本的推論，舉例而言，我們應該可以很容易的證明以下這些定理。</p>
+<blockquote>
+<p>定理 1. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi mathvariant="normal">∅</mi><mo>)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">P(\emptyset) = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathrm">∅</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">0</span></span></span></span></p>
+<p>定理 2. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A&#x27;) = 1-P(A)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.751892em;"></span><span class="strut bottom" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mclose">)</span></span></span></span></p>
+<p>定理 3. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∪</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>−</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A1 \cup A2) = P(A1) + P(A2) - P(A1 \cap A2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span></p>
+</blockquote>
+<p>但是，這些定理又代表甚麼意義呢？其實從下列凡氏圖上可以很清楚的看得出來這些定理的直覺意義。</p>
+<p><img src="VennsDiagramAB.jpg" alt="圖、兩個集合 A, B 的凡氏圖"></p>
+<p>基本上，機率系統是建構在集合論之上的一門數學系統，所以我們可以用集合論的凡氏圖來理解這些公理與定理的意義。下圖左方是兩個集合 A,B 所形成的凡氏圖，而右方則是三個集合 A, B, C 所形成的凡氏圖。</p>
+<p><img src="VennsDiagram.png" alt="圖、三個集合 A, B, C 的凡氏圖"></p>
+<h3 id="-">習題：機率定理的證明</h3>
+<p>習題 1 : </p>
+<blockquote>
+<p>定理：證明 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi mathvariant="normal">∅</mi><mo>)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">P(\emptyset) = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathrm">∅</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">0</span></span></span></span> </p>
+<p>證明：</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>S</mi><mo>∪</mo><mi mathvariant="normal">∅</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi mathvariant="normal">∅</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(S\cup\emptyset) = P(S)+P(\emptyset)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mbin">∪</span><span class="mord mathrm">∅</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathrm">∅</span><span class="mclose">)</span></span></span></span> ; 根據公理 (3)</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mo>=</mo><mi>S</mi><mo>∪</mo><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">S = S\cup\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:0.80556em;vertical-align:-0.05556em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mbin">∪</span><span class="mord mathrm">∅</span></span></span></span> ; 根據集合論</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">P(S) = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span> ; 根據公理 1</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>=</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>∪</mo><mi mathvariant="normal">∅</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi mathvariant="normal">∅</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">1 = P(S) = P(S\cup\emptyset) = P(S)+P(\emptyset)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mbin">∪</span><span class="mord mathrm">∅</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathrm">∅</span><span class="mclose">)</span></span></span></span> ; 根據集合論與公理 (3)</p>
+<p>所以 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi mathvariant="normal">∅</mi><mo>)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mn>1</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">P(\emptyset) = 1-P(S) = 1-1 = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathrm">∅</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathrm">1</span><span class="mrel">=</span><span class="mord mathrm">0</span></span></span></span></p>
+</blockquote>
+<p>習題 2 : </p>
+<blockquote>
+<p>定理：證明 P(A&#39;) = 1-P(A) ; 其中的 A&#39; 代表 A 的補集，也就是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi><mo>∪</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mi>S</mi><mo separator="true">;</mo><mi>A</mi><mo>∩</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">A\cup A&#x27; = S ; A\cap A&#x27; = \emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.751892em;"></span><span class="strut bottom" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord mathit">A</span><span class="mbin">∪</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mpunct">;</span><span class="mord mathit">A</span><span class="mbin">∩</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord mathrm">∅</span></span></span></span></p>
+<p>證明：</p>
+<p>因為 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi><mo>∪</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mi>S</mi><mo separator="true">;</mo><mi>A</mi><mo>∩</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>=</mo><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">A\cup A&#x27; = S ; A\cap A&#x27; = \emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.751892em;"></span><span class="strut bottom" style="height:0.946332em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord mathit">A</span><span class="mbin">∪</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mpunct">;</span><span class="mord mathit">A</span><span class="mbin">∩</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord mathrm">∅</span></span></span></span> ; 根據 A&#39; 的定義</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>∪</mo><mi>A</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A&#x27; \cup A) = P(A&#x27;) + P(A)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.751892em;"></span><span class="strut bottom" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mclose">)</span></span></span></span> ; 根據公理 3</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>∪</mo><mi>A</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>S</mi><mo>)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">P(A&#x27;) + P(A) = P(A&#x27; \cup A) = P(S) = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.751892em;"></span><span class="strut bottom" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span> ; 根據公理 3 與公理1</p>
+<p>所以 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><msup><mi>A</mi><mo mathvariant="normal">′</mo></msup><mo>)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A&#x27;) = 1-P(A)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.751892em;"></span><span class="strut bottom" style="height:1.001892em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.751892em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mclose">)</span></span></span></span></p>
+</blockquote>
+<p>習題 3 : </p>
+<blockquote>
+<p>定理：證明 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∪</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>−</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A1 \cup A2) = P(A1) + P(A2) - P(A1 \cap A2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span> </p>
+<p>證明：</p>
+<p>因為 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi><mn>1</mn><mo>∪</mo><mi>A</mi><mn>2</mn><mo>=</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>−</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>)</mo><mo>∪</mo><mi>A</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">A1 \cup A2 = (A1-(A1 \cap A2)) \cup A2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mrel">=</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mclose">)</span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mord mathrm">2</span></span></span></span> ; 根據集合論 (用文氏圖可以理解其直覺意義)</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>(</mo><mi>A</mi><mn>1</mn><mo>−</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>)</mo><mo>∩</mo><mi>A</mi><mn>2</mn><mo>=</mo><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">(A1-(A1 \cap A2)) \cap A2 =  \emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mclose">)</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mrel">=</span><span class="mord mathrm">∅</span></span></span></span>  ; 根據集合論 (用文氏圖理解，只是為了方便)</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>−</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>)</mo><mo>∪</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>−</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A1) = P((A1-(A1 \cap A2))\cup (A1 \cap A2) ) = P(A1-(A1 \cap  A2)) + P (A1\cap A2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mclose">)</span><span class="mbin">∪</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span> ; 根據公理 3</p>
+<p>所以 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>−</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>)</mo><mo>−</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A1-(A1 \cap  A2)) = P(A1) -  P (A1\cap A2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span></p>
+<p>推論 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∪</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>−</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>)</mo><mo>∪</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>−</mo><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>2</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A1 \cup A2) = P((A1-(A1 \cap  A2)) \cup A2) = P(A1-(A1 \cap  A2)) + P(A2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mclose">)</span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">−</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span> </p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>)</mo><mo>−</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>−</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">=  P(A1) -  P (A1\cap A2) + P(A2) = P(A1) + P(A2) -  P (A1\cap A2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span>  ;</p>
+<p>所以 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∪</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>)</mo><mo>+</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>2</mn><mo>)</mo><mo>−</mo><mi>P</mi><mo>(</mo><mi>A</mi><mn>1</mn><mo>∩</mo><mi>A</mi><mn>2</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A1 \cup A2)= P(A1) + P(A2) -  P (A1\cap A2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∪</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mclose">)</span><span class="mbin">+</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span><span class="mbin">−</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">1</span><span class="mbin">∩</span><span class="mord mathit">A</span><span class="mord mathrm">2</span><span class="mclose">)</span></span></span></span></p>
+</blockquote>
+<h2 id="-">機率模型</h2>
+<p>因此、只要指定了所有可能事件的發生率，我們就可以完整的描述一個機率模型，舉例而言，日常生活中最常見的機率模型，大概就是丟銅板和擲骰子了，
+以下是我們對這兩個機率系統的描述。</p>
+<p>範例 1：丟銅板</p>
+<blockquote>
+<p>在投擲銅板的機率過程中，其樣本空間 S={正, 反} ，</p>
+<p>而其中一個常見的隨機變數 X ，是用來計算銅板的正面數量，</p>
+<p>此時，P(正) = 0.5，而 P(反) = 0.5</p>
+</blockquote>
+<p>範例 2：擲骰子</p>
+<blockquote>
+<p>在投擲骰子的機率過程中，其樣本空間 S={1點,2點,3點,4點,5點,6點}，</p>
+<p>此時，P(1點) = P(2點) = ... = P(6點) = 1/6。</p>
+</blockquote>
+<p>所以，在一次擲骰子中，得到 5 點或者 6 點的機率，可以圖示如下。</p>
+<p><img src="dice56prob.jpg" alt="圖、擲一次骰子 5 點或 6 點的機率"></p>
+<h3 id="-r-">練習：R 軟體與機率密度函數</h3>
+<p>我們可以透過 R 軟體進一步瞭解機率密度函數的意義，舉例而言， R 當中有個 sample() 函數，我們只要使用該函數就可以模擬擲骰子或銅板的過程。</p>
+<p>您可以用 「?函數」 的方式查詢某函數的功能，因此當我們在 R 軟體中鍵入 ?sample 時， R 軟體會輸出下列訊息：</p>
+<pre><code>&gt; ?sample
+starting httpd help server ... done
+</code></pre><p>然後就開啟下列的網頁畫面</p>
+<p><img src="sampleHelp.jpg" alt="圖、sample 函數的 Help 畫面"></p>
+<p>您可以看到 sample 函數的原型為 <code>sample(x, size, replace = FALSE, prob = NULL)</code>，於是可以用下列指令模擬投擲骰子十次的行為。</p>
+<pre><code>&gt; sample(1:6, 10)
+錯誤在sample(1:6, 10) : 
+  cannot take a sample larger than the population when &#39;replace = FALSE&#39;
+&gt; sample(1:6, 10, replace=TRUE)
+ [1] 3 2 4 4 4 2 6 3 3 3
+&gt;
+</code></pre><p>您可以看到當我們用 <code>sample(1:6, 10, replace=TRUE)</code> 的指令時，可以正確的模擬出投擲骰子十次的隨機過程，得到 3 2 4 4 4 2 6 3 3 3 這個序列，
+但是若我們沒有指定 replace=T (TRUE)，的時候，代表要採用取樣後不放回的方式，但是這種方式最多只能做六次，所以就得到失敗的結果。</p>
+<p>不過如果我們指定的樣本數 k 在六個以下，那麼 sample(1:6, k) 是會成功的，以下是一個範例：</p>
+<pre><code>&gt; sample(1:6, 6)
+[1] 2 6 4 1 5 3
+</code></pre><p>同樣的，我們也可以用 sample 函數模擬投擲銅板的過程，只是由於同板只有兩個面 (正面與反面)，因此我們可以用以下的方式模擬：</p>
+<pre><code class="lang-R">&gt; face = c(&quot;正&quot;, &quot;反&quot;)
+&gt; sample(face, 10, replace=TRUE)
+ [1] &quot;正&quot; &quot;反&quot; &quot;正&quot; &quot;反&quot; &quot;反&quot; &quot;正&quot; &quot;反&quot; &quot;正&quot; &quot;正&quot; &quot;反&quot;
+</code></pre>
+<p>上述模擬中的第一個指令 <code>face = c(&quot;正&quot;, &quot;反&quot;)</code>，代表我們要建立一個有兩個字串元素 [ 正, 反] 的陣列。然後第二個指令
+<code>sample(face, 10, replace=TRUE)</code> 是用這樣的陣列去產生 10 個樣本 (取後放回的方式)。</p>
+<p>有時候，我們希望模擬的事物，其機率並非平均的，舉例而言，像是灌過鉛的骰子，或者是像台灣的廟裏面常見的「擲茭」，
+其機率可能是不平均的，對這種情況我們就可以指定 <code>sample(x, size, replace = FALSE, prob = NULL)</code> 這個函數的第四個參數，
+也就是 prob 來模擬。</p>
+<p>舉例而言，假如「擲茭」的正面機率是 0.6，而反面機率是 0.4，那麼我們就可以用下列方式模擬「擲茭」十次的過程。</p>
+<pre><code class="lang-R">&gt; sample(face, 10, replace=TRUE, c(0.6, 0.4))
+ [1] &quot;反&quot; &quot;正&quot; &quot;反&quot; &quot;反&quot; &quot;反&quot; &quot;正&quot; &quot;正&quot; &quot;正&quot; &quot;正&quot; &quot;正&quot;
+</code></pre>
+<h3 id="-">習題</h3>
+<p>習題 1 : 請模擬從班上隨機抽學生一萬次，看看誰與你最有緣 (抽到次數最多)</p>
+<p>解答：假設班上有 59 人，那麼編為 1 到 59 號，於是我們可以用下列程式，進行 1 萬次抽樣，
+並繪出統計圖。</p>
+<pre><code class="lang-R">&gt; x=sample(1:59, 10000, TRUE)
+&gt; hist(x, breaks=0.5:60)
+</code></pre>
+<p>執行結果</p>
+<p><img src="classmate.jpg" alt="圖、最有緣的同學統計圖"></p>
+<p>習題 2 : 感受中央極限定理</p>
+<pre><code class="lang-R">&gt; x=sample(1:6, 10000, T)
+&gt; y=sample(1:6, 10000, T)
+&gt; z=sample(1:6, 10000, T)
+&gt; hist(x, breaks=0.5:7)
+&gt; hist(y, breaks=0.5:7)
+&gt; hist(z, breaks=0.5:7)
+&gt; hist(x+y, breaks=1.5:13)
+&gt; hist(x+y+z, breaks=2.5:19)
+</code></pre>
+<p>執行結果</p>
+<p><img src="xyz.jpg" alt="圖、x+y+z 的分布圖"></p>
+<h2 id="-">條件機率</h2>
+<blockquote>
+<p><em>條件機率的定義</em>：</p>
+<p>在 A 事件出現的情況下，B 事件出現的機率，稱為 P(B|A)。</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(B|A) = \frac{P(A \cap B)}{P(A)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mbin mtight">∩</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+</blockquote>
+<p>範例 1：</p>
+<blockquote>
+<p>舉例而言，假如我們已知某投擲骰子的結果為偶數 (事件 A=偶數)，那麼結果為 3 點 (事件 B=3點) 的機率為多少？</p>
+<p>這個條件機率可以用下列算式表示。</p>
+<p>P(B|A) = P(3點|偶數)</p>
+</blockquote>
+<p>範例 2：</p>
+<blockquote>
+<p>當然、B 不一定要是 A 的子集合，舉例而言，假如 B 為「不大於 3 點」的事件，那麼我們就可以將條件機率表示如下：</p>
+<p>P(B|A) = P(不大於3點|偶數)</p>
+</blockquote>
+<h2 id="-">獨立事件</h2>
+<blockquote>
+<p><em>獨立事件的定義</em> : </p>
+<p>事件 A 與 B 彼此獨立，則 A, B 兩事件同時出現的機率為</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A \cap B) = P(A) P(B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∩</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span></p>
+</blockquote>
+<p>請注意數學中定義的意義，定義代表某種規定，是不需要證明的，只要不符合這種規定的，就不能用此一名詞描述，也就是不符合此定義。</p>
+<p>因此、並非所有的事件 A, B 都會是獨立的，但若事件 A, B 符合上述規定的話，我們就稱這兩個事件彼此獨立。</p>
+<p>舉例而言，假如對於一個公平的骰子而言，請問下列的 A,B 事件之間是否彼此獨立。</p>
+<p>範例 1. 兩事件不獨立的情況</p>
+<blockquote>
+<p>問題：請問 「A=偶數, B=3點」這兩個事件是否獨立</p>
+<p>解答：</p>
+<p>P(A) = 3/6 = 1/2</p>
+<p>P(B) = 1/6</p>
+<p>P(A &cap; B) = 0</p>
+<p>P(A) P(B) = 1/2 * 1/6 =1/12</p>
+<p>由於 P(A \cap B) \ne P(A) P(B) ，所以這兩個事件彼此不獨立。</p>
+</blockquote>
+<p>範例 2. 兩事件獨立的情況</p>
+<blockquote>
+<p>問題：請問 「A=偶數, B=不大於 4 點」這兩個事件是否獨立</p>
+<p>解答：</p>
+<p>P(A) = 3/6 = 1/2 </p>
+<p>P(B) = 4/6 = 2/3</p>
+<p>P(A &cap; B) = P({2點, 4點}) = 2/6 = 1/3</p>
+<p>P(A) P(B) = 1/2 * 2/3 = 1/3</p>
+<p>由於 P(A &cap; B) = P(A) P(B) ，所以這兩個事件彼此獨立。</p>
+</blockquote>
+<p>習題：請證明以下定理：</p>
+<blockquote>
+<p>定理 1. 若 A , B 彼此獨立，則 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo>)</mo><mo>∗</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(A|B) = P(B|A) * \frac{P(A)}{P(B)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mbin">∗</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>定理 2. <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>A</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>A</mi><mn>2</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi>A</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">A_1, A_2, ... , A_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.68333em;"></span><span class="strut bottom" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mpunct">,</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mpunct">,</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mpunct">,</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span>  彼此獨立 &lt;=&gt; <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><msub><mi>A</mi><mn>1</mn></msub><mo>∩</mo><msub><mi>A</mi><mn>2</mn></msub><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo>∩</mo><msub><mi>A</mi><mi>k</mi></msub><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><msub><mi>A</mi><mn>1</mn></msub><mo>)</mo><mi>P</mi><mo>(</mo><msub><mi>A</mi><mn>2</mn></msub><mo>)</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>P</mi><mo>(</mo><msub><mi>A</mi><mi>k</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A_1 \cap A_2 ... \cap A_k) = P(A_1) P(A_2) ... P(A_k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mbin">∩</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mbin">∩</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p>定理 3. 乘法規則：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A \cap B) = P(B|A) P(A)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∩</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mclose">)</span></span></span></span></p>
+</blockquote>
+<p>習題 : 請舉出一組獨立事件的範例</p>
+<h2 id="-">貝氏定理</h2>
+<blockquote>
+<p><em>貝氏定理</em>：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo>)</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(A | B) = P(B | A)  \frac{P(A)}{P(B)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>證明：</p>
+<p>由條件機率的定義可得 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(B | A) = \frac{P(A \cap B)}{P(A)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mbin mtight">∩</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>，也可以得到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(A | B) = \frac{P(A \cap B)}{P(B)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mbin mtight">∩</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>所以  <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>∩</mo><mi>B</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A \cap B) = P(B|A) P(A) = P(A|B) P(B)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mbin">∩</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span></span></span></span></p>
+<p>於是得到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo>)</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(A | B) = P(B | A)  \frac{P(A)}{P(B)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+</blockquote>
+<p>習題：</p>
+<blockquote>
+<p>習題 1. 請驗證 「A=偶數, B=3點」這兩個事件是否符合貝氏定理</p>
+<p>習題 2. 請驗證 「A=偶數, B=不大於 4 點」這兩個事件是否符合貝氏定理</p>
+</blockquote>
+<h2 id="-">條件獨立</h2>
+<blockquote>
+<p><em>條件獨立的定義</em>：</p>
+<p>假如 A 與 B 在給定 C 的情況下條件獨立，那麼以下算式成立：</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo separator="true">,</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>C</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>C</mi><mo>)</mo><mo>∗</mo><mi>P</mi><mo>(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>C</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(A,B|C) = P(A|C) * P(B|C)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="mclose">)</span></span></span></span> ;</p>
+</blockquote>
+<p>習題：請證明以下定理：</p>
+<blockquote>
+<p>定理： <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo separator="true">,</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>C</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>C</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo>)</mo><mo>∗</mo><mi>P</mi><mo>(</mo><mi>C</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo>)</mo><mo>∗</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>C</mi><msup><mo>)</mo><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(A,B|C) = P(C|A)<em> P(C|B)</em>\frac{P(A) P(B)}{P(C)^2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mbin">∗</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.07153em;">C</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mbin">∗</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.07153em;">C</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathrm mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mclose mtight">)</span><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+</blockquote>
+<h2 id="-">習題：牙疼的診斷問題</h2>
+<p>本問題來自人工智慧的經典教科書 「Artificial Intelligence: A Modern Approach」第三版，475 頁。</p>
+<p>問題描述：當病人來看牙醫時，該病人可能有蛀牙或沒蛀牙，也可能有牙痛或沒有牙痛，而牙醫可能會找到牙痛的原因或找不到。</p>
+<p>因此有下列三個隨機變數</p>
+<p>X:(蛀) 蛀牙與否 (Cavity)
+Y:(痛) 牙痛與否 (Toothache)
+Z:(找) 是否找到痛的牙 (Catch)</p>
+<p>假如這個問題個統計機率都已經知道了，如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>＼</th>
+<th>牙痛 (Y=1)</th>
+<th>牙痛 (Y=1)</th>
+<th>不牙痛 (Y=0)</th>
+<th>不牙痛 (Y=0)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>找到 (Z=1)</td>
+<td>找不到 (Z=0)</td>
+<td>找到 (Z=1)</td>
+<td>找不到 (Z=0)</td>
+</tr>
+<tr>
+<td>蛀牙(X=1)</td>
+<td>0.108</td>
+<td>0.012</td>
+<td>0.072</td>
+<td>0.008</td>
+</tr>
+<tr>
+<td>沒蛀牙 (X=0)</td>
+<td>0.016</td>
+<td>0.064</td>
+<td>0.144</td>
+<td>0.576</td>
+</tr>
+</tbody>
+</table>
+<p>請回答下列問題</p>
+<ul>
+<li>問題 1：請計算 P(沒痛) = ? </li>
+<li>問題 2：請計算 P(找到 | 牙痛) = ? </li>
+<li>問題 3：請問這是一個合理的機率分布嗎？</li>
+<li>問題 4：請計算 P(找到 | 蛀牙) = ? </li>
+<li>問題 5：請計算 P(找到, 牙痛) = ? </li>
+<li>問題 6：請計算 P(蛀 | 找到),  P(蛀), P(找到),  P(找到 | 蛀) ，然後驗證下列貝氏定理是否成立。<ul>
+<li>P(找到|蛀) = P(蛀|找到) P(找到)/P(蛀)</li>
+</ul>
+</li>
+</ul>
+<p>解答</p>
+<p>R 的 陣列是用以行為主的順序 (Column Major Order)，請看下列檔案中的說明：</p>
+<ul>
+<li><a href="http://cran.r-project.org/doc/manuals/R-lang.pdf">http://cran.r-project.org/doc/manuals/R-lang.pdf</a></li>
+</ul>
+<blockquote>
+<p>2.2.2 The dim attribute is used to implement arrays. The content of the array is stored in a
+vector in column-major order and the dim attribute is a vector of integers specifying the
+respective extents of the array. R ensures that the length of the vector is the product of
+the lengths of the dimensions. The length of one or more dimensions may be zero.</p>
+</blockquote>
+<p>所以我們必須用以行為主的順序 (Column Major Order) 將機率列舉出來，如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>蛀 X</th>
+<th>痛 Y</th>
+<th>找 Z</th>
+<th>P(X,Y,Z)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0.576</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.008</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0.064</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0.012</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0.144</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0.072</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0.016</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0.108</td>
+</tr>
+</tbody>
+</table>
+<p>而且 R 的陣列是從 1 開始算的，不像 C 語言是從 0 開始算的，因此還必須將上表修改如下：</p>
+<table>
+<thead>
+<tr>
+<th>蛀 X</th>
+<th>痛 Y</th>
+<th>找 Z</th>
+<th>P(X,Y,Z)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0.576</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>0.008</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>0.064</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>0.012</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>0.144</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>0.072</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>0.016</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>0.108</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="lang-R">&gt; p &lt;- array(c(0.576, 0.008, 0.064, 0.012, 0.144, 0.072, 0.016, 0.108),c(2,2,2))
+&gt; p
+, , 1
+
+      [,1]  [,2]
+[1,] 0.576 0.064
+[2,] 0.008 0.012
+
+, , 2
+
+      [,1]  [,2]
+[1,] 0.144 0.016
+[2,] 0.072 0.108
+
+&gt; p[1,1,1]
+[1] 0.576
+&gt; p[2,1,1]
+[1] 0.008
+&gt; p[1,2,1]
+[1] 0.064
+&gt; p[2,2,1]
+[1] 0.012
+&gt; p[1,1,2]
+[1] 0.144
+&gt; p[2,1,2]
+[1] 0.072
+&gt; p[1,2,2]
+[1] 0.016
+&gt; p[2,2,2]
+[1] 0.108
+&gt; dimnames(p)[1]] = c(&quot;沒蛀&quot;, &quot;蛀&quot;)
+&gt; dimnames(p)[2]] = c(&quot;沒痛&quot;, &quot;痛&quot;)
+&gt; dimnames(p)[3]] = c(&quot;沒找&quot;, &quot;找&quot;)
+&gt; p
+, , 沒找
+
+      沒痛    痛
+沒蛀 0.576 0.064
+蛀   0.008 0.012
+
+, , 找
+
+      沒痛    痛
+沒蛀 0.144 0.016
+蛀   0.072 0.108
+</code></pre>
+<p>解答1：P(沒痛) =  0.8
+計算過程：</p>
+<pre><code class="lang-R">&gt; p[,&quot;沒痛&quot;,]
+      沒找    找
+沒蛀 0.576 0.144
+蛀   0.008 0.072
+&gt; sum(p[,&quot;沒痛&quot;,])
+[1] 0.8
+</code></pre>
+<p>解答2：P(找到 | 牙痛) = 0.62</p>
+<pre><code class="lang-R">&gt; p[,,&quot;找&quot;]
+      沒痛    痛
+沒蛀 0.144 0.016
+蛀   0.072 0.108
+&gt; sum(p[,,&quot;找&quot;])
+[1] 0.34
+&gt; sum(p[,&quot;痛&quot;,&quot;找&quot;])
+[1] 0.124
+&gt; sum(p[,&quot;痛&quot;,&quot;找&quot;])/sum(sum(p[,&quot;痛&quot;,]))
+[1] 0.62
+</code></pre>
+<p>解答3：請問這是一個合理的機率分布嗎？ (是的，因為總和為 1，而且每個機率直都介於 0 到1之間)</p>
+<pre><code class="lang-R">&gt; sum(p)
+[1] 1
+&gt; 0&lt;=p &amp; p &lt;=1
+, , 沒找
+
+     沒痛   痛
+沒蛀 TRUE TRUE
+蛀   TRUE TRUE
+
+, , 找
+
+     沒痛   痛
+沒蛀 TRUE TRUE
+蛀   TRUE TRUE
+</code></pre>
+<p>問題 4：請計算 P(找到 | 蛀牙) = ? </p>
+<pre><code class="lang-R">&gt;  sum(p[&quot;蛀&quot;,,&quot;找&quot;])/sum(p[&quot;蛀&quot;,,])
+[1] 0.9
+</code></pre>
+<p>問題 5：請計算 P(找到, 牙痛) = ? </p>
+<pre><code class="lang-R">&gt; sum(p[,&quot;痛&quot;,&quot;找&quot;])
+[1] 0.124
+</code></pre>
+<p>解答6：請計算 P(蛀 | 找到), P(蛀), P(找到), P(找到 | 蛀) ，然後驗證下列貝氏定理是否成立。</p>
+<blockquote>
+<p>P(蛀 | 找到) = p(找到|蛀) * p(蛀)/p(找到)</p>
+</blockquote>
+<p>說明：</p>
+<p>P(蛀 | 找到) = 0.5294118, P(蛀)=0.2, P(找到)=0.34, P(找到 | 蛀)=0.9</p>
+<p>P(蛀 | 找到) = 0.5294118 = 0.9 <em> 0.2/0.34 =  = p(找到|蛀) </em> p(蛀)/p(找到)</p>
+<pre><code class="lang-R">&gt; pab = sum(p[&quot;蛀&quot;,,&quot;找&quot;])/sum(p[,,&quot;找&quot;]) # pab = P(蛀 | 找到)
+&gt; pba = sum(p[&quot;蛀&quot;,,&quot;找&quot;])/sum(p[&quot;蛀&quot;,,]) # pba = P(找到 | 蛀)
+&gt; pa = sum(p[&quot;蛀&quot;,,]) # pa = P(蛀)
+&gt; pb = sum(p[,,&quot;找&quot;]) # pb = P(找到)
+&gt; pab
+[1] 0.5294118
+&gt; pba
+[1] 0.9
+&gt; pa
+[1] 0.2
+&gt; pb
+[1] 0.34
+&gt; pba*pa/pb
+[1] 0.5294118
+&gt; pab-pba*pa/pb
+[1] 0
+</code></pre>
+<p>所以 </p>
+<pre><code class="lang-R">p(蛀|找) 
+= sum(p[&quot;蛀&quot;,,&quot;找&quot;])/sum(p[,,&quot;找&quot;]) 
+= pab 
+= pba * pa / pb 
+= p(找|蛀) * p(蛀)/p(找) 
+= sum(p[&quot;蛀&quot;,,&quot;找&quot;])/sum(p[,,&quot;蛀&quot;])* sum(p[,,&quot;蛀&quot;])/ sum(p[&quot;找&quot;,,])
+</code></pre>
+<p>完整的操作過程</p>
+<pre><code class="lang-R">&gt; p &lt;- array(c(0.576, 0.008, 0.064, 0.012, 0.144, 0.072, 0.016, 0.108),c(2,2,2))
+&gt; p
+, , 1
+
+      [,1]  [,2]
+[1,] 0.576 0.064
+[2,] 0.008 0.012
+
+, , 2
+
+      [,1]  [,2]
+[1,] 0.144 0.016
+[2,] 0.072 0.108
+
+&gt; p[1,1,1]
+[1] 0.576
+&gt; p[2,1,1]
+[1] 0.008
+&gt; p[1,2,1]
+[1] 0.064
+&gt; p[2,2,1]
+[1] 0.012
+&gt; p[1,1,2]
+[1] 0.144
+&gt; p[2,1,2]
+[1] 0.072
+&gt; p[1,2,2]
+[1] 0.016
+&gt; p[2,2,2]
+[1] 0.108
+&gt; dimnames(p)[1]] = c(&quot;沒蛀&quot;, &quot;蛀&quot;)
+&gt; dimnames(p)[2]] = c(&quot;沒痛&quot;, &quot;痛&quot;)
+&gt; dimnames(p)[3]] = c(&quot;沒找&quot;, &quot;找&quot;)
+&gt; p
+, , 沒找
+
+      沒痛    痛
+沒蛀 0.576 0.064
+蛀   0.008 0.012
+
+, , 找
+
+      沒痛    痛
+沒蛀 0.144 0.016
+蛀   0.072 0.108
+
+&gt; p[,&quot;沒痛&quot;,]
+      沒找    找
+沒蛀 0.576 0.144
+蛀   0.008 0.072
+&gt; p[,,&quot;找&quot;]
+      沒痛    痛
+沒蛀 0.144 0.016
+蛀   0.072 0.108
+&gt; sum(p[,,&quot;找&quot;])
+[1] 0.34
+&gt; sum(p[,&quot;痛&quot;,&quot;找&quot;])
+[1] 0.124
+&gt; sum(p[,&quot;痛&quot;,&quot;找&quot;])/sum(sum(p[,&quot;痛&quot;,]))
+[1] 0.62
+&gt; sum(p)
+[1] 1
+&gt; 0&lt;=p &amp; p &lt;=1
+, , 沒找
+
+     沒痛   痛
+沒蛀 TRUE TRUE
+蛀   TRUE TRUE
+
+, , 找
+
+     沒痛   痛
+沒蛀 TRUE TRUE
+蛀   TRUE TRUE
+
+&gt; sum(p[&quot;蛀&quot;,,&quot;找&quot;])/sum(p[&quot;蛀&quot;,,])
+[1] 0.9
+&gt; sum(p[&quot;蛀&quot;,,&quot;找&quot;])/sum(p[&quot;蛀&quot;,,])
+[1] 0.9
+&gt; sum(p[,&quot;痛&quot;,&quot;找&quot;])/sum(p[,&quot;痛&quot;,])
+[1] 0.62
+&gt; sum(p[,&quot;痛&quot;,&quot;找&quot;])
+[1] 0.124
+&gt; pab = sum(p[&quot;蛀&quot;,,&quot;找&quot;])/sum(p[,,&quot;找&quot;]) # pab = P(蛀 | 找到)
+&gt; pba = sum(p[&quot;蛀&quot;,,&quot;找&quot;])/sum(p[&quot;蛀&quot;,,]) # pba = P(找到 | 蛀)
+&gt; pa = sum(p[&quot;蛀&quot;,,]) # pa = P(蛀)
+&gt; pb = sum(p[,,&quot;找&quot;]) # pb = P(找到)
+&gt; pab
+[1] 0.5294118
+&gt; pba
+[1] 0.9
+&gt; pa
+[1] 0.2
+&gt; pb
+[1] 0.34
+&gt; pba*pa/pb
+[1] 0.5294118
+&gt; pab-pba*pa/pb
+[1] 0
+&gt;
+</code></pre>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

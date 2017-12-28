@@ -1,0 +1,197 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 程式設計 -- 基礎、視窗與網路 >>  C# 程式基礎：流程控制</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">C# 程式設計 -- 基礎、視窗與網路</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">目錄</a></li>
+<li class="pure-menu-item"><a href="csharp.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="varexp.html" class="pure-menu-link">2. 運算式</a></li>
+<li class="pure-menu-item"><a href="ifloop.html" class="pure-menu-link">3. 流程控制</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="object.html" class="pure-menu-link">6. 物件導向</a></li>
+<li class="pure-menu-item"><a href="exception.html" class="pure-menu-link">7. 例外處理</a></li>
+<li class="pure-menu-item"><a href="file.html" class="pure-menu-link">8. 檔案處理</a></li>
+<li class="pure-menu-item"><a href="datastructure.html" class="pure-menu-link">9. 資料結構</a></li>
+<li class="pure-menu-item"><a href="regexp.html" class="pure-menu-link">10. 正規表達式</a></li>
+<li class="pure-menu-item"><a href="thread.html" class="pure-menu-link">11. 作業系統</a></li>
+<li class="pure-menu-item"><a href="window.html" class="pure-menu-link">12. 視窗程式</a></li>
+<li class="pure-menu-item"><a href="timer.html" class="pure-menu-link">13. 時間驅動</a></li>
+<li class="pure-menu-item"><a href="editor.html" class="pure-menu-link">14. 文字編輯器</a></li>
+<li class="pure-menu-item"><a href="graphics.html" class="pure-menu-link">15. 畫圖功能</a></li>
+<li class="pure-menu-item"><a href="gridview.html" class="pure-menu-link">16. 表格元件</a></li>
+<li class="pure-menu-item"><a href="net.html" class="pure-menu-link">17. 網路程式</a></li>
+<li class="pure-menu-item"><a href="udp.html" class="pure-menu-link">18. UDP 程式</a></li>
+<li class="pure-menu-item"><a href="tcp.html" class="pure-menu-link">19. TCP 程式</a></li>
+<li class="pure-menu-item"><a href="http.html" class="pure-menu-link">20. HTTP Server</a></li>
+<li class="pure-menu-item"><a href="web.html" class="pure-menu-link">21. HTTP Client</a></li>
+<li class="pure-menu-item"><a href="end.html" class="pure-menu-link">結語</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="c-">C# 程式基礎：流程控制</h1>
+<p>在結構化的程式語言中，流程控制是以判斷 (if, switch) 與迴圈 (for, while) 為主的。C# 也不例外，我們將在本文中介紹 C# 的流程控制語法，包含如何利用條件判斷語法控制程式的分支情況，以及用迴圈語法重複運行某些程式碼。</p>
+<h2 id="if-">if 語法</h2>
+<p>C# 的條件判斷以 if 為主，語法完全繼承 C 語言的語法，其語法如下：</p>
+<pre><code class="lang-CS">if EXP 1
+  BLOCK 1
+else if EXP 2
+  BLOCK 2
+...
+else EXP K
+  BLOCK K
+</code></pre>
+<p>舉例而言，假如我們想要判斷成績變數 score 是否及格，也就是 score 是否到達 60 分以上，則可以用下列語法。</p>
+<pre><code class="lang-CS">if (score &gt;= 60)
+  Console.WriteLine(&quot;及格&quot;);
+else
+  Console.WriteLine(&quot;不及格&quot;);
+</code></pre>
+<p>更進一步的，假如我們想用程式判斷等第，其中 90 分以上為 A，80-90 之間為 B，70-80 之間為 C，70 以下為 D，那麼就可以用下列語法進行判斷。</p>
+<pre><code class="lang-CS">if (score &gt;=90)
+  degree = &quot;A&quot;;
+else if (score &gt;= 80)
+  degree = &quot;B&quot;;
+else if (score &gt;= 70)
+  degree = &quot;C&quot;;
+else
+  degree = &quot;D&quot;;
+</code></pre>
+<p>如果我們將上述範例與 if 語句的語法對照起來，可以很清楚的看到 if 語句的語法結構，如以下範例所示。</p>
+<pre><code class="lang-CS">if (score &gt;=90)            // if EXP 1
+  degree = &quot;A&quot;;            //   BLOCK 1
+else if (score &gt;= 80)      // else if EXP 2
+  degree = &quot;B&quot;;            //   BLOCK 2
+else if (score &gt;= 70)      // else if (EXP 3
+  degree = &quot;C&quot;;            //   BLOCK 3
+else                       // else EXP 4
+  degree = &quot;D&quot;;            //   BLOCK 4
+</code></pre>
+<h2 id="for-">for 語法</h2>
+<p>C# 當中的迴圈語法，包含 for, while, foreach 等，其中的 for 與 while 是由 C 繼承而來的，語法與 C 語言一致。而 foreach 的語法則是新創造的，其使用上比 for 語法更方便。</p>
+<p>for 迴圈的語法如下所示，其中的 EXP1 是指定敘述，可以用來設定索引變數的初值，EXP2 是一個判斷條件，用來判斷是否應跳出迴圈，EXP3 則是累加條件，通常用來對索引變數進行累加 (++) 的動作。</p>
+<pre><code class="lang-CS">for (EXP1; EXP2; EXP3)
+  BLOCK;
+</code></pre>
+<p>舉例而言，假如我們想計算從 1 加到 100 的結果，就可以利用下列程式，不斷的將索引變數值 i 加入到總和變數 sum 當中，最後 sum 當中所儲存的就會是 1+2+...+100 的結果 5050。</p>
+<pre><code class="lang-CS">int sum = 0;
+for (int i=1; i&lt;=100; i++)
+  sum += i;
+</code></pre>
+<h2 id="while-">while 語法</h2>
+<p>while 迴圈的語法比 for 迴圈更簡單，其語法如下範例所示，其中的 EXP 是一個邏輯判斷式，用來判斷是否應該離開迴圈。在還沒離開之前，會不斷的重複執行 BLOCK 區塊。</p>
+<pre><code class="lang-CS">while (EXP)
+  BLOCK
+</code></pre>
+<p>同樣的，我們也可以利用 while 迴圈計算從 1 加到 100 的結果，其程式如以下範例所示。</p>
+<pre><code class="lang-CS">int sum=0;
+int i = 1;
+while (i&lt;=100) 
+{
+  sum = sum + i;
+  i++;
+}
+</code></pre>
+<p>至於 foreach 迴圈，則是針對某個容器結構 (例如陣列) 當中的每個元素都巡迴執行一次，其語法我們將留待未來討論陣列的主題時再行說明。</p>
+<h2 id="-">結語</h2>
+<p>判斷與迴圈是結構化程式設計的兩大流程控制方法，有效的結合判斷與迴圈，就能產生變化無窮的程式，這正是程式設計精妙的地方，也是程式設計師必須要會的基本能力。</p>
+<h2 id="-if-">練習：if 範例</h2>
+<pre><code class="lang-CS">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // int score = 55;
+            Console.Write(&quot;請輸入分數：&quot;);
+            String scoreStr = Console.ReadLine();
+            int score = int.Parse(scoreStr);
+            if (score &gt;= 60)
+                Console.WriteLine(&quot;及格&quot;);
+            else
+                Console.WriteLine(&quot;不及格&quot;);
+        }
+    }
+}
+</code></pre>
+<h2 id="-while-">練習：while 範例</h2>
+<pre><code class="lang-CS">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int score = 55;
+            if (score &gt;= 60)
+                Console.WriteLine(&quot;及格！&quot;);
+            else
+                Console.WriteLine(&quot;不及格！&quot;);
+
+            while (score &lt; 60)
+            {
+                Console.WriteLine(&quot;score=&quot; + score + &quot;=&gt; 不及格！&quot;);
+                score++;
+            }
+            Console.WriteLine(&quot;score=&quot; + score + &quot;=&gt; 恭喜你！及格了！&quot;);
+/*
+            int i = 1;
+            while (i &lt;= 10)
+            {
+                Console.WriteLine(&quot;i=&quot; + i);
+                i++; // i = i + 1; // i++
+            }
+*/
+            for (int i = 1; i &lt;= 10; i+=2) // i+=2 =&gt; i=i+2
+                Console.WriteLine(&quot;i=&quot; + i);
+
+
+        }
+    }
+}
+</code></pre>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

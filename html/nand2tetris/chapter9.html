@@ -1,0 +1,192 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nand2tetris -- 動手設計電腦的軟硬體 >>  9. 高階語言 -- 語法理論</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">Nand2tetris -- 動手設計電腦的軟硬體</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">課程</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 布林邏輯</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 算術電路</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 記憶電路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 組合語言</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 計算機結構</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 組譯器</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 虛擬機 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">8. 虛擬機 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">9. 高階語言</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">10. 編譯器 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">11. 編譯器 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter12.html" class="pure-menu-link">12. 作業系統</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">補充</a></li>
+<li class="pure-menu-item"><a href="bookSlide.html" class="pure-menu-link">補充投影片</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="9-">9. 高階語言 -- 語法理論</h1>
+<table>
+<thead>
+<tr>
+<th>教學</th>
+<th>主題</th>
+<th>影片</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PDF</td>
+<td><a href="http://www.nand2tetris.org/lectures/PDF/lecture%2009%20high%20level%20language.pdf">Chapter 9. High-Level Language</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Homework</td>
+<td><a href="Project9.html">Project9</a></td>
+<td></td>
+</tr>
+<tr>
+<td>課程</td>
+<td><a href="cl:home">計算語言學</a></td>
+<td></td>
+</tr>
+<tr>
+<td>電子書</td>
+<td><a href="cl:textbook">語言處理技術</a></td>
+<td></td>
+</tr>
+<tr>
+<td>示範</td>
+<td><a href="ai:googleTranslate">用 Google 翻譯北風與太陽</a></td>
+<td></td>
+</tr>
+<tr>
+<td>示範</td>
+<td><a href="scigen">用 SciGen 示範如何自動產生論文</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="js1:genen">自動產生英文語句</a></td>
+<td><a href="https://youtu.be/BGM557G2O2s">影片</a></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="js1:genexp">自動產生運算式</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="js1:genexp2">自動產生運算式2</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="genmath">自動產生小學數學測驗題</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="js1:understand">理解貓狗世界的英文</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="ai:parsemath">剖析小學數學測驗題的語法</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="ai:mtMath">翻譯小學數學測驗題</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="ai:mtMath8">翻譯小學數學測驗題(八極語版)</a></td>
+<td></td>
+</tr>
+<tr>
+<td>翻譯</td>
+<td><a href="ai:scigen">用 SciGen 示範如何自動產生論文</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="js1:dlook">字典查詢程式 -- dlook.js</a></td>
+<td><a href="https://youtu.be/fOP6tuC5bgs">影片</a></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="js1:plook">通訊錄查詢 -- plook.js</a></td>
+<td><a href="https://youtu.be/3HEVe0-nq84">影片</a></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="js1:mt">英翻中系統 -- mt.js</a></td>
+<td><a href="https://youtu.be/6s9tAm7Mnag">影片</a></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="js1:mt2">英中互翻系統 -- mt2.js</a></td>
+<td><a href="https://youtu.be/5KXUAfSBu6g">影片</a></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="js1:c2e">中翻英系統 -- c2e.js, c2e2.js</a></td>
+<td><a href="https://youtu.be/WE-xZjayVLA">影片</a></td>
+</tr>
+<tr>
+<td>範例</td>
+<td><a href="ai:eliza">實作：中文版 Eliza 聊天程式</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="cl:markov">馬可夫語言產生器</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="cl:generativeMarkov">生成語法＋馬可夫語言產生器</a></td>
+<td></td>
+</tr>
+<tr>
+<td>資源</td>
+<td><a href="cl:nlpResource">自然語言處理資源-語料庫，字典，....</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

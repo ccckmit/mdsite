@@ -1,0 +1,126 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 JavaScript 設計網站 >>  前端網頁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">用 JavaScript 設計網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="html.html" class="pure-menu-link">2. HTML</a></li>
+<li class="pure-menu-item"><a href="css.html" class="pure-menu-link">3. CSS</a></li>
+<li class="pure-menu-item"><a href="javascript.html" class="pure-menu-link">4. JavaScript</a></li>
+<li class="pure-menu-item"><a href="frontend.html" class="pure-menu-link">5. 前端網頁</a></li>
+<li class="pure-menu-item"><a href="template.html" class="pure-menu-link">6. 樣版引擎</a></li>
+<li class="pure-menu-item"><a href="backend.html" class="pure-menu-link">7. 後端 Server</a></li>
+<li class="pure-menu-item"><a href="communication.html" class="pure-menu-link">8. 前後端通訊</a></li>
+<li class="pure-menu-item"><a href="project.html" class="pure-menu-link">9. 完整專案</a></li>
+<li class="pure-menu-item"><a href="online.html" class="pure-menu-link">10. 上線營運</a></li>
+<li class="pure-menu-item"><a href="running.html" class="pure-menu-link">11. 網站維護</a></li>
+<li class="pure-menu-item"><a href="framework.html" class="pure-menu-link">12. 進階框架</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">附錄</a></li>
+<li class="pure-menu-item"><a href="nginx.html" class="pure-menu-link">a. Nginx 的用途</a></li>
+<li class="pure-menu-item"><a href="digitalocean.html" class="pure-menu-link">b. Digital Ocean</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">前端網頁</h1>
+<p>前端的網頁技術，主要是結合 HTML/CSS/JavaScript 三者的技術，這三種技術也是前端工程師必備的知識。</p>
+<p>除了用 HTML 呈現，用 CSS 排版，然後用 JavaScript 操控顯示之外， JavaScript 還得負責與後端的 server 進行通訊，以便將使用者輸入的訊息傳給 server ，或者接收由 server 傳來的訊息以顯示新的畫面資訊 (這些畫面資訊主要還是 HTML 、圖片與 Canvas 畫布中的圖形)。</p>
+<p>Server 由於可以存取檔案與資料庫，因此可以不斷提供訊息給瀏覽器，不需要一次就將所有訊息往瀏覽器丟，只要在使用者想要該資訊時才提供出來就可以了。</p>
+<h2 id="-">前端網頁的框架</h2>
+<p>jQuery / Angular.js / React.js / Vue.js 等等都是前端網頁的常用框架。</p>
+<p>在此我們將只原生 JavaScript (有人戲稱為 Vanilla.js) 與 jQuery 等兩種，因為我也沒有學過 Angular.js / React.js / Vue.js 這些進階的框架。</p>
+<h2 id="jquery-">jQuery 前端查詢操控者</h2>
+<table>
+<thead>
+<tr>
+<th>教學</th>
+<th>主題</th>
+<th>影片</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>範例</td>
+<td><a href="jquery_example.html">jQuery 查詢節點範例</a></td>
+<td></td>
+</tr>
+<tr>
+<td>外部</td>
+<td>jQuery入門教程超清HD 1—What is jQuery 中文</td>
+<td><a href="https://www.youtube.com/watch?v=3ycso7P9rCw&amp;list=PL4PF5uRyx54KUcyLSgrVU28mjRcuXzvih">影片</a></td>
+</tr>
+<tr>
+<td>專案</td>
+<td><a href="ox.html">井字遊戲</a></td>
+<td></td>
+</tr>
+<tr>
+<td>挑戰</td>
+<td>人與電腦對戰井字遊戲</td>
+<td></td>
+</tr>
+<tr>
+<td>專案</td>
+<td><a href="gomoku.html">五子棋</a></td>
+<td></td>
+</tr>
+<tr>
+<td>習題</td>
+<td>為五子棋加上輸贏判斷</td>
+<td></td>
+</tr>
+<tr>
+<td>挑戰</td>
+<td><a href="gomoku_ai.html">人與電腦對戰五子棋</a></td>
+<td></td>
+</tr>
+<tr>
+<td>專案</td>
+<td><a href="/code/js/elearn/elearn.html">英文單字測驗系統</a></td>
+<td></td>
+</tr>
+<tr>
+<td>專案</td>
+<td><a href="/mt/mt.html">線上英翻中系統</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-javascript">原生 JavaScript</h2>
+<p>在 <a href="http://vanilla-js.com/">Vanilla.js</a> 網站上，開了一個玩笑，創造出一個空無一物的套件，關於這件事情可以參考 <a href="http://www.ithome.com.tw/voice/106182">《精通VanillaJS》</a> 一文。</p>
+<p>上述我用 jQuery 寫的那些應用，其實改用《原生 JavaScript》也都可以輕易地做出來，因此使用 jQuery 只是讓語法更短一點，不過由於《原生 JavaScript》一直在進步，所以也短不了多少了。</p>
+<p>因此我現在通常改用《<a href="http://vanilla-js.com/">Vanilla.js</a> + <a href="http://purecss.io/">PureCSS</a> 樣板》取代之前使用的《<a href="https://jquery.com/">jQuery</a> + <a href="http://getbootstrap.com/">Bootstrap</a>》之組合，感覺比較不會那麼擁腫。</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

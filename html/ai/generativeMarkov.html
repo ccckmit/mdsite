@@ -1,0 +1,168 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  生成語法＋馬可夫語言產生器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">生成語法＋馬可夫語言產生器</h1>
+<h2 id="-">人貓魚的世界</h2>
+<p>名詞：&quot;人&quot;, &quot;貓&quot;, &quot;魚&quot;
+動詞：&quot;養&quot;, &quot;吃&quot;, &quot;追&quot;, &quot;餵&quot;
+量詞：&quot;隻&quot;, &quot;位&quot;, &quot;條&quot;
+定詞：&quot;這&quot;, &quot;那&quot;, &quot;一&quot; </p>
+<h2 id="-">生成語法</h2>
+<pre><code>// VN 無法連上的問題
+
+var R=require(&quot;.andomLib&quot;);
+
+var WordsMap = {
+  &quot;N&quot;:[&quot;人&quot;, &quot;貓&quot;, &quot;魚&quot;],
+  &quot;V&quot;:[&quot;吃&quot;, &quot;追&quot;, &quot;餵&quot;],
+  &quot;Q&quot;:[&quot;隻&quot;, &quot;個&quot;, &quot;條&quot;],
+  &quot;D&quot;:[&quot;這&quot;, &quot;那&quot;, &quot;一&quot; ]
+};
+
+var QMap = {
+  &quot;QN&quot;:[
+  [0.05, 0.90, 0.05],  // 隻
+  [0.90, 0.05, 0.05],  // 個
+  [0.05, 0.05, 0.90]], // 條
+//  人     貓    魚 
+  &quot;VN&quot;:[
+  [0.05, 0.05, 0.90],  // 吃
+  [0.40, 0.50, 0.10],  // 追
+  [0.20, 0.40, 0.40]], // 餵
+//  人     貓    魚 
+  &quot;NV&quot;:[
+  [0.30, 0.30, 0.40],  // 人
+  [0.50, 0.45, 0.05],  // 貓
+  [0.50, 0.45, 0.05]]  // 魚
+//  吃     追    餵
+};
+
+function genState(state, Q) {
+  var r = Math.random();
+  var psum = 0;
+  for (var toState=0; toState&lt;Q[state].length; toState++) {
+    psum += Q[state][toState];
+    if (r &lt; psum) {
+      return toState;
+    }
+  }
+}
+
+var _tags  = [ &quot;&quot; ];
+var _words = [ &quot;&quot; ];
+
+function S() {
+  NP(); VP();
+}
+
+function NP() {
+  D(); Q(); N();
+}
+
+function VP() {
+  V(); NP();
+}
+
+function genWord(tag) {
+  var words     = WordsMap[tag];
+  var lastTag   = _tags[_tags.length-1];
+  var lastWord  = _words[_words.length-1];
+    var tag2      = lastTag+tag;
+    var Qt        = QMap[tag2];
+//  console.log(&quot;tag2=&quot;, tag2, &quot;Qt=&quot;, Qt);
+    var word;
+    if (typeof Qt !== &#39;undefined&#39;) {
+      var lastWords = WordsMap[lastTag];
+      var lastState = lastWords.indexOf(lastWord);
+      state = genState(lastState, Qt)
+      word = words[state];
+//      console.log(tag2, &quot;=&gt;&quot;, lastWord, word);
+    } else {
+        word = R.sample(words);
+    }
+  _tags.push(tag);
+  _words.push(word);
+}
+
+function N() { return genWord(&quot;N&quot;); }
+
+function V() { return genWord(&quot;V&quot;); }
+
+function Q() { return genWord(&quot;Q&quot;); }
+
+function D() { return genWord(&quot;D&quot;); }
+
+S();
+
+console.log(_words.join(&#39;&#39;));
+</code></pre><p>執行結果</p>
+<pre><code>那條魚追那條人
+nqu-192-168-61-142:jscode mac020$ node genGrammarMarkov2
+那隻貓吃一條魚
+nqu-192-168-61-142:jscode mac020$ node genGrammarMarkov2
+一條魚吃這條魚
+nqu-192-168-61-142:jscode mac020$ node genGrammarMarkov2
+一個人餵這條魚
+nqu-192-168-61-142:jscode mac020$ node genGrammarMarkov2
+一條魚追一條魚
+nqu-192-168-61-142:jscode mac020$ node genGrammarMarkov2
+一條魚吃這隻貓
+nqu-192-168-61-142:jscode mac020$ node genGrammarMarkov2
+那條貓吃這條魚
+nqu-192-168-61-142:jscode mac020$ node genGrammarMarkov2
+一隻貓吃那條魚
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

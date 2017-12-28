@@ -1,0 +1,437 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 JavaScript 程式書 >>  第 5 章 - 字典與 JSON</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 JavaScript 程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 程式入門</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 基本語法</a></li>
+<li class="pure-menu-item"><a href="chapterString.html" class="pure-menu-link">3. 字串</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">6. 字典與 JSON</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">7. 物件導向與原型</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">8. 函式庫</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">9. 模組</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">10. 檔案與輸出入</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">11. 資料庫</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">12. 網路</a></li>
+<li class="pure-menu-item"><a href="answer.html" class="pure-menu-link">習題解答</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-5-json">第 5 章 - 字典與 JSON</h1>
+<h2 id="-">字典</h2>
+<p>雖然 JavaScript 的語法很像 C 語言，但是 JavaScript 本質上仍然是個動態語言，其特性比較像 Python、 Ruby 等語言，因此預設就有提供更高階的資料結構，其中最重要的一個就是字典 (dictonary)，字典中的基本元素是 (key, value) 的配對，我們只要將 key 傳入就可以取得 value 的値，以下是一個 JavaScript 的字典範例。</p>
+<p>檔案：dict.js</p>
+<pre><code class="lang-javascript">var dict={ name:&quot;john&quot;, age:30 };
+
+dict[&quot;email&quot;] = &quot;john@gmail.com&quot;;
+dict.tel = &quot;02-12345678&quot;;
+
+for (var key in dict) {
+  console.log(&quot;key=&quot;, key, &quot; value=&quot;, dict[key]);
+}
+
+console.log(&quot;age=&quot;, dict.age);
+console.log(&quot;birthday=&quot;, dict[&quot;birthday&quot;]);
+</code></pre>
+<p>執行結果</p>
+<pre><code>D:\js\code&gt;node dict.js
+key= name  value= john
+key= age  value= 30
+key= email  value= john@gmail.com
+key= tel  value= 02-12345678
+age= 30
+birthday= undefined
+</code></pre><h3 id="-">單層結構</h3>
+<pre><code>nqu-192-168-61-142:code mac020$ node
+&gt; d={ dog:&quot;狗&quot;, cat:&quot;貓&quot;, a: &quot;一隻&quot;, chase:&quot;追&quot;, eat:&quot;吃&quot; };
+{ dog: &#39;狗&#39;, cat: &#39;貓&#39;, a: &#39;一隻&#39;, chase: &#39;追&#39;, eat: &#39;吃&#39; }
+&gt; d.dog
+&#39;狗&#39;
+&gt; d.eat
+&#39;吃&#39;
+&gt; d.x
+undefined
+&gt; d.snoopy
+undefined
+&gt; d[&quot;dog&quot;]
+&#39;狗&#39;
+&gt; d[&quot;x&quot;]
+undefined
+&gt; d
+{ dog: &#39;狗&#39;, cat: &#39;貓&#39;, a: &#39;一隻&#39;, chase: &#39;追&#39;, eat: &#39;吃&#39; }
+&gt; d[&quot;狗&quot;]
+undefined
+&gt;
+</code></pre><h3 id="-">多層結構</h3>
+<pre><code>&gt; t={ dog:{ name:&quot;Snoopy&quot;, age:3}, 
+... cat:{ name:&quot;Garfield&quot;, age:5}
+... }
+{ dog: { name: &#39;Snoopy&#39;, age: 3 },
+  cat: { name: &#39;Garfield&#39;, age: 5 } }
+&gt; t
+{ dog: { name: &#39;Snoopy&#39;, age: 3 },
+  cat: { name: &#39;Garfield&#39;, age: 5 } }
+&gt; t.dog
+{ name: &#39;Snoopy&#39;, age: 3 }
+&gt; t.cat
+{ name: &#39;Garfield&#39;, age: 5 }
+&gt; t.dog.name
+&#39;Snoopy&#39;
+&gt; t.dog.age
+3
+&gt; t.cat.name
+&#39;Garfield&#39;
+&gt; t.cat.age
+5
+&gt; t.cat.tel
+undefined
+&gt;
+</code></pre><p>接著新增 t.man 這個欄位</p>
+<pre><code>&gt; t.man={name:&quot;ccc&quot;, friends:[ t.dog, t.cat]}
+{ name: &#39;ccc&#39;,
+  friends: [ { name: &#39;Snoopy&#39;, age: 3 }, { name: &#39;Garfield&#39;, age: 5 } ] }
+&gt; t
+{ dog: { name: &#39;Snoopy&#39;, age: 3 },
+  cat: { name: &#39;Garfield&#39;, age: 5 },
+  man: { name: &#39;ccc&#39;, friends: [ [Object], [Object] ] } }
+&gt; t.man.friends[0]
+{ name: &#39;Snoopy&#39;, age: 3 }
+&gt; t.man.friends[1]
+{ name: &#39;Garfield&#39;, age: 5 }
+&gt; t.man.friends[2]
+undefined
+&gt;
+</code></pre><h3 id="-">查字典程式</h3>
+<p>檔案： dlook.js</p>
+<pre><code>var e2c = { dog:&quot;狗&quot;, cat:&quot;貓&quot;, a: &quot;一隻&quot;, chase:&quot;追&quot;, eat:&quot;吃&quot; };
+
+function look(e) {
+  return e2c[e];
+}
+
+e = process.argv[2]; // 從 process.argv 這個陣列取出第二個元素
+c = look(e);
+console.log(e+&quot;=&quot;+c);
+</code></pre><p>執行結果</p>
+<pre><code>nqu-192-168-61-142:code mac020$ node dlook.js cat
+cat=貓
+nqu-192-168-61-142:code mac020$ node dlook.js snoopy
+snoopy=undefined
+</code></pre><h3 id="-">翻譯系統 (簡易英翻中)</h3>
+<p>執行結果</p>
+<pre><code>$ node e2c a dog chase a cat
+[ &#39;一隻&#39;, &#39;狗&#39;, &#39;追&#39;, &#39;一隻&#39;, &#39;貓&#39; ]
+</code></pre><p>程式碼</p>
+<pre><code class="lang-javascript">var e2c = { dog:&quot;狗&quot;, cat:&quot;貓&quot;, a: &quot;一隻&quot;, chase:&quot;追&quot;, eat:&quot;吃&quot; };
+
+function mt(e) {
+  var c = [];
+  for (i in e) {
+    var eword = e[i];
+    var cword = e2c[eword];
+    c.push(cword);
+  }
+  return c;
+}
+
+var c = mt(process.argv.slice(2));
+console.log(c);
+</code></pre>
+<p>執行結果：</p>
+<pre><code>$ node e2c.js a dog
+[ &#39;一隻&#39;, &#39;狗&#39; ]
+$ node e2c.js a dog chase a cat
+[ &#39;一隻&#39;, &#39;狗&#39;, &#39;追&#39;, &#39;一隻&#39;, &#39;貓&#39; ]
+$ node e2c.js a dog chase a car
+[ &#39;一隻&#39;, &#39;狗&#39;, &#39;追&#39;, &#39;一隻&#39;, undefined ]
+</code></pre><p>補充說明：請注意上面的 e2c[eword] 這一行不能改用 e2c.eword, 原因是 e2c.eword 是在查詢 eword 這個詞，也就是 e2c[&#39;eword&#39;] 的意思，上面範例中e2c[&#39;eword&#39;]  會是 undefined。</p>
+<p>e2c[eword] 才是在查詢像 e2c[&#39;dog&#39;] 這樣的內容。</p>
+<p>請看下列的示範：</p>
+<pre><code>&gt; var e2c = { dog:&quot;狗&quot;, cat:&quot;貓&quot;, a: &quot;一隻&quot;, chase:&quot;追&quot;, eat:&quot;吃&quot; };
+undefined
+&gt; e2c
+{ dog: &#39;狗&#39;, cat: &#39;貓&#39;, a: &#39;一隻&#39;, chase: &#39;追&#39;, eat: &#39;吃&#39; }
+&gt; e2c.eword
+undefined
+&gt; var eword=&#39;dog&#39;
+undefined
+&gt; eword
+&#39;dog&#39;
+&gt; e2c.eword
+undefined
+&gt; e2c[&#39;dog&#39;]
+&#39;狗&#39;
+&gt; e2c[eword]
+&#39;狗&#39;
+</code></pre><h2 id="json-">JSON 物件交換格式</h2>
+<p>如果我們想直接在程式中宣告一個複雜的物件，可以使用 JavaScript 中的 {...} 與 [...] 的語法組合，用簡單的語法建構出整個物件。這種格式也常被用在網頁程式的資料交換當中，因此有一個很特別的名稱叫 JSON （Javascript Object Notation）。</p>
+<p>目前網路上最常使用的資料交換格式是 XML，但是 XML 文件很繁瑣且囉嗦，讓使用者撰寫不方便，而且不容易嵌入網頁中進行處理。為了讓網頁上的共通程式語言 JavaScript 可以輕易的交換資料，網頁程式的設計者也常用 JSON 取代 XML 進行資料交換。</p>
+<p>以下是一個採用 JSON 格式的朋友資料範例，該範例中有兩個朋友，一個是 John, 22 歲，另一個是 Mary, 28 歲。</p>
+<pre><code class="lang-JavaScript">{
+  &quot;friends&quot;: [
+     {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 22 }
+     {&quot;name&quot;: &quot;Mary&quot;, &quot;age&quot;: 28 }
+  ]
+}
+</code></pre>
+<p>程式範例：json.js</p>
+<pre><code class="lang-javascript">var george = {
+  &quot;name&quot;: &quot;George&quot;,
+  &quot;age&quot;: 25,
+  &quot;friends&quot;: [
+     {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 22 },
+     {&quot;name&quot;: &quot;Mary&quot;, &quot;age&quot;: 28 }
+  ]
+};
+
+console.log(&quot;george.age=&quot;+george.age);
+console.log(&quot;george.friends:&quot;);
+var friends = george.friends;
+for (i in friends)
+  console.log(&quot;    &quot;+friends[i].name+&quot; is &quot;+friends[i].age+&quot;years old!&quot;);
+</code></pre>
+<p>執行結果</p>
+<pre><code>nqu-192-168-61-142:code mac020$ node json
+george.age=25
+george.friends:
+    John is 22years old!
+    Mary is 28years old!
+</code></pre><h2 id="json-">JSON 的宣告</h2>
+<p>在 javascript 當中，物件是整個系統的核心結構，幾乎整個javascript語言都是建構在物件之上的。</p>
+<p>javascript的物件用大括號表示，所以我們可以用下列語法建立一個名為 person 的空物件,然後放一些欄位進去。</p>
+<pre><code class="lang-javascript">var person = {};
+person.name = &quot;ccc&quot;;
+person.email = &quot;ccckmit@gmail.com&quot;;
+</code></pre>
+<p>我們也可以用更簡潔的方式表達上述的物件,如下所示:</p>
+<pre><code class="lang-javascript">var person = { name:&quot;ccc&quot;, email:&quot;ccckmit@gmail.com&quot; };
+</code></pre>
+<p>由於物件的宣告是這麼的簡單，所以我們可以直接在 node 的交談界面中建立物件並輕易的進行操作。</p>
+<pre><code class="lang-javascript">ccc@ccc-CP1130:~$ node
+&gt; x={};
+{}
+&gt; person={};
+{}
+&gt; person.name=&quot;ccc&quot;;
+&#39;ccc&#39;
+&gt; person.email=&quot;ccckmit@gmail.com&quot;
+&#39;ccckmit@gmail.com&#39;
+&gt; person
+{ name: &#39;ccc&#39;, email: &#39;ccckmit@gmail.com&#39; }
+&gt; p=person
+{ name: &#39;ccc&#39;, email: &#39;ccckmit@gmail.com&#39; }
+&gt; p
+{ name: &#39;ccc&#39;, email: &#39;ccckmit@gmail.com&#39; }
+ccc email=ccckmit@gmail.com
+undefined
+&gt; p.age = 45
+45
+&gt; p
+{ name: &#39;ccc&#39;,
+  email: &#39;ccckmit@gmail.com&#39;,
+  age: 45 }
+&gt;
+</code></pre>
+<p>您可以看到我們在上述操作中建立了person物件,然後設定name與email欄位。</p>
+<p>上述的操作是逐步加入欄位，其實我們也可以在建立物件時就將欄位全部放進去，只是要採用 <code>:</code> 符號將欄位名稱與內容隔開,這種格式稱為JSON格式,以下是一個範例。</p>
+<pre><code class="lang-javascript">&gt; p2 = { name:&quot;john&quot;, email:&quot;john@gmail.com&quot;, age:20 }
+{ name: &#39;john&#39;,
+  email: &#39;john@gmail.com&#39;,
+  age: 20 }
+</code></pre>
+<p>我們也可以將欄位設定為其他物件，</p>
+<pre><code class="lang-javascript">&gt; p2.friend = p
+{ name: &#39;ccc&#39;,
+  email: &#39;ccckmit@gmail.com&#39;,
+  print: [Function],
+  age: 45 }
+&gt; p2
+{ name: &#39;john&#39;,
+  email: &#39;john@gmail.com&#39;,
+  age: 20,
+  friend: 
+   { name: &#39;ccc&#39;,
+     email: &#39;ccckmit@gmail.com&#39;,
+     print: [Function],
+     age: 45 } }
+&gt;
+</code></pre>
+<p>當然、朋友只有一個的話，真的太孤單了，所以我們應該加一個型態為陣列的 friends 欄位，讓john有很多個朋友，而不是只有一個朋友，於是我們進行修正操作如下。</p>
+<pre><code class="lang-javascript">&gt; p2.friends = [ p ]
+[ { name: &#39;ccc&#39;,
+    email: &#39;ccckmit@gmail.com&#39;,
+    print: [Function],
+    age: 45 } ]
+&gt; p2
+{ name: &#39;john&#39;,
+  email: &#39;john@gmail.com&#39;,
+  age: 20,
+  friend: 
+   { name: &#39;ccc&#39;,
+     email: &#39;ccckmit@gmail.com&#39;,
+     age: 45 },
+  friends: 
+   [ { name: &#39;ccc&#39;,
+       email: &#39;ccckmit@gmail.com&#39;,
+       age: 45 } ] }
+&gt; delete p2.friend
+true
+&gt; p2
+{ name: &#39;john&#39;,
+  email: &#39;john@gmail.com&#39;,
+  age: 20,
+  friends: 
+   [ { name: &#39;ccc&#39;,
+       email: &#39;ccckmit@gmail.com&#39;,
+       age: 45 } ] }
+&gt; p3={name:&quot;mary&quot;, age:18}
+{ name: &#39;mary&#39;, age: 18 }
+&gt; p2.friends.push(p3)
+2
+</code></pre>
+<p>接著，當我們打入 p2 這個變數名稱之後，node交談界面會印出如下結果。</p>
+<pre><code class="lang-javascript">&gt; p2
+{ name: &#39;john&#39;,
+  email: &#39;john@gmail.com&#39;,
+  age: 20,
+  friends: 
+   [ { name: &#39;ccc&#39;,
+       email: &#39;ccckmit@gmail.com&#39;,
+       age: 45 },
+     { name: &#39;mary&#39;, age: 18 } ] }
+&gt;
+</code></pre>
+<p>有關 JSON物件的語法格式，請參考下列網站。</p>
+<ul>
+<li><a href="http://www.json.org/">http://www.json.org/</a></li>
+</ul>
+<p>我們可以用 JSON 進行資料交換，方法是用 JSON.stringfy 函數將物件轉成字串，對方收到後再用 JSON.parse 將字串轉回物件就可以了。以下是一個範例：</p>
+<pre><code class="lang-javascript">&gt; var george = {
+...   &quot;name&quot;: &quot;George&quot;,
+...   &quot;age&quot;: 25,
+...   &quot;friends&quot;: [
+...      {&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 22 },
+...      {&quot;name&quot;: &quot;Mary&quot;, &quot;age&quot;: 28 }
+...   ]
+... }
+undefined
+&gt; george
+{ name: &#39;George&#39;,
+  age: 25,
+  friends: [ { name: &#39;John&#39;, age: 22 }, { name: &#39;Mary&#39;, age: 28 } ] }
+&gt; JSON.stringify(george)
+&#39;{&quot;name&quot;:&quot;George&quot;,&quot;age&quot;:25,&quot;friends&quot;:[{&quot;name&quot;:&quot;John&quot;,&quot;age&quot;:22},{&quot;name&quot;:&quot;Mary&quot;,&quot;age&quot;:28}]}&#39;
+&gt; var gstr = JSON.stringify(george)
+undefined
+&gt; gstr
+&#39;{&quot;name&quot;:&quot;George&quot;,&quot;age&quot;:25,&quot;friends&quot;:[{&quot;name&quot;:&quot;John&quot;,&quot;age&quot;:22},{&quot;name&quot;:&quot;Mary&quot;,&quot;age&quot;:28}]}&#39;
+&gt; var g2 = JSON.parse(gstr)
+undefined
+&gt; g2
+{ name: &#39;George&#39;,
+  age: 25,
+  friends: [ { name: &#39;John&#39;, age: 22 }, { name: &#39;Mary&#39;, age: 28 } ] }
+&gt;
+</code></pre>
+<h2 id="-">結語</h2>
+<p>在本文中，我們介紹了 JavaScript 中的「物件與JSON格式」等觀念，您可以看到javascript的物件表達非常的簡單。</p>
+<p>但有個小問題是，一般物件導向語言裡的類別 (class) 概念，在這裡好像沒有提到，如果您心中泛起了這樣的疑問，代表您對物件導向已經有相當的概念了。不過，javascript的物件導向與 java, C#, C++ 等語言很不相同，因為 javascript 採用了原型 (prototype) 這種物件導向的實作方式，這種方式很有彈性，但對已經學過 java, C#, C++ 等物件導向語言的人來說，可以說是非常的詭異，我們將在下一章當中介紹 javascript 這種基於原型的物件導向設計！</p>
+<h2 id="-">習題</h2>
+<ol>
+<li>請設計一個通訊錄查詢程式 plook.js 可以用來查詢通訊錄，舉例而言：<ul>
+<li>$ node plook 陳鍾誠</li>
+<li>姓名： 陳鍾誠</li>
+<li>年齡： 46</li>
+<li>電話： 082313534</li>
+<li>email : ccckmit@gmail.com</li>
+<li>$ node plook 張曉芳</li>
+<li>查不到！</li>
+</ul>
+</li>
+<li>請將本章中的《英翻中》系統，改成《中翻英》系統，但輸入的中文詞彙之間可以強制用空白隔開。例如:<ul>
+<li>$ node mt2.js 一隻 狗 追 一隻 貓</li>
+<li>[ &#39;a&#39;, &#39;dog&#39;, &#39;chase&#39;, &#39;a&#39;, &#39;cat&#39; ]</li>
+</ul>
+</li>
+<li>接續上一題，同樣寫一個《中翻英系統》，但是中文詞彙之間不再有空白隔開，你必須從用字典去檢查那些是詞彙，並進行斷詞。(方法可以從 4字詞、3字詞、2字詞、1字詞由長到短一路檢查下來，如果發現字典裏有就進行斷詞與翻譯動作)，例如：<ul>
+<li>$ node c2e.js 一隻狗追一隻貓</li>
+<li>a dog chase a cat</li>
+</ul>
+</li>
+</ol>
+<h2 id="-">教學影片</h2>
+<table>
+<thead>
+<tr>
+<th>教學</th>
+<th>主題</th>
+<th>影片</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>習題</td>
+<td><a href="dloo.mdk">字典查詢程式 -- dlook.js</a></td>
+<td><a href="https://youtu.be/fOP6tuC5bgs">影片</a></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="plook.html">通訊錄查詢 -- plook.js</a></td>
+<td><a href="https://youtu.be/3HEVe0-nq84">影片</a></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="mt.html">英翻中系統 -- mt.js</a></td>
+<td><a href="https://youtu.be/6s9tAm7Mnag">影片</a></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="mt2.html">英中互翻系統 -- mt2.js</a></td>
+<td><a href="https://youtu.be/5KXUAfSBu6g">影片</a></td>
+</tr>
+<tr>
+<td>習題</td>
+<td><a href="c2e.html">中翻英系統 -- c2e.js, c2e2.js</a></td>
+<td><a href="https://youtu.be/WE-xZjayVLA">影片</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

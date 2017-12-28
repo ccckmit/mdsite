@@ -1,0 +1,298 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 JavaScript 設計網站 >>  第 7 章 -- 前後端通訊</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">用 JavaScript 設計網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="html.html" class="pure-menu-link">2. HTML</a></li>
+<li class="pure-menu-item"><a href="css.html" class="pure-menu-link">3. CSS</a></li>
+<li class="pure-menu-item"><a href="javascript.html" class="pure-menu-link">4. JavaScript</a></li>
+<li class="pure-menu-item"><a href="frontend.html" class="pure-menu-link">5. 前端網頁</a></li>
+<li class="pure-menu-item"><a href="template.html" class="pure-menu-link">6. 樣版引擎</a></li>
+<li class="pure-menu-item"><a href="backend.html" class="pure-menu-link">7. 後端 Server</a></li>
+<li class="pure-menu-item"><a href="communication.html" class="pure-menu-link">8. 前後端通訊</a></li>
+<li class="pure-menu-item"><a href="project.html" class="pure-menu-link">9. 完整專案</a></li>
+<li class="pure-menu-item"><a href="online.html" class="pure-menu-link">10. 上線營運</a></li>
+<li class="pure-menu-item"><a href="running.html" class="pure-menu-link">11. 網站維護</a></li>
+<li class="pure-menu-item"><a href="framework.html" class="pure-menu-link">12. 進階框架</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">附錄</a></li>
+<li class="pure-menu-item"><a href="nginx.html" class="pure-menu-link">a. Nginx 的用途</a></li>
+<li class="pure-menu-item"><a href="digitalocean.html" class="pure-menu-link">b. Digital Ocean</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-7-">第 7 章 -- 前後端通訊</h1>
+<p>設計網站時，前後端通訊的方法，主要有三種技術。</p>
+<ol>
+<li>採用傳統的表單，用 Get/Post 的方式傳遞。</li>
+<li>採用 AJAX 的方式，用 Get/Post/Add/Remove 的方式傳遞 (其中一種很有系統化的方式稱為 REST)。</li>
+<li>採用 WebSocket 的方式，連線後雙方都可以隨時互傳訊息。</li>
+</ol>
+<h2 id="-">採用表單方式的通訊範例</h2>
+<p>採用表單傳遞訊息的範例請參考 Koa 當中的 Blog 範例，其中的 new 功能就有用表單：</p>
+<ul>
+<li><a href="https://github.com/ccckmit/f6/tree/master/web/ex4-blogInServer">https://github.com/ccckmit/f6/tree/master/web/ex4-blogInServer</a></li>
+</ul>
+<p>程式碼：前端發送部分 -- <a href="https://github.com/koajs/examples/blob/master/blog/views/new.html">https://github.com/koajs/examples/blob/master/blog/views/new.html</a></p>
+<pre><code class="lang-js">  &lt;h1&gt;New Post&lt;/h1&gt;
+  &lt;p&gt;Create a new post.&lt;/p&gt;
+  &lt;form action=&quot;/post&quot; method=&quot;post&quot;&gt;
+    &lt;p&gt;&lt;input type=&quot;text&quot; placeholder=&quot;Title&quot; name=&quot;title&quot;&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;textarea placeholder=&quot;Contents&quot; name=&quot;body&quot;&gt;&lt;` + `/textarea&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;input type=&quot;submit&quot; value=&quot;Create&quot;&gt;&lt;/p&gt;
+  &lt;/form&gt;
+</code></pre>
+<p>程式碼：後端接收部分 -- <a href="https://github.com/koajs/examples/blob/master/blog/app.js">https://github.com/koajs/examples/blob/master/blog/app.js</a></p>
+<pre><code class="lang-js">router
+  .get(&#39;/&#39;, list)
+  .get(&#39;/post/new&#39;, add)
+  .get(&#39;/post/:id&#39;, show)
+  .post(&#39;/post&#39;, create)
+...
+
+async function create (ctx) {
+  var post = ctx.request.body
+  var id = posts.push(post) - 1
+  post.created_at = new Date()
+  post.id = id
+  ctx.redirect(&#39;/&#39;)
+}
+</code></pre>
+<p>由於 koa 已經更新到 2.0 並支持 async/await 的語法，因此我為 koa 做了一些新的範例，請參考 f6 專案。</p>
+<ul>
+<li><a href="https://github.com/ccckmit/f6">https://github.com/ccckmit/f6</a></li>
+</ul>
+<p>以下是另外幾篇相關的文章僅供參考！</p>
+<ul>
+<li><p><a href="https://weblogs.asp.net/shijuvarghese/a-simple-crud-demo-with-koa-js">A Simple CRUD Demo with Koa.js</a></p>
+</li>
+<li><p><a href="https://www.sitepoint.com/creating-and-handling-forms-in-node-js/">Creating and Handling Forms in Node.js</a></p>
+</li>
+</ul>
+<h2 id="-ajax-">採用 AJAX 方式的通訊範例</h2>
+<p>和上面使用表單的 post/get 方式類似，我們可以透過 JavaScript 來送出訊息給 Server 端並接收回應，這種《傳送/接收》方式，稱為 <a href="https://zh.wikipedia.org/wiki/AJAX">AJAX</a> (Asynchronous JavaScript and XML, 非同步的JavaScript與XML技術)。</p>
+<p>前端工程師常用兩種方法來《傳送/接收》 AJAX post/get 訊息，一種是使用 jQuery 套件，另一種是不依賴 jQuery，而是直接採用原生的瀏覽器 JavaScript API (被戲稱為 Vanilla.js) 。</p>
+<p>使用 jQuery 的 post 程式碼：</p>
+<pre><code class="lang-js">&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+$.ajax({
+  type: &#39;POST&#39;,
+  url: &quot;path/to/api&quot;,
+  data: &quot;banana=yellow&quot;,
+  success: function (data) {
+    alert(&quot;Success: &quot; + data);
+  },
+});
+&lt;/script&gt;
+</code></pre>
+<p>使用原生的 JavaScript API 的 post 程式碼：</p>
+<pre><code class="lang-js">var r = new XMLHttpRequest();
+r.open(&quot;POST&quot;, &quot;path/to/api&quot;, true);
+r.onreadystatechange = function () {
+  if (r.readyState != 4 || r.status != 200) return;
+  alert(&quot;Success: &quot; + r.responseText);
+};
+r.send(&quot;banana=yellow&quot;);
+</code></pre>
+<p>如果您想了解完整的 AJAX 範例，可以參考 f6 當中的程式碼</p>
+<ul>
+<li>前端 -- <a href="https://github.com/ccckmit/f6/blob/master/web/ex5-blogInAjax/main.js">https://github.com/ccckmit/f6/blob/master/web/ex5-blogInAjax/main.js</a></li>
+<li>後端 -- <a href="https://github.com/ccckmit/f6/blob/master/web/ex5-blogInAjax/server.js">https://github.com/ccckmit/f6/blob/master/web/ex5-blogInAjax/server.js</a></li>
+</ul>
+<p>重要程式碼：</p>
+<p>前端: <a href="https://github.com/ccckmit/f6/blob/master/web/ex5-blogInAjax/server.js">https://github.com/ccckmit/f6/blob/master/web/ex5-blogInAjax/server.js</a></p>
+<pre><code>var Koa = require(&#39;koa&#39;)
+var Router = require(&#39;koa-router&#39;)
+var logger = require(&#39;koa-logger&#39;)
+var koaStatic = require(&#39;koa-static&#39;)
+var bodyParser = require(&#39;koa-bodyparser&#39;)
+
+var app = new Koa()
+var router = new Router()
+
+app.use(bodyParser())
+
+var posts = []
+
+app.use(logger())
+
+router
+  .get(&#39;/&#39;, listPosts)
+  .get(&#39;/post/:id&#39;, getPost)
+  .post(&#39;/post&#39;, createPost)
+
+async function listPosts (ctx) {
+  ctx.body = JSON.stringify(posts)
+}
+
+async function getPost (ctx) {
+  var id = parseInt(ctx.params.id)
+  console.log(&#39;getpost: id=%d posts=%j&#39;, id, posts)
+  var post = posts[id]
+  if (!post) ctx.throw(404, &#39;invalid post id&#39;)
+  ctx.body = await JSON.stringify(post)
+}
+
+async function createPost (ctx) {
+  console.log(&#39;createPost:rawBody=%s&#39;, ctx.request.rawBody)
+  console.log(&#39;createPost:body=%j&#39;, ctx.request.body)
+  var post = ctx.request.body
+  var id = posts.push(post) - 1
+  post.created_at = new Date()
+  post.id = id
+  ctx.body = JSON.stringify(post)
+}
+
+app.use(router.routes()).use(koaStatic(&#39;../&#39;)).listen(3000)
+</code></pre><p>client : <a href="https://github.com/ccckmit/f6/blob/master/web/ex5-blogInAjax/main.js">https://github.com/ccckmit/f6/blob/master/web/ex5-blogInAjax/main.js</a></p>
+<pre><code class="lang-js">var content, title
+// var posts = []
+
+async function main () {
+  f6.route(/^$/, list)
+    .route(/^post\/new/, add)
+    .route(/^post\/(\w+?)/, show)
+    .route(/^post/, create)
+  await f6.onload(init)
+}
+
+function init() {
+  title = f6.one(&#39;title&#39;)
+  content = f6.one(&#39;#content&#39;)
+}
+
+async function add () {
+  title.innerHTML = &#39;New Post&#39;
+  content.innerHTML = `
+  &lt;h1&gt;New Post&lt;/h1&gt;
+  &lt;p&gt;Create a new post.&lt;/p&gt;
+  &lt;form&gt;
+    &lt;p&gt;&lt;input id=&quot;addTitle&quot; type=&quot;text&quot; placeholder=&quot;Title&quot; name=&quot;title&quot;&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;textarea id=&quot;addBody&quot; placeholder=&quot;Contents&quot; name=&quot;body&quot;&gt;&lt;/textarea&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;input type=&quot;button&quot; value=&quot;Create&quot; onclick=&quot;create()&quot;&gt;&lt;/p&gt;
+  &lt;/form&gt;
+  `
+}
+
+async function create () {
+  var post = {
+    title: f6.one(&#39;#addTitle&#39;).value,
+    body: f6.one(&#39;#addBody&#39;).value,
+    created_at: new Date()
+  }
+  console.log(`create:post=${JSON.stringify(post)}`)
+  await f6.ojax({method: &#39;POST&#39;, url: &#39;/post&#39;}, post)
+//  posts.push(post)
+  f6.go(&#39;&#39;) // list #
+}
+
+async function show (m) {
+  var id = parseInt(m[1])
+  var post = await f6.ojax({method: &#39;GET&#39;, url: `/post/${id}`})
+//  var post = posts[id]
+  content.innerHTML = `
+  &lt;h1&gt;${post.title}&lt;/h1&gt;
+  &lt;p&gt;${post.body}&lt;/p&gt;
+  `
+}
+
+async function list () {
+  var posts = await f6.ojax({method: &#39;GET&#39;, url: &#39;/&#39;})
+  title.innerHTML = &#39;Posts&#39;
+  content.innerHTML =
+  `&lt;h1&gt;Posts&lt;/h1&gt;
+  &lt;p&gt;You have &lt;strong&gt;${posts.length}&lt;/strong&gt; posts!&lt;/p&gt;
+  &lt;p&gt;&lt;a href=&quot;#post/new&quot;&gt;Create a Post&lt;/a&gt;&lt;/p&gt;
+  &lt;ul id=&quot;posts&quot;&gt;
+    ${posts.map(post =&gt; `
+      &lt;li&gt;
+        &lt;h2&gt;${post.title}&lt;/h2&gt;
+        &lt;p&gt;&lt;a href=&quot;#post/${post.id}&quot;&gt;Read post&lt;/a&gt;&lt;/p&gt;
+      &lt;/li&gt;
+    `).join(&#39;\n&#39;)}
+  &lt;/ul&gt;
+  `
+}
+
+main()
+</code></pre>
+<h2 id="-websocket-">採用 WebSocket 方式的通訊範例</h2>
+<p>Node.js 的 socket.io 套件是對 WebSocket 通訊方式的一個易學易用包裝。</p>
+<p>Socket.io 最簡單的入門範例是一個聊天室，請參考下列文章瞭解如何寫一個聊天室。</p>
+<ul>
+<li><a href="http://socket.io/get-started/chat/">http://socket.io/get-started/chat/</a></li>
+</ul>
+<p>重要程式碼片段：</p>
+<p>前端：</p>
+<pre><code>&lt;script src=&quot;/socket.io/socket.io.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://code.jquery.com/jquery-1.11.1.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  $(function () {
+    var socket = io();
+    $(&#39;form&#39;).submit(function(){
+      socket.emit(&#39;chat message&#39;, $(&#39;#m&#39;).val());
+      $(&#39;#m&#39;).val(&#39;&#39;);
+      return false;
+    });
+  });
+&lt;/script&gt;
+</code></pre><p>後端：</p>
+<pre><code>io.on(&#39;connection&#39;, function(socket){
+  socket.on(&#39;chat message&#39;, function(msg){
+    console.log(&#39;message: &#39; + msg);
+  });
+});
+</code></pre><p>執行結果：</p>
+<ul>
+<li>影片 -- <a href="https://i.cloudup.com/transcoded/zboNrGSsai.mp4">https://i.cloudup.com/transcoded/zboNrGSsai.mp4</a></li>
+</ul>
+<p>Socket.io 的官網裡有更多的應用範例，請用 git clone 下載 Socket.io 後執行其中的以下範例：</p>
+<ul>
+<li><a href="https://github.com/socketio/socket.io/tree/master/examples">https://github.com/socketio/socket.io/tree/master/examples</a></li>
+</ul>
+<p>我建議大家仔細看其中兩個範例，一個是聊天室 chat (更完整版)，另一個是畫板 whiteboard 。</p>
+<ul>
+<li><a href="https://github.com/socketio/socket.io/tree/master/examples/chat">https://github.com/socketio/socket.io/tree/master/examples/chat</a></li>
+<li><a href="https://github.com/socketio/socket.io/tree/master/examples/whiteboard">https://github.com/socketio/socket.io/tree/master/examples/whiteboard</a></li>
+</ul>
+<p>然後透過這些範例進一步學習更多的 socket.io 使用方式。</p>
+<h1 id="reference">reference</h1>
+<ul>
+<li><a href="communicationOld.html">Depricated Version</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  實作：五子棋程式(加入電腦對電腦版)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="-">實作：五子棋程式(加入電腦對電腦版)</h2>
+<pre><code class="lang-javascript">// 五子棋遊戲，單機命令列版
+//   人對人下  ：node chess P2P
+//   人對電腦  ：node chess P2C
+//   電腦對電腦：node chess P2C
+// 作者：陳鍾誠
+var util = require(&quot;util&quot;);
+var log = console.log;
+var r = require(&#39;readline&#39;).createInterface(process.stdin, process.stdout);
+
+// 印出訊息，並取得輸入。
+var prompt = function(turn) {
+  var msg = format(&#39;將 %s 下在 :    &#39;, turn);
+  r.setPrompt(msg);
+  r.prompt();
+}
+
+var format = function() { // 字串格式化 
+  return util.format.apply(null, arguments);
+}
+
+// 棋盤物件
+var Board = function(rMax, cMax) {
+  this.m = [];
+  this.rMax = rMax; this.cMax = cMax;
+  for (var r=0; r&lt;rMax; r++) {
+    this.m[r] = [];
+    for (var c=0; c&lt;cMax; c++)
+      this.m[r][c] = &#39;-&#39;;
+  }
+}
+
+// 將棋盤格式化成字串
+Board.prototype.toString = function() {
+  var str = &quot;  0 1 2 3 4 5 6 7 8 9 a b c d e f\n&quot;;
+  for (var r=0; r&lt;this.rMax; r++) {
+    str += r.toString(16)+&quot; &quot;+this.m[r].join(&quot; &quot;)+&quot; &quot;+r.toString(16)+&quot;\n&quot;;
+  }
+  str += &quot;  0 1 2 3 4 5 6 7 8 9 a b c d e f\n&quot;;
+  return str;
+}
+
+// 顯示棋盤
+Board.prototype.show = function() {
+  log(this.toString());
+}
+
+// 以下為遊戲相關資料與函數
+// var zero = [ 0, 0, 0, 0, 0];
+// var inc  = [-2,-1, 0, 1, 2];
+// var dec  = [ 2, 1, 0,-1,-2];
+var z9   = [ 0, 0, 0, 0, 0, 0, 0, 0, 0];
+var i9   = [-4,-3,-2,-1, 0, 1, 2, 3, 4];
+var d9   = [ 4, 3, 2, 1, 0,-1,-2,-3,-4];
+var z5   = [ 0, 0, 0, 0, 0];
+var i2   = i9.slice(2,-2);
+var d2   = d9.slice(2,-2);
+
+// 檢查在 (r, c) 這一格，規則樣式 (dr, dc) 是否被滿足
+// dr, dc 的組合可用來代表「垂直 | , 水平 - , 下斜 \ , 上斜 /」。
+var patternCheck=function(board, turn, r, c, dr, dc) {
+  for (var i = 0; i &lt; dr.length; i++) {
+    var tr = Math.round(r+dr[i]);
+    var tc = Math.round(c+dc[i]);
+    if (tr&lt;0 ||tr &gt;= board.rMax || tc&lt;0 || tc&gt;=board.cMax)
+      return false;
+    var v = board.m[tr][tc];
+    if (v != turn) return false;
+  }
+  return true;
+}
+
+// 檢查是否下 turn 這個子的人贏了。
+var winCheck = function(board, turn) {
+  var win = false;
+  var tie = true;
+  for (var r=0; r&lt;board.rMax; r++) {
+    for (var c=0; c&lt;board.cMax; c++) {
+      if (board.m[r][c] === &#39;-&#39;)
+        tie = false;
+      if (patternCheck(board, turn, r, c, z5, i2)) // 垂直 | ;
+        win = true;
+      if (patternCheck(board, turn, r, c, i2, z5)) // 水平 - ;
+        win = true;
+      if (patternCheck(board, turn, r, c, i2, i2)) // 下斜 \ ;
+        win = true;
+      if (patternCheck(board, turn, r, c, i2, d2)) // 上斜 / ;
+        win = true;
+    }
+  }
+  if (win) {
+    log(&quot;%s 贏了！&quot;, turn);  // 如果贏了就印出贏了
+    process.exit(0); // 然後離開。
+  }
+  if (tie) {
+    log(&quot;平手&quot;);
+    process.exit(0); // 然後離開。
+  }
+  return win;
+}
+
+var peopleTurn = function(board, turn, line) {
+  var r = parseInt(line[0], 16); // 取得下子的列 r (row)
+  var c = parseInt(line[1], 16); // 取得下子的行 c (column)
+  if (r&lt;0 || r&gt;board.rMax || c&lt;0 || c&gt;board.cMax) // 檢查是否超出範圍
+    throw &quot;(row, col) 超出範圍!&quot;; // 若超出範圍就丟出例外，下一輪重新輸入。
+  if (board.m[r][c] != &#39;-&#39;) // 檢查該位置是否已被佔據
+    throw format(&quot;(%s%s) 已經被佔領了!&quot;, line[0], line[1]); // 若被佔據就丟出例外，下一輪重新輸入。
+  board.m[r][c] = turn; // 否則、將子下在使用者輸入的 (r,c) 位置
+}
+
+var attackScores = [ 0, 3, 10, 30, 100, 500 ];
+var guardScores  = [ 0, 2,  9, 25,  90, 400 ];
+var attack=1, guard=2;
+
+var getScore = function(board, r, c, turn, mode) {
+  var score = 0;
+  var mScores = (mode === attack)?attackScores:guardScores;
+  board.m[r][c] = turn;
+  for (var start = 0; start &lt;= 4; start++) {
+    for (var len = 5; len &gt;= 1; len--) {
+      var end = start+len;
+      var zero = z9.slice(start, start+len);
+      var inc  = i9.slice(start, start+len);
+      var dec  = d9.slice(start, start+len);
+      if (patternCheck(board, turn, r, c, zero, inc)) // 攻擊：垂直 | ;
+        score += mScores[len];
+      if (patternCheck(board, turn, r, c, inc, zero)) // 攻擊：水平 - ;
+        score += mScores[len];
+      if (patternCheck(board, turn, r, c, inc, inc)) // 攻擊：下斜 \ ;
+        score += mScores[len];
+      if (patternCheck(board, turn, r, c, inc, dec)) // 攻擊：上斜 / ;
+        score += mScores[len];
+    }
+  }
+  if (r===0 || r===board.rMax) score = score-1;
+  if (c===0 || c===board.cMax) score = score-1;
+  board.m[r][c] = &#39;-&#39;;  
+  return score;
+}
+
+var computerTurn = function(board, turn) {
+  var best = { r:0, c:0, score:-1 };
+  for (var r=0; r&lt;board.rMax; r++) {
+    for (var c=0; c&lt;board.cMax; c++) {
+      if (board.m[r][c] !== &#39;-&#39;) 
+        continue;
+      var enermy = (turn===&#39;x&#39;?&#39;o&#39;:&#39;x&#39;);
+      var attackScore = getScore(board, r, c, turn, attack);  // 攻擊分數
+      var guardScore  = getScore(board, r, c, enermy, guard);   // 防守分數
+      var score = attackScore+guardScore;
+      if (score &gt; best.score) {
+        best.r = r;
+        best.c = c;
+        best.score = score;
+      }
+    }
+  }
+  log(&quot;best=%j&quot;, best);
+  board.m[best.r][best.c] = turn; // 否則、將子下在使用者輸入的 (r,c) 位置
+}
+
+var P2P=function(b, turn, line) {
+  peopleTurn(b, turn, line);
+  b.show();         // 顯示棋盤現況
+  winCheck(b, turn);
+  return (turn == &#39;o&#39;)?&#39;x&#39;:&#39;o&#39;; // 換對方下了。
+}
+
+var P2C=function(b, turn, line) {
+  peopleTurn(b, &#39;o&#39;, line);
+  b.show();         // 顯示棋盤現況
+  winCheck(b, &#39;o&#39;); // 檢查下了這子之後是否贏了！
+  computerTurn(b, &#39;x&#39;, line);
+  b.show();
+  winCheck(b, &#39;x&#39;);
+  return &#39;o&#39;;
+}
+
+var C2C=function(b, turn, line) {
+  computerTurn(b, &#39;o&#39;, line);
+  b.show();         // 顯示棋盤現況
+  winCheck(b, &#39;o&#39;); // 檢查下了這子之後是否贏了！
+  computerTurn(b, &#39;x&#39;, line);
+  b.show();
+  winCheck(b, &#39;x&#39;);
+  return &#39;o&#39;; // ox 之後又換 o 了。
+}
+
+var chess=function(X2X) {
+  // 主程式開始
+  var b = new Board(7, 7); // 建立棋盤
+  b.show();            // 顯示棋盤
+  var turn = &#39;o&#39;;      // o 先下
+  prompt(turn);        // 提示要求下子訊息，並接受輸入。
+  r.on(&#39;line&#39;, function(line) { // 每當讀到一個字串時。
+    try {
+      turn = X2X(b, turn, line);
+    } catch (err) { // 若有丟出例外
+      log(err.stack); // 則印出錯誤訊息。
+    }
+    prompt(turn); // 提示要求下子訊息，並接受輸入。
+  }).on(&#39;close&#39;, function() { // 輸入結束了
+    process.exit(0); // 程式結束。
+  });
+}
+
+if (process.argv[2] === &quot;P2P&quot;) // 人對人下
+  chess(P2P);
+else if (process.argv[2] === &quot;P2C&quot;) // 人對人下
+  chess(P2C);
+else if (process.argv[2] === &quot;C2C&quot;) // 人對電腦下
+  chess(C2C);
+else { // 命令下錯，提示訊息！
+  log(&quot;人對人下：node chess P2P\n人對電腦：node chess P2C\n電腦對電腦：node chess C2C&quot;);
+  process.exit(0);
+}
+</code></pre>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

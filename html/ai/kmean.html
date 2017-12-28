@@ -1,0 +1,126 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  K-Mean 分群演算法</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="k-mean-">K-Mean 分群演算法</h1>
+<ul>
+<li><a href="http://ccckmit.wikidot.com/ai:kmeans">http://ccckmit.wikidot.com/ai:kmeans</a></li>
+</ul>
+<h2 id="-">簡介</h2>
+<p>K-Means 是 J. B. MacQueen 於1967年所提出的分群演算法，必須事前設定群集的數量 k，然後找尋下列公式的極大值，以達到分群的最佳化之目的。</p>
+<p>|$argmin \sum<em>{i=1}^{k} \sum</em>{\mathbf x_j \in S_i} \big| \mathbf x_j - \boldsymbol\mu_i \big|^2$|=&gt; katex error!</p>
+<p>其中的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>μ</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\mu_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.43056em;"></span><span class="strut bottom" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="base"><span class="mord"><span class="mord mathit">μ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span> 是 Si 群體的平均。</p>
+<h2 id="-">演算法</h2>
+<ul>
+<li><ol>
+<li>隨機指派群集中心：(圖一)<ul>
+<li>在訓練組資料中「隨機」找出K筆紀錄來作為初始種子(初始群集的中心)</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><ol>
+<li>產生初始群集：(圖二)<ul>
+<li>計算每一筆紀錄到各個隨機種子之間的距離，然後比較該筆紀錄究竟離哪一個隨機種子最近，然後這筆紀錄就會被指派到最接近的那個群集中心，此時就會形成一個群集邊界，產生了初始群集的成員集合</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><ol>
+<li>產生新的質量中心：(圖三)<ul>
+<li>根據邊界內的每一個案例重新計算出該群集的質量中心，利用新的質量中心取代之前的隨機種子，來做為該群的中心</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi>S</mi><mi>i</mi><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></msubsup><mo>=</mo><mrow><mo fence="true">{</mo><msub><mi mathvariant="bold">x</mi><mi>j</mi></msub><mo>:</mo><mo fence="false">∥</mo><msub><mi mathvariant="bold">x</mi><mi>j</mi></msub><mo>−</mo><msubsup><mi mathvariant="bold">m</mi><mi>i</mi><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></msubsup><mo fence="false">∥</mo><mo>≤</mo><mo fence="false">∥</mo><msub><mi mathvariant="bold">x</mi><mi>j</mi></msub><mo>−</mo><msubsup><mi mathvariant="bold">m</mi><msup><mi>i</mi><mo>∗</mo></msup><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></msubsup><mo fence="false">∥</mo><mtext> for all </mtext><msup><mi>i</mi><mo>∗</mo></msup><mo>=</mo><mn>1</mn><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><mi>k</mi><mo fence="true">}</mo></mrow></mrow><annotation encoding="application/x-tex">S_i^{(t)} = \left{ \mathbf x_j : \big| \mathbf x_j - \mathbf m^{(t)}_i \big| \leq \big| \mathbf x<em>j - \mathbf m^{(t)}</em>{i^<em>} \big| \text{ for all }i^</em>=1,\ldots,k \right}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.15em;"></span><span class="strut bottom" style="height:1.80002em;vertical-align:-0.65002em;"></span><span class="base"><span class="mord"><span class="mord mathit" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0448em;"><span style="top:-2.4231360000000004em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">i</span></span></span><span style="top:-3.2198em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathit mtight">t</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.27686399999999994em;"></span></span></span></span></span><span class="mrel">=</span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">{</span></span><span class="mord"><span class="mord mathbf">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span><span class="mrel">:</span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.86199em;"><span style="top:-2.2559899999999997em;"><span class="pstrut" style="height:2.606em;"></span><span class="delimsizinginner delim-size1"><span>∥</span></span></span><span style="top:-2.86199em;"><span class="pstrut" style="height:2.606em;"></span><span class="delimsizinginner delim-size1"><span>∥</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.35000999999999993em;"></span></span></span></span></span><span class="mord"><span class="mord mathbf">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span><span class="mbin">−</span><span class="mord"><span class="mord mathbf">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0448em;"><span style="top:-2.4231360000000004em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">i</span></span></span><span style="top:-3.2198em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathit mtight">t</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.27686399999999994em;"></span></span></span></span></span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.86199em;"><span style="top:-2.2559899999999997em;"><span class="pstrut" style="height:2.606em;"></span><span class="delimsizinginner delim-size1"><span>∥</span></span></span><span style="top:-2.86199em;"><span class="pstrut" style="height:2.606em;"></span><span class="delimsizinginner delim-size1"><span>∥</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.35000999999999993em;"></span></span></span></span></span><span class="mrel">≤</span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.86199em;"><span style="top:-2.2559899999999997em;"><span class="pstrut" style="height:2.606em;"></span><span class="delimsizinginner delim-size1"><span>∥</span></span></span><span style="top:-2.86199em;"><span class="pstrut" style="height:2.606em;"></span><span class="delimsizinginner delim-size1"><span>∥</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.35000999999999993em;"></span></span></span></span></span><span class="mord"><span class="mord mathbf">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span><span class="mbin">−</span><span class="mord"><span class="mord mathbf">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0448em;"><span style="top:-2.4231360000000004em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathit mtight">i</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6183428571428571em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.2198em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathit mtight">t</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.27686399999999994em;"></span></span></span></span></span><span class="mord"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.86199em;"><span style="top:-2.2559899999999997em;"><span class="pstrut" style="height:2.606em;"></span><span class="delimsizinginner delim-size1"><span>∥</span></span></span><span style="top:-2.86199em;"><span class="pstrut" style="height:2.606em;"></span><span class="delimsizinginner delim-size1"><span>∥</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.35000999999999993em;"></span></span></span></span></span><span class="mord text"><span class="mord mathrm"> for all </span></span><span class="mord"><span class="mord mathit">i</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.688696em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord mathrm">1</span><span class="mpunct">,</span><span class="minner">…</span><span class="mpunct">,</span><span class="mord mathit" style="margin-right:0.03148em;">k</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">}</span></span></span></span></span></span></p>
+<ul>
+<li><ol>
+<li>變動群集邊界：(圖四)<ul>
+<li>指定完新的質量中心之後，再一次比較每一筆紀錄與新的群集中心之間的距離，然後根據距離，再度重新分配每一個案例所屬的群集</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mi mathvariant="bold">m</mi><mi>i</mi><mrow><mo>(</mo><mi>t</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow></msubsup><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mi mathvariant="normal">∣</mi><msubsup><mi>S</mi><mi>i</mi><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></msubsup><mi mathvariant="normal">∣</mi></mrow></mfrac><msub><mo>∑</mo><mrow><msub><mi mathvariant="bold">x</mi><mi>j</mi></msub><mo>∈</mo><msubsup><mi>S</mi><mi>i</mi><mrow><mo>(</mo><mi>t</mi><mo>)</mo></mrow></msubsup></mrow></msub><msub><mi mathvariant="bold">x</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf m^{(t+1)}_i = \frac{1}{|S^{(t)}<em>i|} \sum</em>{\mathbf x_j \in S^{(t)}_i} \mathbf x_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.0448em;"></span><span class="strut bottom" style="height:1.8217599999999998em;vertical-align:-0.7769599999999999em;"></span><span class="base"><span class="mord"><span class="mord mathbf">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0448em;"><span style="top:-2.4231360000000004em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">i</span></span></span><span style="top:-3.2198em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathit mtight">t</span><span class="mbin mtight">+</span><span class="mord mathrm mtight">1</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.27686399999999994em;"></span></span></span></span></span><span class="mrel">=</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.44864em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0590857142857142em;"><span style="top:-2.2134285714285715em;margin-left:-0.05764em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5357142857142856em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">i</span></span></span><span style="top:-3.059085714285714em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5357142857142856em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathit mtight">t</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3222857142857143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7769599999999999em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3447999999999998em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.74136em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathbf mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"></span></span></span></span></span><span class="mrel mtight">∈</span><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0590857142857142em;"><span style="top:-2.2134285714285715em;margin-left:-0.05764em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5357142857142856em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">i</span></span></span><span style="top:-3.059085714285714em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5357142857142856em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathit mtight">t</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3222857142857143em;"></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6221599999999999em;"></span></span></span></span></span><span class="mord"><span class="mord mathbf">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span></span></span></span></p>
+<ul>
+<li><ol>
+<li>持續反覆 3, 4 的步驟，一直執行到群集成員不再變動為止</li>
+</ol>
+</li>
+</ul>
+<p><a href="=image K-MeanEx1.jpg.html">=image K-MeanEx1.jpg</a>
+= 圖一、隨機指派群集中心</p>
+<p><a href="=image K-MeanEx2.jpg.html">=image K-MeanEx2.jpg</a>
+= 圖二、產生初始群集</p>
+<p><a href="=image K-MeanEx3.jpg.html">=image K-MeanEx3.jpg</a>
+= 圖三、產生新的質量中心</p>
+<p><a href="=image K-MeanEx4.jpg.html">=image K-MeanEx4.jpg</a>
+= 圖四、變動群集邊界</p>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li>J. B. MacQueen (1967): &quot;Some Methods for classification and Analysis of Multivariate Observations&quot;, Proceedings of 5-th Berkeley Symposium on Mathematical Statistics and Probability, Berkeley, University of California Press, 1:281-297</li>
+<li>J. A. Hartigan (1975) &quot;Clustering Algorithms&quot;. Wiley.</li>
+<li>J. A. Hartigan and M. A. Wong (1979) &quot;A K-Means Clustering Algorithm&quot;, Applied Statistics, Vol. 28, No. 1, p100-108.</li>
+<li>[<a href="http://www.stanford.edu/~darthur">http://www.stanford.edu/~darthur</a> D. Arthur]，[<a href="http://www.stanford.edu/~sergeiv">http://www.stanford.edu/~sergeiv</a> S. Vassilvitskii] (2006): &quot;How Slow is the k-means Method?,&quot; Proceedings of the 2006 Symposium on Computational Geometry (SoCG).</li>
+<li><a href="http://en.wikipedia.org/wiki/K-means_clustering">http://en.wikipedia.org/wiki/K-means_clustering</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/K平均演算法">http://zh.wikipedia.org/wiki/K平均演算法</a></li>
+<li><a href="http://140.118.9.173/salo/data%20mining/Ch5">http://140.118.9.173/salo/data%20mining/Ch5</a> 群集演算法.pdf</li>
+<li>漫谈 Clustering (1): k-means -- <a href="http://blog.pluskid.org/?p=17">http://blog.pluskid.org/?p=17</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

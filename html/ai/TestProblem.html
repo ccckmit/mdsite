@@ -1,0 +1,119 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  AI 測試問題集</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="ai-">AI 測試問題集</h1>
+<h2 id="-">函數優化問題</h2>
+<p>為了能有效評測各種優化 (最佳化, Optimization) 演算法的效能，我們搜集了一群常被學術論文使用的測試函數，這些函數主要來自 [<a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO.htm">http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO.htm</a> Dr. Abdel-Rahman Hedar 的網站]。這些函數大致分『有限制條件』與『無限制條件』兩類，經常被各種優化方法用做測試標的。</p>
+<p>[<a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page364.htm">http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page364.htm</a> 無條件限制者有 27 個]，包含 1. Ackley Function 2. Beale Function 3.  Bohachevsky Function 4. Booth Function 5. Branin Function 6. Colville Function 7. Dixon &amp; Price Function 8. Easom Function 9. Goldstein &amp; Price Function 10. Griewank Function 11. Hartmann Functions 12. Hump Function 13.  Levy Function 14. Matyas Function 15. Michalewicz Function 16. Perm Functions 17. Powell Function 18. Power Sum Function 19. Rastrigin Function 20. Rosenbrock Function 21. Schwefel Function 22. Shekel Function 23. Shubert Function 24. Sphere Function 25. Sum Squares Function 26. Trid Function 27. Zakharov Function 等函數。</p>
+<p>[<a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page422.htm">http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page422.htm</a> 有條件限制者有 16 個]，包含 1. G1 Problem 2. G2 Problem 3. G3 Problem 4. G4 Problem 5. G5 Problem 6. G6 Problem</p>
+<ol>
+<li>G7 Problem 8.  G8 Problem 9.  G9 Problem 10.  G10 Problem 11.  G11 Problem 12.  G12 Problem 13.  G13 Problem 14. Welded Beam Design Problem 15. Pressure Vessel Design Problem 16.  Tension-Compression String Problem 等問題。</li>
+</ol>
+<ul>
+<li><p>無限制條件的優化問題</p>
+<h1 id="-ackley-function-ackley-function-html-">[<a href="[Ackley Function.html">Ackley Function</a>]</h1>
+<h1 id="-beale-function-beale-function-html-">[<a href="[Beale Function.html">Beale Function</a>]</h1>
+<h1 id="-bohachevsky-function-bohachevsky-function-html-">[<a href="[Bohachevsky Function.html">Bohachevsky Function</a>]</h1>
+<h1 id="-booth-function-booth-function-html-">[<a href="[Booth Function.html">Booth Function</a>]</h1>
+<h1 id="-branin-function-branin-function-html-">[<a href="[Branin Function.html">Branin Function</a>]</h1>
+<h1 id="-colville-function-colville-function-html-">[<a href="[Colville Function.html">Colville Function</a>]</h1>
+<h1 id="-dixon-price-function-dixon-price-function-html-">[<a href="[Dixon &amp; Price Function.html">Dixon &amp; Price Function</a>]</h1>
+<h1 id="-easom-function-easom-function-html-">[<a href="[Easom Function.html">Easom Function</a>]</h1>
+<h1 id="-goldstein-price-function-goldstein-price-function-html-">[<a href="[Goldstein &amp; Price Function.html">Goldstein &amp; Price Function</a>]</h1>
+<h1 id="-griewank-function-griewank-function-html-">[<a href="[Griewank Function.html">Griewank Function</a>]</h1>
+<h1 id="-hartmann-functions-hartmann-functions-html-">[<a href="[Hartmann Functions.html">Hartmann Functions</a>]</h1>
+<h1 id="-hump-function-hump-function-html-">[<a href="[Hump Function.html">Hump Function</a>]</h1>
+<h1 id="-levy-function-levy-function-html-">[<a href="[Levy Function.html">Levy Function</a>]</h1>
+<h1 id="-matyas-function-matyas-function-html-">[<a href="[Matyas Function.html">Matyas Function</a>]</h1>
+<h1 id="-michalewicz-function-michalewicz-function-html-">[<a href="[Michalewicz Function.html">Michalewicz Function</a>]</h1>
+<h1 id="-perm-functions-perm-functions-html-">[<a href="[Perm Functions.html">Perm Functions</a>]</h1>
+<h1 id="-powell-function-powell-function-html-">[<a href="[Powell Function.html">Powell Function</a>]</h1>
+<h1 id="-power-sum-function-power-sum-function-html-">[<a href="[Power Sum Function.html">Power Sum Function</a>]</h1>
+<h1 id="-rastrigin-function-rastrigin-function-html-">[<a href="[Rastrigin Function.html">Rastrigin Function</a>]</h1>
+<h1 id="-rosenbrock-function-rosenbrock-function-html-">[<a href="[Rosenbrock Function.html">Rosenbrock Function</a>]</h1>
+<h1 id="-schwefel-function-schwefel-function-html-">[<a href="[Schwefel Function.html">Schwefel Function</a>]</h1>
+<h1 id="-shekel-function-shekel-function-html-">[<a href="[Shekel Function.html">Shekel Function</a>]</h1>
+<h1 id="-shubert-function-shubert-function-html-">[<a href="[Shubert Function.html">Shubert Function</a>]</h1>
+<h1 id="-sphere-function-sphere-function-html-">[<a href="[Sphere Function.html">Sphere Function</a>]</h1>
+<h1 id="-sum-squares-function-sum-squares-function-html-">[<a href="[Sum Squares Function.html">Sum Squares Function</a>]</h1>
+<h1 id="-trid-function-trid-function-html-">[<a href="[Trid Function.html">Trid Function</a>]</h1>
+<h1 id="-zakharov-function-zakharov-function-html-">[<a href="[Zakharov Function.html">Zakharov Function</a>]</h1>
+<p><a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page364.htm">http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page364.htm</a></p>
+</li>
+<li><p>有限制條件的優化問題</p>
+<h1 id="-g1-problem-g1-problem-html-">[<a href="[G1 Problem.html">G1 Problem</a>]</h1>
+<h1 id="-g2-problem-g2-problem-html-">[<a href="[G2 Problem.html">G2 Problem</a>]</h1>
+<h1 id="-g3-problem-g3-problem-html-">[<a href="[G3 Problem.html">G3 Problem</a>]</h1>
+<h1 id="-g4-problem-g4-problem-html-">[<a href="[G4 Problem.html">G4 Problem</a>]</h1>
+<h1 id="-g5-problem-g5-problem-html-">[<a href="[G5 Problem.html">G5 Problem</a>]</h1>
+<h1 id="-g6-problem-g6-problem-html-">[<a href="[G6 Problem.html">G6 Problem</a>]</h1>
+<h1 id="-g7-problem-g7-problem-html-">[<a href="[G7 Problem.html">G7 Problem</a>]</h1>
+<h1 id="-g8-problem-g8-problem-html-">[<a href="[G8 Problem.html">G8 Problem</a>]</h1>
+<h1 id="-g9-problem-g9-problem-html-">[<a href="[G9 Problem.html">G9 Problem</a>]</h1>
+<h1 id="-g10-problem-g10-problem-html-">[<a href="[G10 Problem.html">G10 Problem</a>]</h1>
+<h1 id="-g11-problem-g11-problem-html-">[<a href="[G11 Problem.html">G11 Problem</a>]</h1>
+<h1 id="-g12-problem-g12-problem-html-">[<a href="[G12 Problem.html">G12 Problem</a>]</h1>
+<h1 id="-g13-problem-g13-problem-html-">[<a href="[G13 Problem.html">G13 Problem</a>]</h1>
+<h1 id="-welded-beam-design-problem-welded-beam-design-problem-html-">[<a href="[Welded Beam Design Problem.html">Welded Beam Design Problem</a>]</h1>
+<h1 id="-pressure-vessel-design-problem-pressure-vessel-design-problem-html-">[<a href="[Pressure Vessel Design Problem.html">Pressure Vessel Design Problem</a>]</h1>
+<h1 id="-tension-compression-string-problem-tension-compression-string-problem-html-">[<a href="[Tension-Compression String Problem.html">Tension-Compression String Problem</a>]</h1>
+<p><a href="http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page422.htm">http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page422.htm</a></p>
+</li>
+</ul>
+<p>這些測試問題對想要從事優化方法研究的人，有很大的重要性，因為只有透過實際的測試，才能比較出優化方法的好壞，這對質性分析與量化的研究都會有所幫助。</p>
+<h2 id="-">參考文獻</h2>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

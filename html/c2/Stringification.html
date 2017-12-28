@@ -1,0 +1,116 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >>  字串化 -- Stringification, 使用 #symbol 可以將某符號字串化</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="-stringification-symbol-">字串化 -- Stringification, 使用 #symbol 可以將某符號字串化</h2>
+<p>使用 #symbol 可以讓巨集處理器將 symbol 符號轉為字串，這個過程稱為 (Stringification) ，以下是程式範例。</p>
+<p><strong>範例一：將運算式字串化</strong></p>
+<p>檔案：stringfication.c</p>
+<pre><code class="lang-C">    #include &lt;stdio.h&gt;
+
+    #define WARN_IF(EXP) \
+         do { if (EXP) \
+                 fprintf (stderr, &quot;Warning: &quot; #EXP &quot;\n&quot;); } \
+         while (0)
+
+    int main() {
+        int x = 0;
+        WARN_IF(x == 0);
+    }
+</code></pre>
+<p>執行結果：</p>
+<pre><code>    D:\cp&gt;gcc stringfication.c -o stringfication
+    stringfication.c:11:2: warning: no newline at end of file
+
+    D:\cp&gt;gcc stringfication.c -o stringfication
+
+    D:\cp&gt;stringfication
+    Warning: x == 0
+</code></pre><p><strong>範例二：利用字串化取得變數名稱。</strong></p>
+<p>檔案：stringfication2.c</p>
+<pre><code class="lang-C">   #include &lt;stdio.h&gt;
+    // 本程式節錄修改自 TinyCC 
+    typedef struct TCCSyms {
+        char *str;
+        void *ptr;
+    } TCCSyms;
+
+    #define TCCSYM(a) { #a, &amp;a, },
+    /* add the symbol you want here if no dynamic linking is done */
+    static TCCSyms tcc_syms[] = {
+      TCCSYM(printf)
+      TCCSYM(fprintf)
+      TCCSYM(fopen)
+      TCCSYM(fclose)
+      { NULL, NULL },
+    };
+
+    int main() {
+      int i;
+      for (i=0; tcc_syms[i].str != NULL; i++)
+        printf(&quot;symbol:%-10s address:%d\n&quot;, tcc_syms[i].str, tcc_syms[i].ptr);
+    }
+</code></pre>
+<p>執行結果：</p>
+<pre><code>    D:\cp&gt;gcc stringfication2.c -o stringfication2
+
+    D:\cp&gt;stringfication2
+    symbol:printf     address:4200528
+    symbol:fprintf    address:4200512
+    symbol:fopen      address:4200544
+    symbol:fclose     address:4200496
+</code></pre><p><strong>參考文獻</strong></p>
+<ul>
+<li>GCC online document (Stringification) -- <a href="http://gcc.gnu.org/onlinedocs/cpp/Stringification.html#Stringification">http://gcc.gnu.org/onlinedocs/cpp/Stringification.html#Stringification</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

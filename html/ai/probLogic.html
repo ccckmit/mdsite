@@ -1,0 +1,162 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  實作：機率式邏輯推論</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">實作：機率式邏輯推論</h1>
+<p>專案下載： <a href="/code/js/ai/BayesLogic.zip">BayesLogic.zip</a></p>
+<h2 id="-">貝氏邏輯推論</h2>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><msub><mi>q</mi><mn>1</mn></msub><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><msub><mi>q</mi><mi>n</mi></msub><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><msub><mi>q</mi><mn>1</mn></msub><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><msub><mi>q</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><msub><mi>q</mi><mi>n</mi></msub><mo>)</mo><mi>P</mi><mo>(</mo><msub><mi>q</mi><mi>n</mi></msub><mo>)</mo></mrow><annotation encoding="application/x-tex">P(q_1...q_n) = P(q<em>1..q</em>{n-1}|q_n) P(q_n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">n</span><span class="mbin mtight">−</span><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"></span></span></span></span></span><span class="mord mathrm">∣</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>B</mi><mi mathvariant="normal">∣</mi><mi>A</mi><mo>)</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(A|B) = P(B|A) \frac{P(A)}{P(B)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">A</span><span class="mord mathrm">∣</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.05017em;">B</span><span class="mord mathrm">∣</span><span class="mord mathit">A</span><span class="mclose">)</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">A</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<h2 id="-naive-bayes-model">天真貝氏推論 Naive Bayes Model</h2>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><msub><mi>q</mi><mn>1</mn></msub><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mo separator="true">,</mo><msub><mi>q</mi><mi>n</mi></msub><mi mathvariant="normal">∣</mi><mi>e</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><msub><mi>q</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi><mi>e</mi><mo>)</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi>P</mi><mo>(</mo><msub><mi>q</mi><mi>n</mi></msub><mi mathvariant="normal">∣</mi><mi>e</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(q_1,...,q_n|e) = P(q_1|e) ... P(q_n|e)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mpunct">,</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mpunct">,</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathrm">∣</span><span class="mord mathit">e</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathrm">∣</span><span class="mord mathit">e</span><span class="mclose">)</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathrm">.</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathit" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathrm">∣</span><span class="mord mathit">e</span><span class="mclose">)</span></span></span></span></p>
+<p>檔案： BayesLogic.js</p>
+<pre><code>var ml = require(&quot;./myLib&quot;);
+
+var BL = function() {
+  this.pmap = null;  
+}
+
+BL.prototype.P = function(Q, E) { // P(Q,E) = P(Q&lt;=E)
+  if (Q == E || Q.length==0) return 1.0;
+  if (E.length == 0)
+    return this.pmap[Q]; // P(Q)
+  else
+    return this.pmap[Q+&quot;&lt;=&quot;+E]; // P(Q&lt;=E)
+}
+
+BL.prototype.ask = function(query) {
+  ml.log(&quot;BL:ask(%s)&quot;, query);
+  var QE=ml.split(query.trim(), &quot;&lt;=&quot;);
+  QE.push(&quot;&quot;);
+  var prob=this.P(QE[0], QE[1]);
+  ml.log(&quot;  prob=%d&quot;, prob);
+}
+
+BL.prototype.test = function() {
+  var bl = new BL();
+  bl.pmap =  { &quot;A&quot;:0.5, &quot;B&quot;:0.3, &quot;C&quot;:0.2, &quot;D&quot;:0.7, 
+             &quot;A&lt;=B&quot;:0.5, &quot;A&lt;=C&quot;:0.3, &quot;A&lt;=D&quot;:0.6, &quot;A&lt;=E&quot;:0.2, 
+             &quot;B&lt;=A&quot;:0.2, &quot;B&lt;=C&quot;:0.3, &quot;B&lt;=D&quot;:0.5, &quot;B&lt;=E&quot;:0.6, 
+             &quot;C&lt;=A&quot;:0.4, &quot;C&lt;=B&quot;:0.5, &quot;C&lt;=D&quot;:0.6, &quot;C&lt;=E&quot;:0.1, 
+             &quot;D&lt;=A&quot;:0.2, &quot;D&lt;=B&quot;:0.3, &quot;D&lt;=C&quot;:0.5, &quot;D&lt;=E&quot;:0.6
+       };
+  bl.ask(&quot;C&quot;);
+  bl.ask(&quot;A&lt;=C&quot;);
+  bl.ask(&quot;A&amp;B&lt;=C&quot;);
+  bl.ask(&quot;A&lt;=C&amp;D&quot;);
+  bl.ask(&quot;A&amp;B&quot;);
+  bl.ask(&quot;C&amp;A&amp;B&quot;); // 0.075
+  bl.ask(&quot;A&amp;B&amp;C&quot;); // 0.018
+  // 對於 Naive Bayes Model 而言，為何叫 Naive 或 Idiot ？因為 P(C,A,B) != P(A,B,C) ....
+  bl.ask(&quot;A&amp;B&lt;=C&amp;D&quot;);
+}
+
+module.exports = BL;
+</code></pre><p>檔案： BayesLogicNaive.js</p>
+<pre><code>var ml = require(&quot;./myLib&quot;);
+var BL = require(&quot;./BayesLogic&quot;);
+
+BL.prototype.parentP = BL.prototype.P;
+
+// NaiveBayes inference
+BL.prototype.P = function(Q, E) { // P(Q,E) = P(Q&lt;=E)
+//  ml.log(&quot;P(%s, %s)&quot;, Q, E);
+  var prob = this.parentP(Q, E);
+  if (prob != null) return prob;
+  var q = ml.split(Q, &quot;&amp;&quot;);
+  var e = ml.split(E, &quot;&amp;&quot;);
+  prob=1.0;
+  switch (e.length) {
+    case 0: // P(q1...qn) = P(q1..qn-1|qn)*P(qn)
+      if (q.length == 1)
+        throw ml.format(&quot;pmap[%s] is not found!&quot;, qs);
+      var n = q.length-1;
+      var qhead = q.slice(0, n); // qhead = q1..qn-1
+      var qn = q[n];
+      return this.P(qhead.join(&quot;&amp;&quot;), qn)*this.P(qn,&quot;&quot;);
+    case 1: // P(q1,...qn|e) = P(q1|e)*...*P(qn|e) ; 這就是 Naive 的地方！
+      for (var i in q) {
+        prob *= this.pmap[q[i]+&quot;&lt;=&quot;+E];
+      }
+      return prob;
+    default: // &gt;= 2 : P(q|e)=P(q,e)/P(e)
+      return this.P(Q+&quot;&amp;&quot;+E, &quot;&quot;)/this.P(E, &quot;&quot;);
+  }
+}
+
+var bl = new BL();
+bl.test();
+</code></pre><p>執行結果</p>
+<pre><code>D:\Dropbox\cccwd\db\ai\code\BayesLogic&gt;node BayesLogicNaive.js
+BL:ask(C)
+  prob=0.2
+BL:ask(A&lt;=C)
+  prob=0.3
+BL:ask(A&amp;B&lt;=C)
+  prob=0.09
+BL:ask(A&lt;=C&amp;D)
+  prob=0.6
+BL:ask(A&amp;B)
+  prob=0.15
+BL:ask(C&amp;A&amp;B)
+  prob=0.075
+BL:ask(A&amp;B&amp;C)
+  prob=0.018
+BL:ask(A&amp;B&lt;=C&amp;D)
+  prob=0.3
+</code></pre><h2 id="-">貝氏網路</h2>
+<p>專案下載： <a href="/code/js/ai/BayesNet.zip">BayesNet.zip</a></p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

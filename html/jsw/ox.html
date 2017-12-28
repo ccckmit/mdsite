@@ -1,0 +1,143 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 JavaScript 設計網站 >>  專案 -- 井字遊戲</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">用 JavaScript 設計網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="html.html" class="pure-menu-link">2. HTML</a></li>
+<li class="pure-menu-item"><a href="css.html" class="pure-menu-link">3. CSS</a></li>
+<li class="pure-menu-item"><a href="javascript.html" class="pure-menu-link">4. JavaScript</a></li>
+<li class="pure-menu-item"><a href="frontend.html" class="pure-menu-link">5. 前端網頁</a></li>
+<li class="pure-menu-item"><a href="template.html" class="pure-menu-link">6. 樣版引擎</a></li>
+<li class="pure-menu-item"><a href="backend.html" class="pure-menu-link">7. 後端 Server</a></li>
+<li class="pure-menu-item"><a href="communication.html" class="pure-menu-link">8. 前後端通訊</a></li>
+<li class="pure-menu-item"><a href="project.html" class="pure-menu-link">9. 完整專案</a></li>
+<li class="pure-menu-item"><a href="online.html" class="pure-menu-link">10. 上線營運</a></li>
+<li class="pure-menu-item"><a href="running.html" class="pure-menu-link">11. 網站維護</a></li>
+<li class="pure-menu-item"><a href="framework.html" class="pure-menu-link">12. 進階框架</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">附錄</a></li>
+<li class="pure-menu-item"><a href="nginx.html" class="pure-menu-link">a. Nginx 的用途</a></li>
+<li class="pure-menu-item"><a href="digitalocean.html" class="pure-menu-link">b. Digital Ocean</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">專案 -- 井字遊戲</h1>
+<h2 id="-">第一版：沒有輸贏判斷</h2>
+<p>檔案： <a href="/code/js/ox/ox_ui.html">ox_ui.html</a></p>
+<p>程式重點</p>
+<pre><code>
+          &lt;table id=&quot;ox&quot; class=&quot;table table-bordered&quot; style=&quot;width:100px&quot;&gt;
+            &lt;tbody&gt;
+              &lt;tr&gt;
+                &lt;td id=&quot;11&quot;&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td id=&quot;12&quot;&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td id=&quot;13&quot;&gt;&amp;nbsp;&lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr&gt;
+                &lt;td id=&quot;21&quot;&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td id=&quot;22&quot;&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td id=&quot;23&quot;&gt;&amp;nbsp;&lt;/td&gt;
+              &lt;/tr&gt;
+              &lt;tr&gt;
+                &lt;td id=&quot;31&quot;&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td id=&quot;32&quot;&gt;&amp;nbsp;&lt;/td&gt;
+                &lt;td id=&quot;33&quot;&gt;&amp;nbsp;&lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/tbody&gt;
+          &lt;/table&gt;
+
+...
+
+var turn = &#39;O&#39;;
+var isGameOver = false;
+
+$(document).ready(function() {
+  console.log(&#39;ready()&#39;);
+  $(&#39;#ox td&#39;).mousedown(function () {
+    if (isGameOver) return;
+    var id = $(this).attr(&quot;id&quot;);
+    var v = $(&#39;#&#39;+id).html();
+    if (v===&#39;O&#39; || v===&#39;X&#39;) return;
+    $(this).html(turn);
+    turn = (turn===&#39;O&#39;)?&#39;X&#39;:&#39;O&#39;;
+  });
+});
+</code></pre><h2 id="-">第二版：有輸贏判斷</h2>
+<p>檔案： <a href="/code/js/ox/ox_check.html">ox_check.html</a></p>
+<p>程式重點</p>
+<pre><code>function get(i,j) {
+  return $(&#39;#&#39;+i+&#39;&#39;+j).html();
+}
+
+var x = [[1,1,1], [2,2,2], [3,3,3], [1,2,3], [1,2,3], [1,2,3], [1,2,3], [1,2,3]];
+var y = [[1,2,3], [1,2,3], [1,2,3], [1,1,1], [2,2,2], [3,3,3], [1,2,3], [3,2,1]];
+
+function check() {
+  for (var i=0; i&lt;x.length; i++) {
+    var first = get(x[i][0], y[i][0]);
+    for (var j=0; j&lt;3; j++) {
+      var cell = get(x[i][j], y[i][j]);
+      if (cell === &quot;&amp;nbsp;&quot;) break;
+      if (cell !== first) break;
+      if (j===2)
+        return first+&quot;贏了！&quot;;
+    }
+  }  
+  return null;
+}
+
+var turn = &#39;O&#39;;
+var isGameOver = false;
+
+$(document).ready(function() {
+  console.log(&#39;ready()&#39;);
+  $(&#39;#ox td&#39;).mousedown(function () {
+    if (isGameOver) return;
+    var id = $(this).attr(&quot;id&quot;);
+    var v = $(&#39;#&#39;+id).html();
+    if (v===&#39;O&#39; || v===&#39;X&#39;) return;
+    $(this).html(turn);
+    turn = (turn===&#39;O&#39;)?&#39;X&#39;:&#39;O&#39;;
+    var winMsg = check();
+    if (winMsg !== null) {
+      alert(winMsg);
+      isGameOver = true;
+    }
+  });
+});
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

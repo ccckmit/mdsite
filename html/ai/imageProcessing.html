@@ -1,0 +1,526 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  簡易影像處理範例</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">簡易影像處理範例</h1>
+<h2 id="-">參考文獻</h2>
+<p>本文主要參考 Ilmari Heikkinen 的 <a href="http://www.html5rocks.com/en/tutorials/canvas/imagefilters/">Image Filters with Canvas</a> 這篇文章！</p>
+<h2 id="-">簡介</h2>
+<p>在 HTML5 的 canvas 區塊與相關的 JavaScript 函式庫出現之後，影像處理就成了網頁的新應用，本文將展示用 JavaScript 在網頁中進行影像處理的方法。</p>
+<h2 id="-">簡化程式</h2>
+<p>檔案： <a href="code/js/imagefilter/imagefilter0.html">imagefilter0.html</a></p>
+<p>注意：本程式不能在 local 執行，必須放上 server 才行，否則會有下列這種錯誤</p>
+<ul>
+<li>Uncaught SecurityError: Failed to execute &#39;getImageData&#39; on &#39;CanvasRenderingContext2D&#39;: The canvas has been tainted by cross-origin data.</li>
+</ul>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+  &lt;style&gt;
+canvas { display:block; }
+figcaption, button { display:block; margin:10; paddikng:10}
+#customMatrix input { text-align: center; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ &lt;center&gt;
+  &lt;figure&gt;
+    &lt;img id=&quot;orig&quot; src=&quot;demo_small.png&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;
+    &lt;figcaption&gt;The original test image&lt;/figcaption&gt;
+  &lt;/figure&gt;
+
+  &lt;figure&gt;
+    &lt;canvas id=&quot;grayscale&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;&lt;/canvas&gt;
+    &lt;button onclick=&quot;grayscale()&quot;&gt;Grayscale the image&lt;/button&gt;
+  &lt;/figure&gt;
+ &lt;/center&gt;    
+  &lt;script type=&quot;text/javascript&quot;&gt;
+    Filters = {};
+    Filters.getPixels = function(img) {
+      var c,ctx;
+      if (img.getContext) {
+        c = img;
+        try { ctx = c.getContext(&#39;2d&#39;); } catch(e) {}
+      }
+      if (!ctx) {
+        c = this.getCanvas(img.width, img.height);
+        ctx = c.getContext(&#39;2d&#39;);
+        ctx.drawImage(img, 0, 0);
+      }
+      return ctx.getImageData(0,0,c.width,c.height);
+    };
+
+    Filters.getCanvas = function(w,h) {
+      var c = document.createElement(&#39;canvas&#39;);
+      c.width = w;
+      c.height = h;
+      return c;
+    };
+
+    Filters.filterImage = function(filter, image, var_args) {
+      var args = [this.getPixels(image)];
+      for (var i=2; i&lt;arguments.length; i++) {
+        args.push(arguments[i]);
+      }
+      return filter.apply(null, args);
+    };
+
+    Filters.grayscale = function(pixels, args) {
+      var d = pixels.data;
+      for (var i=0; i&lt;d.length; i+=4) {
+        var r = d[i];
+        var g = d[i+1];
+        var b = d[i+2];
+        // CIE luminance for the RGB
+        var v = 0.2126*r + 0.7152*g + 0.0722*b;
+        d[i] = d[i+1] = d[i+2] = v
+      }
+      return pixels;
+    };
+  &lt;/script&gt;
+  &lt;script&gt;
+    var img = document.getElementById(&#39;orig&#39;);
+    img.addEventListener(&#39;load&#39;, function() {
+
+      var canvases = document.getElementsByTagName(&#39;canvas&#39;);
+      for (var i=0; i&lt;canvases.length; i++) {
+        var c = canvases[i];
+        c.parentNode.insertBefore(img.cloneNode(true), c);
+        c.style.display = &#39;none&#39;;
+      }
+
+      function runFilter(id, filter, arg1, arg2, arg3) {
+        var c = document.getElementById(id);
+        var s = c.previousSibling.style;
+        var b = c.parentNode.getElementsByTagName(&#39;button&#39;)[0];
+        if (b.originalText == null) {
+          b.originalText = b.textContent;
+        }
+        if (s.display == &#39;none&#39;) {
+          s.display = &#39;inline&#39;;
+          c.style.display = &#39;none&#39;;
+          b.textContent = b.originalText;
+        } else {
+          var idata = Filters.filterImage(filter, img, arg1, arg2, arg3);
+          c.width = idata.width;
+          c.height = idata.height;
+          var ctx = c.getContext(&#39;2d&#39;);
+          ctx.putImageData(idata, 0, 0);
+          s.display = &#39;none&#39;;
+          c.style.display = &#39;inline&#39;;
+          b.textContent = &#39;Restore original image&#39;;
+        }
+      }
+
+      grayscale = function() {
+        runFilter(&#39;grayscale&#39;, Filters.grayscale);
+      }
+    }, false);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h1 id="-">各種影像處理範例</h1>
+<p>在前面的《簡易影像處理範例》當中我們看了一個將影像轉為灰階的範例，該範例是由下文中的範例簡化而來的。</p>
+<ul>
+<li><a href="http://www.html5rocks.com/en/tutorials/canvas/imagefilters/">Image Filters with Canvas</a></li>
+</ul>
+<p>接著我們同樣用上文的範例展示 javascript 的影像處理方法，更精確地說應該是影像濾波的方法。</p>
+<p>以下是完整的範例。</p>
+<h2 id="-">完整範例</h2>
+<p>範例： <a href="/code/imagefilter/imagefilter.html">imagefilter.html</a></p>
+<pre><code class="lang-html">&lt;html&gt;
+&lt;head&gt;
+  &lt;style&gt;
+canvas { display:block; }
+figcaption, button { display:block; margin:10; paddikng:10}
+#customMatrix input { text-align: center; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;
+  &lt;figure&gt;
+    &lt;img id=&quot;orig&quot; src=&quot;demo_small.png&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;
+    &lt;figcaption&gt;The original test image&lt;/figcaption&gt;
+  &lt;/figure&gt;
+
+  &lt;figure&gt;
+    &lt;canvas id=&quot;grayscale&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;&lt;/canvas&gt;
+    &lt;button onclick=&quot;grayscale()&quot;&gt;Grayscale the image&lt;/button&gt;
+  &lt;/figure&gt;
+
+  &lt;figure&gt;
+    &lt;canvas id=&quot;brightness&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;&lt;/canvas&gt;
+    &lt;button onclick=&quot;brightness()&quot;&gt;Brighten the image&lt;/button&gt;
+  &lt;/figure&gt;
+
+  &lt;figure&gt;
+    &lt;canvas id=&quot;threshold&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;&lt;/canvas&gt;
+    &lt;button onclick=&quot;threshold()&quot;&gt;Threshold the image&lt;/button&gt;
+  &lt;/figure&gt;
+
+  &lt;figure&gt;
+    &lt;canvas id=&quot;sharpen&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;&lt;/canvas&gt;
+    &lt;button onclick=&quot;sharpen()&quot;&gt;Sharpen the image&lt;/button&gt;
+  &lt;/figure&gt;
+
+  &lt;figure&gt;
+    &lt;canvas id=&quot;blurC&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;&lt;/canvas&gt;
+    &lt;button onclick=&quot;blurC()&quot;&gt;Blur the image&lt;/button&gt;
+  &lt;/figure&gt;
+
+  &lt;figure&gt;
+    &lt;canvas id=&quot;sobel&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;&lt;/canvas&gt;
+    &lt;button onclick=&quot;sobel()&quot;&gt;Run a Sobel filter on the image&lt;/button&gt;
+  &lt;/figure&gt;
+
+  &lt;figure&gt;
+    &lt;canvas id=&quot;custom&quot; width=&quot;600&quot; height=&quot;337&quot;&gt;&lt;/canvas&gt;
+        &lt;br/&gt;&lt;br/&gt;
+        &lt;div id=&quot;customMatrix&quot;&gt;
+          &lt;input type=&quot;text&quot; value=&quot;1&quot; size=&quot;3&quot;&gt;
+          &lt;input type=&quot;text&quot; value=&quot;1&quot; size=&quot;3&quot;&gt;
+          &lt;input type=&quot;text&quot; value=&quot;1&quot; size=&quot;3&quot;&gt;
+          &lt;br&gt;
+          &lt;input type=&quot;text&quot; value=&quot;1&quot; size=&quot;3&quot;&gt;
+          &lt;input type=&quot;text&quot; value=&quot;0.7&quot; size=&quot;3&quot;&gt;
+          &lt;input type=&quot;text&quot; value=&quot;-1&quot; size=&quot;3&quot;&gt;
+          &lt;br&gt;
+          &lt;input type=&quot;text&quot; value=&quot;-1&quot; size=&quot;3&quot;&gt;
+          &lt;input type=&quot;text&quot; value=&quot;-1&quot; size=&quot;3&quot;&gt;
+          &lt;input type=&quot;text&quot; value=&quot;-1&quot; size=&quot;3&quot;&gt;
+          &lt;br&gt;
+    &lt;/div&gt;
+    &lt;button onclick=&quot;custom()&quot;&gt;Run the above filter on the image&lt;/button&gt;
+  &lt;/figure&gt;
+&lt;/center&gt;    
+  &lt;script type=&quot;text/javascript&quot;&gt;
+        Filters = {};
+        Filters.getPixels = function(img) {
+          var c,ctx;
+          if (img.getContext) {
+            c = img;
+            try { ctx = c.getContext(&#39;2d&#39;); } catch(e) {}
+          }
+          if (!ctx) {
+            c = this.getCanvas(img.width, img.height);
+            ctx = c.getContext(&#39;2d&#39;);
+            ctx.drawImage(img, 0, 0);
+          }
+          return ctx.getImageData(0,0,c.width,c.height);
+        };
+
+        Filters.getCanvas = function(w,h) {
+          var c = document.createElement(&#39;canvas&#39;);
+          c.width = w;
+          c.height = h;
+          return c;
+        };
+
+        Filters.filterImage = function(filter, image, var_args) {
+          var args = [this.getPixels(image)];
+          for (var i=2; i&lt;arguments.length; i++) {
+            args.push(arguments[i]);
+          }
+          return filter.apply(null, args);
+        };
+
+        Filters.grayscale = function(pixels, args) {
+          var d = pixels.data;
+          for (var i=0; i&lt;d.length; i+=4) {
+            var r = d[i];
+            var g = d[i+1];
+            var b = d[i+2];
+            // CIE luminance for the RGB
+            var v = 0.2126*r + 0.7152*g + 0.0722*b;
+            d[i] = d[i+1] = d[i+2] = v
+          }
+          return pixels;
+        };
+
+        Filters.brightness = function(pixels, adjustment) {
+          var d = pixels.data;
+          for (var i=0; i&lt;d.length; i+=4) {
+            d[i] += adjustment;
+            d[i+1] += adjustment;
+            d[i+2] += adjustment;
+          }
+          return pixels;
+        };
+
+        Filters.threshold = function(pixels, threshold) {
+          var d = pixels.data;
+          for (var i=0; i&lt;d.length; i+=4) {
+            var r = d[i];
+            var g = d[i+1];
+            var b = d[i+2];
+            var v = (0.2126*r + 0.7152*g + 0.0722*b &gt;= threshold) ? 255 : 0;
+            d[i] = d[i+1] = d[i+2] = v
+          }
+          return pixels;
+        };
+
+        Filters.tmpCanvas = document.createElement(&#39;canvas&#39;);
+        Filters.tmpCtx = Filters.tmpCanvas.getContext(&#39;2d&#39;);
+
+        Filters.createImageData = function(w,h) {
+          return this.tmpCtx.createImageData(w,h);
+        };
+
+        Filters.convolute = function(pixels, weights, opaque) {
+          var side = Math.round(Math.sqrt(weights.length));
+          var halfSide = Math.floor(side/2);
+
+          var src = pixels.data;
+          var sw = pixels.width;
+          var sh = pixels.height;
+
+          var w = sw;
+          var h = sh;
+          var output = Filters.createImageData(w, h);
+          var dst = output.data;
+
+          var alphaFac = opaque ? 1 : 0;
+
+          for (var y=0; y&lt;h; y++) {
+            for (var x=0; x&lt;w; x++) {
+              var sy = y;
+              var sx = x;
+              var dstOff = (y*w+x)*4;
+              var r=0, g=0, b=0, a=0;
+              for (var cy=0; cy&lt;side; cy++) {
+                for (var cx=0; cx&lt;side; cx++) {
+                  var scy = Math.min(sh-1, Math.max(0, sy + cy - halfSide));
+                  var scx = Math.min(sw-1, Math.max(0, sx + cx - halfSide));
+                  var srcOff = (scy*sw+scx)*4;
+                  var wt = weights[cy*side+cx];
+                  r += src[srcOff] * wt;
+                  g += src[srcOff+1] * wt;
+                  b += src[srcOff+2] * wt;
+                  a += src[srcOff+3] * wt;
+                }
+              }
+              dst[dstOff] = r;
+              dst[dstOff+1] = g;
+              dst[dstOff+2] = b;
+              dst[dstOff+3] = a + alphaFac*(255-a);
+            }
+          }
+          return output;
+        };
+
+        if (!window.Float32Array)
+          Float32Array = Array;
+
+        Filters.convoluteFloat32 = function(pixels, weights, opaque) {
+          var side = Math.round(Math.sqrt(weights.length));
+          var halfSide = Math.floor(side/2);
+
+          var src = pixels.data;
+          var sw = pixels.width;
+          var sh = pixels.height;
+
+          var w = sw;
+          var h = sh;
+          var output = {
+            width: w, height: h, data: new Float32Array(w*h*4)
+          };
+          var dst = output.data;
+
+          var alphaFac = opaque ? 1 : 0;
+
+          for (var y=0; y&lt;h; y++) {
+            for (var x=0; x&lt;w; x++) {
+              var sy = y;
+              var sx = x;
+              var dstOff = (y*w+x)*4;
+              var r=0, g=0, b=0, a=0;
+              for (var cy=0; cy&lt;side; cy++) {
+                for (var cx=0; cx&lt;side; cx++) {
+                  var scy = Math.min(sh-1, Math.max(0, sy + cy - halfSide));
+                  var scx = Math.min(sw-1, Math.max(0, sx + cx - halfSide));
+                  var srcOff = (scy*sw+scx)*4;
+                  var wt = weights[cy*side+cx];
+                  r += src[srcOff] * wt;
+                  g += src[srcOff+1] * wt;
+                  b += src[srcOff+2] * wt;
+                  a += src[srcOff+3] * wt;
+                }
+              }
+              dst[dstOff] = r;
+              dst[dstOff+1] = g;
+              dst[dstOff+2] = b;
+              dst[dstOff+3] = a + alphaFac*(255-a);
+            }
+          }
+          return output;
+        };
+  &lt;/script&gt;
+  &lt;script&gt;
+    var img = document.getElementById(&#39;orig&#39;);
+    img.addEventListener(&#39;load&#39;, function() {
+
+      var canvases = document.getElementsByTagName(&#39;canvas&#39;);
+      for (var i=0; i&lt;canvases.length; i++) {
+        var c = canvases[i];
+        c.parentNode.insertBefore(img.cloneNode(true), c);
+        c.style.display = &#39;none&#39;;
+      }
+
+      function runFilter(id, filter, arg1, arg2, arg3) {
+        var c = document.getElementById(id);
+        var s = c.previousSibling.style;
+        var b = c.parentNode.getElementsByTagName(&#39;button&#39;)[0];
+        if (b.originalText == null) {
+          b.originalText = b.textContent;
+        }
+        if (s.display == &#39;none&#39;) {
+          s.display = &#39;inline&#39;;
+          c.style.display = &#39;none&#39;;
+          b.textContent = b.originalText;
+        } else {
+          var idata = Filters.filterImage(filter, img, arg1, arg2, arg3);
+          c.width = idata.width;
+          c.height = idata.height;
+          var ctx = c.getContext(&#39;2d&#39;);
+          ctx.putImageData(idata, 0, 0);
+          s.display = &#39;none&#39;;
+          c.style.display = &#39;inline&#39;;
+          b.textContent = &#39;Restore original image&#39;;
+        }
+      }
+
+      grayscale = function() {
+        runFilter(&#39;grayscale&#39;, Filters.grayscale);
+      }
+
+      brightness = function() {
+        runFilter(&#39;brightness&#39;, Filters.brightness, 40);
+      }
+
+      threshold = function() {
+        runFilter(&#39;threshold&#39;, Filters.threshold, 128);
+      }
+
+      sharpen = function() {
+        runFilter(&#39;sharpen&#39;, Filters.convolute,
+          [ 0, -1,  0,
+           -1,  5, -1,
+            0, -1,  0]);
+      }
+
+      blurC = function() {
+        runFilter(&#39;blurC&#39;, Filters.convolute,
+          [ 1/9, 1/9, 1/9,
+            1/9, 1/9, 1/9,
+            1/9, 1/9, 1/9 ]);
+      }
+
+      sobel = function() {
+        runFilter(&#39;sobel&#39;, function(px) {
+          px = Filters.grayscale(px);
+          var vertical = Filters.convoluteFloat32(px,
+            [-1,-2,-1,
+              0, 0, 0,
+              1, 2, 1]);
+          var horizontal = Filters.convoluteFloat32(px,
+            [-1,0,1,
+             -2,0,2,
+             -1,0,1]);
+          var id = Filters.createImageData(vertical.width, vertical.height);
+          for (var i=0; i&lt;id.data.length; i+=4) {
+            var v = Math.abs(vertical.data[i]);
+            id.data[i] = v;
+            var h = Math.abs(horizontal.data[i]);
+            id.data[i+1] = h
+            id.data[i+2] = (v+h)/4;
+            id.data[i+3] = 255;
+          }
+          return id;
+        });
+      }
+
+      custom = function() {
+        var inputs = document.getElementById(&#39;customMatrix&#39;).getElementsByTagName(&#39;input&#39;);
+        var arr = [];
+        for (var i=0; i&lt;inputs.length; i++) {
+          arr.push(parseFloat(inputs[i].value));
+        }
+        runFilter(&#39;custom&#39;, Filters.convolute, arr, true);
+      }
+
+    }, false);
+  &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li><a href="http://www.image-net.org/">http://www.image-net.org/</a><ul>
+<li>an image database organized according to the WordNet hierarchy (currently only the nouns)</li>
+<li><a href="https://www.ted.com/talks/fei_fei_li_how_we_re_teaching_computers_to_understand_pictures?language=zh-tw&amp;utm_source=facebook.com&amp;utm_medium=social&amp;utm_campaign=tedspread#t-477381">TED : 李飛飛:我們如何教導電腦看懂圖像</a></li>
+</ul>
+</li>
+<li><a href="https://codegeekz.com/best-javascript-image-manipulation-libraries/">Best JavaScript Image Manipulation Libraries</a><ul>
+<li><a href="https://github.com/auduno/clmtrackr">https://github.com/auduno/clmtrackr</a> 可以搭 jsfeat 把人臉辨識得更細一點！</li>
+</ul>
+</li>
+<li><a href="https://github.com/oliver-moran/jimp">JIMP</a> -- JavaScript Image Manipulation Program</li>
+<li><a href="http://processingjs.org/">http://processingjs.org/</a> -- 動畫</li>
+<li><a href="https://github.com/peterbraden/node-opencv">https://github.com/peterbraden/node-opencv</a></li>
+<li><a href="http://opencv.org/">http://opencv.org/</a></li>
+<li>CamanJS 影像處理套件 -- <a href="http://camanjs.com/">http://camanjs.com/</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

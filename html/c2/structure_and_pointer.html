@@ -1,0 +1,132 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >> C 語言結構中的指標算術</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><p>#C 語言結構中的指標算術</p>
+<p>在 C 語言當中，指標的內容就是記憶體位址，於是我們可以利用指標的算術，計算出某些具有特殊價值的數字，然後進行位址操作，以便定址到我們想要的內容上。</p>
+<p>舉例而言，在 Linux 的鏈結串列中，就定義了下列的 offsetof() 巨集函數，可以讓我們計算出一個結構與其欄位間的距離，</p>
+<pre><code class="lang-c">#define offsetof(TYPE, MEMBER) ((size_t) &amp;((TYPE *)0)-&gt;MEMBER)
+</code></pre>
+<p>事實上，offsetof() 這個巨集已經被納入到 ANSI C 的 表頭中，您也可以引用該表頭，而不需要自己實作。</p>
+<p>如果我們要從欄位指標反求其母結構位址，則可參考下列 Linux 核心中的原始碼，使用 container_of() 函數</p>
+<pre><code class="lang-c">#define container_of(ptr, type, member) ({    \
+    const typeof( ((type *)0)-&gt;member ) *__mptr = (ptr);    \
+    (type *)( (char *)__mptr - offsetof(type,member) );})
+</code></pre>
+<p>這樣的巨集函數要如何使用呢？請參考下列範例。</p>
+<p>###程式範例：結構中的指標運算</p>
+<p><strong>檔案：structptr.c</strong></p>
+<pre><code class="lang-c">#include &lt;stdio.h&gt;
+
+#define offsetof(TYPE, MEMBER) ((size_t) &amp;((TYPE *)0)-&gt;MEMBER)
+
+#define container_of(ptr, type, member) ({    \
+    const typeof( ((type *)0)-&gt;member ) *__mptr = (ptr);    \
+    (type *)( (char *)__mptr - offsetof(type,member) );})
+
+typedef struct {
+  char name[20];
+  int age;
+} Person;
+
+// 以 Person 中的 age 欄位為例，說明 container_of() 函數的作法
+//  container_of(&amp;p.age, Person, age)
+//    typeof( ((Person *)0)-&gt;age ) is int
+//    int *__mptr = (&amp;p.age); 
+//    (Person *) ((char *) __mptr - offsetof(Person, age))
+
+int main() {
+  Person p = {
+    .name=&quot;John&quot;,
+    .age=40
+  };
+
+  size_t offset = offsetof(Person, age);
+  printf(&quot;offset=0x%x\n&quot;, offset);
+  printf(&quot;offsetof(Person,age)=0x%x\n&quot;, offsetof(Person, age));
+  printf(&quot;&amp;p=%p\n&quot;, &amp;p);
+  printf(&quot;&amp;p.age=%p\n&quot;, &amp;p.age);
+  printf(&quot;p.age=%d\n&quot;, *(&amp;p.age));
+  printf(&quot;&amp;p+1=%p\n&quot;, &amp;p+1);
+  printf(&quot;&amp;((Person*)&amp;p)[1]=%p\n&quot;, &amp;((Person*)&amp;p)[1]);
+  char *cptr = (char*) &amp;p;
+  printf(&quot;cptr+1=%p\n&quot;, cptr+1);
+  printf(&quot;cptr+20=%p\n&quot;, cptr+20);
+  printf(&quot;*(int *)(cptr+20)=%d\n&quot;, *(int *)(cptr+20));
+  int *mptr = (&amp;p.age);
+  Person *pptr = (Person *) ((char *) mptr-20);
+  printf(&quot;*pptr=%p\n&quot;, pptr);
+//  int **agePtr;
+//  agePtr  = (int**) (&amp;p+offset);
+//  printf(&quot;agePtr=%p\n&quot;, agePtr);
+//  printf(&quot;*(&amp;p+offset)=%d\n&quot;, *agePtr);
+//  printf(&quot;&amp;p+offsetof(Person,age)=%p\n&quot;, &amp;p+offset);
+//  printf(&quot;container_of(&amp;p.age,Person,age)=%p\n&quot;,        container_of(&amp;p.age, Person, age));
+}
+</code></pre>
+<p><strong>執行結果</strong></p>
+<pre><code>D:\cp&gt;gcc structptr.c -o structptr
+
+D:\cp&gt;structptr
+offset=0x14
+offsetof(Person,age)=0x14
+&amp;p=0022FF50
+&amp;p.age=0022FF64
+p.age=40
+&amp;p+1=0022FF68
+&amp;((Person*)&amp;p)[1]=0022FF68
+cptr+1=0022FF51
+cptr+20=0022FF64
+*(int *)(cptr+20)=40
+*pptr=0022FF50
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

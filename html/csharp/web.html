@@ -1,0 +1,255 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 程式設計 -- 基礎、視窗與網路 >>  C# 網路程式：HTTP 程式設計 (2) -- Client</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">C# 程式設計 -- 基礎、視窗與網路</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">目錄</a></li>
+<li class="pure-menu-item"><a href="csharp.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="varexp.html" class="pure-menu-link">2. 運算式</a></li>
+<li class="pure-menu-item"><a href="ifloop.html" class="pure-menu-link">3. 流程控制</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="object.html" class="pure-menu-link">6. 物件導向</a></li>
+<li class="pure-menu-item"><a href="exception.html" class="pure-menu-link">7. 例外處理</a></li>
+<li class="pure-menu-item"><a href="file.html" class="pure-menu-link">8. 檔案處理</a></li>
+<li class="pure-menu-item"><a href="datastructure.html" class="pure-menu-link">9. 資料結構</a></li>
+<li class="pure-menu-item"><a href="regexp.html" class="pure-menu-link">10. 正規表達式</a></li>
+<li class="pure-menu-item"><a href="thread.html" class="pure-menu-link">11. 作業系統</a></li>
+<li class="pure-menu-item"><a href="window.html" class="pure-menu-link">12. 視窗程式</a></li>
+<li class="pure-menu-item"><a href="timer.html" class="pure-menu-link">13. 時間驅動</a></li>
+<li class="pure-menu-item"><a href="editor.html" class="pure-menu-link">14. 文字編輯器</a></li>
+<li class="pure-menu-item"><a href="graphics.html" class="pure-menu-link">15. 畫圖功能</a></li>
+<li class="pure-menu-item"><a href="gridview.html" class="pure-menu-link">16. 表格元件</a></li>
+<li class="pure-menu-item"><a href="net.html" class="pure-menu-link">17. 網路程式</a></li>
+<li class="pure-menu-item"><a href="udp.html" class="pure-menu-link">18. UDP 程式</a></li>
+<li class="pure-menu-item"><a href="tcp.html" class="pure-menu-link">19. TCP 程式</a></li>
+<li class="pure-menu-item"><a href="http.html" class="pure-menu-link">20. HTTP Server</a></li>
+<li class="pure-menu-item"><a href="web.html" class="pure-menu-link">21. HTTP Client</a></li>
+<li class="pure-menu-item"><a href="end.html" class="pure-menu-link">結語</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="c-http-2-client">C# 網路程式：HTTP 程式設計 (2) -- Client</h1>
+<h2 id="http-client-">HTTP Client 端程式簡介</h2>
+<p>在 C# 當中，HTTP Client 端元件的主要物件有 WebClient 與 Browser 元件，其中的 WebClient 物件是一個單純用來下載網頁的程式，這樣的物件可以用來撰寫像 WebCrawler 這樣的搜尋引擎關鍵程式，用來抓取全世界的網頁。</p>
+<p>有時我們需要將整個瀏覽器嵌入到視窗程式中，此時就可以使用 Browser 元件。事實上、Visual C# 當中的 Browser 元件就是 Internet Explorer (IE)，因此您可以很容易的用 Visual C# 做出類似 IE 的功能，並且與其他視窗程式進行互動。</p>
+<h2 id="-">單一網頁下載</h2>
+<pre><code class="lang-CS">using System;
+using System.IO;
+using System.Net;
+
+class PageDwnloader
+{
+    public static void Main(String[] args)
+    {
+        String text = fileToText(args[0]);
+        String[] urls = text.Split(&#39;\n&#39;);
+        for (int i = 0; i &lt; urls.Length; i++)
+        {
+         Console.WriteLine(i + &quot;:&quot; + urls[i]);
+         UrlToFile(urls[i], i+&quot;.htm&quot;);
+        }
+//     Console.WriteLine(text);
+    }
+
+    public static String fileToText(String filePath)
+    {
+        StreamReader file = new StreamReader(filePath);
+        String text = file.ReadToEnd();
+        file.Close();
+        return text;
+    }
+
+    public static void UrlToFile(String url, String file) {
+        WebClient webclient = new WebClient();
+        webclient.DownloadFile(&quot;http://&quot;+url, file);
+    }
+}
+</code></pre>
+<h2 id="-webcrawler-">網路爬蟲 WebCrawler 的設計</h2>
+<p>搜尋引擎是網際網路興起後最常被使用的工具之一，其主要技術包含前端的全文檢索與後端的網頁蒐集兩類，本文將介紹搜尋引擎後端的網頁蒐集技術 - 并且以 C# 語言實作一個100行左右的網頁蒐集程式 &quot;網路爬蟲 (Crawler)&quot;, 然後說明其製作方法與原理。</p>
+<p>Google 等搜尋網站的背後，都有一個強大的網頁蒐集程式，可以將全世界的網頁通通抓回去儲存以便提供搜尋之用，這個程式就稱為 &quot;爬行者 (Crawler)&quot;，也有人索性稱為蜘蛛 (Spider)，因為這個就好像在網路上爬來爬去的蜘蛛一樣，到處抓網頁回家放。</p>
+<p>Crawler 的設計原理，簡要來說是透過程式去追蹤網頁上的超連結，然後不斷往外擴張，以便將全世界中曾經被連結到的網頁全部都抓回到來，這也是 Google, Baidu, Bing, Yahoo 等網站背後最重要的程式之一。</p>
+<p>要啟動 Crawler，首先要給一個起始點，以下的範例是利用台灣的 tw.msn.com 網站作為起始點，然後不斷透過「透過連結抓取網頁、取出連結再抓網頁」的方式擴展出去，以下是 Crawler 的核心程式。</p>
+<p>每當抓到新的網頁時，我們繪將其存檔，然後抽取出其中所有的超連結，並將這些超連結放入等待抓取的網址庫中，以便下次可以抓取該網頁。</p>
+<p>檔案：WebCrawler.cs</p>
+<pre><code class="lang-CS">using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using System.Net;
+using System.Text.RegularExpressions;
+
+class WebCrawler
+{
+//    WebProxy proxy = new WebProxy(&quot;http://proxy.internal:3128/&quot;, true);
+    List&lt;String&gt; urlList = new List&lt;String&gt;();
+    // Dictionary&lt;String, String&gt; 
+
+    public static void Main(String[] args)
+    {
+        WebCrawler crawler = new WebCrawler();
+        crawler.urlList.Add(&quot;http://tw.msn.com/&quot;);
+        crawler.craw();
+    }
+
+    public void craw()
+    {
+        int urlIdx = 0;
+        while (urlIdx &lt; urlList.Count)
+        {
+            try
+            {
+                String url = urlList[urlIdx];
+                String fileName = &quot;data/&quot; + toFileName(url);
+                Console.WriteLine(urlIdx + &quot;:url=&quot; + url + &quot; file=&quot; + fileName);
+                urlToFile(url, fileName);
+                String html = fileToText(fileName);
+                foreach (String childUrl in matches(&quot;\\shref\\s*=\\s*\&quot;(.*?)\&quot;&quot;, html, 1))
+                {
+                    Console.WriteLine(childUrl);
+                    urlList.Add(childUrl);
+                }
+            }
+            catch
+            {
+                Console.WriteLine(&quot;Error:&quot; + urlList[urlIdx] + &quot; fail!&quot;);
+            }
+            urlIdx++;
+        }
+    }
+
+    public static IEnumerable matches(String pPattern, String pText, int pGroupId)
+    {
+        Regex r = new Regex(pPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        for (Match m = r.Match(pText); m.Success; m = m.NextMatch())
+         yield return m.Groups[pGroupId].Value;
+    }
+
+    public static String fileToText(String filePath)
+    {
+        StreamReader file = new StreamReader(filePath);
+        String text = file.ReadToEnd();
+        file.Close();
+        return text;
+    }
+
+    public void urlToFile(String url, String file)
+    {
+        WebClient webclient = new WebClient();
+//        webclient.Proxy = proxy;
+        webclient.DownloadFile(url, file);
+    }
+
+    public static String toFileName(String url)
+    {
+        String fileName = url.Replace(&#39;?&#39;, &#39;_&#39;);
+        fileName = fileName.Replace(&#39;/&#39;, &#39;_&#39;);
+        fileName = fileName.Replace(&#39;&amp;&#39;, &#39;_&#39;);
+        fileName = fileName.Replace(&#39;:&#39;, &#39;_&#39;);
+        fileName = fileName.ToLower();
+        if (!fileName.EndsWith(&quot;.htm&quot;) &amp;&amp; !fileName.EndsWith(&quot;.html&quot;))
+         fileName = fileName + &quot;.htm&quot;;
+        return fileName;
+    }
+}
+</code></pre>
+<p>以上的 Crawler 是搜尋引擎中的關鍵技術，在本文中我們實作了一個簡單的 Crawler ，這個程式可以用來作為個人抓取網頁個工具程式，作為建立搜尋引擎的基礎。</p>
+<h2 id="browser-">Browser 的控制</h2>
+<p>教學錄影：</p>
+<ul>
+<li>C# 瀏覽器控制 1/3 -- <a href="http://youtu.be/CIwYabPN7qA">http://youtu.be/CIwYabPN7qA</a></li>
+<li>C# 瀏覽器控制 2/3 -- <a href="http://youtu.be/sJ6cfuL3-ZA">http://youtu.be/sJ6cfuL3-ZA</a></li>
+<li>C# 瀏覽器控制 3/3 -- <a href="http://youtu.be/YThlDxk-E7U">http://youtu.be/YThlDxk-E7U</a></li>
+</ul>
+<p>專案程式下載：<a href="https://dl.dropbox.com/u/101584453/cs/code/WebBrowser.zip">https://dl.dropbox.com/u/101584453/cs/code/WebBrowser.zip</a></p>
+<p>在 C# 當中控制 Internet Explorer (IE) 瀏覽器是一件很簡單的事情，因為 .NET framework 當中已經將 IE 的 WebBrowser 內建成一個控制元件，只要利用這個控制元件中的網址 (Url) 欄位，以及瀏覽 Navigate(url)、向前 GoForward()、向後 GoBack() 
+等函數，就可以輕鬆的控制瀏覽器元件的行為了。</p>
+<p>檔案：WebBrowser.cs</p>
+<pre><code class="lang-CS">using System;
+using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace WindowsFormsApplication1
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void buttonPrev_Click(object sender, EventArgs e)
+        {
+            webBrowser.GoBack();
+        }
+
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            webBrowser.GoForward();
+        }
+
+        private void updateState()
+        {
+            buttonPrev.Enabled = webBrowser.CanGoBack;
+            buttonNext.Enabled = webBrowser.CanGoForward;
+            if (webBrowser.Url != null)
+                comboBoxUrl.Text = webBrowser.Url.ToString();
+        }
+
+        private void buttonGo_Click(object sender, EventArgs e)
+        {
+            webBrowser.Navigate(comboBoxUrl.Text);
+        }
+
+        private void webBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            updateState();
+        }
+
+        private void comboBoxUrl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                webBrowser.Navigate(comboBoxUrl.Text);
+        }
+    }
+}
+</code></pre>
+<p>您可以看到在 Visual C# 當中使用瀏覽器元件事非常容易的事情，這樣的功能可以讓您在應用程裏輕易的嵌入瀏覽器以便讓使用者看到某些網頁，讓 Web 程式的開發變得輕鬆且愉快。</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

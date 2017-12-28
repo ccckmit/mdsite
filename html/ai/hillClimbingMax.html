@@ -1,0 +1,136 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  實作：以爬山演算法尋找函數最高點</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="-">實作：以爬山演算法尋找函數最高點</h2>
+<h3 id="-">簡介</h3>
+<p>以下是「爬山演算法」 (Hill-Climbing Algorithm) 的一個簡易版本，其方法超簡單，就是一直看旁邊有沒有更好的解，如果有就移過去。然後反覆的作這樣的動作，直到旁邊的解都比現在的更差時，程式就停止，然後將那個位於山頂的解傳回，就完成了。</p>
+<pre><code>Algorithm HillClimbing(f, x)
+  x = 隨意設定一個解。
+  while (x 有鄰居 x&#39; 比 x 更高)
+    x = x&#39;;
+  end
+  return x;
+end
+</code></pre><p>當然、這種演算法只能找到「局部最佳解」(local optimal)，當整個空間有很多山頂的時候，這種方法會爬到其中一個山頂就停了，並不一定會爬到最高的山頂。 </p>
+<h3 id="-">程式碼</h3>
+<p>檔案： HillClimbingSimple.js</p>
+<pre><code class="lang-javascript">var util = require(&quot;util&quot;);
+var log = console.log;
+
+function f(x) { return -1*(x*x+3*x+5); }
+// function f(x) { return -1*Math.abs(x*x-4); }
+
+var dx = 0.01;
+
+function hillClimbing(f, x) {
+  while (true) {
+    log(&quot;f(%s)=%s&quot;, x.toFixed(4), f(x).toFixed(4));
+    if (f(x+dx) &gt;= f(x))
+    x = x+dx;
+    else if (f(x-dx) &gt;= f(x))
+    x = x-dx;
+    else
+    break;
+  }
+}
+
+hillClimbing(f, 0.0);
+</code></pre>
+<h3 id="-">執行結果</h3>
+<p>求解 : <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mo>(</mo><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn>3</mn><mi>x</mi><mo>+</mo><mn>5</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">-(x^2+3x+5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="base"><span class="mord">−</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span></span></span></span></span><span class="mbin">+</span><span class="mord mathrm">3</span><span class="mord mathit">x</span><span class="mbin">+</span><span class="mord mathrm">5</span><span class="mclose">)</span></span></span></span> 的最高點，也就是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn>3</mn><mi>x</mi><mo>+</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">x^2+3x+5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:0.897438em;vertical-align:-0.08333em;"></span><span class="base"><span class="mord"><span class="mord mathit">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span></span></span></span></span><span class="mbin">+</span><span class="mord mathrm">3</span><span class="mord mathit">x</span><span class="mbin">+</span><span class="mord mathrm">5</span></span></span></span> 的最低點。</p>
+<pre><code>D:\Dropbox\Public\web\ai\code\optimize&gt;node hillClimbingSimple
+f(0.0000)=-5.0000
+f(-0.0100)=-4.9701
+f(-0.0200)=-4.9404
+f(-0.0300)=-4.9109
+f(-0.0400)=-4.8816
+f(-0.0500)=-4.8525
+...
+f(-1.4500)=-2.7525
+f(-1.4600)=-2.7516
+f(-1.4700)=-2.7509
+f(-1.4800)=-2.7504
+f(-1.4900)=-2.7501
+f(-1.5000)=-2.7500
+</code></pre><p>如果我們將上述程式的 f(x) 換成註解中的那個，也就是將 f(x) 換成如下版本：</p>
+<pre><code>function f(x) { return -1*Math.abs(x*x-4); }
+</code></pre><p>那麼就可以用來求解 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∣</mi><msup><mi>x</mi><mn>2</mn></msup><mo>−</mo><mn>4</mn><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">|x^2-4|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathrm">∣</span><span class="mord"><span class="mord mathit">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span></span></span></span></span><span class="mbin">−</span><span class="mord mathrm">4</span><span class="mord mathrm">∣</span></span></span></span> 的最低點，也就是尋找 4 的平方根，以下是執行結果：</p>
+<pre><code>D:\Dropbox\Public\web\ai\code\optimize&gt;node hillClimbingSimple
+f(0.0000)=-4.0000
+f(0.0100)=-3.9999
+f(0.0200)=-3.9996
+f(0.0300)=-3.9991
+f(0.0400)=-3.9984
+f(0.0500)=-3.9975
+...
+f(1.9500)=-0.1975
+f(1.9600)=-0.1584
+f(1.9700)=-0.1191
+f(1.9800)=-0.0796
+f(1.9900)=-0.0399
+f(2.0000)=-0.0000
+</code></pre><p>您可以看到上述程式正確的找到 4 的平方根是 2，而我們所用的方法與求解 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>−</mo><mo>(</mo><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn>3</mn><mi>x</mi><mo>+</mo><mn>5</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">-(x^2+3x+5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="base"><span class="mord">−</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span></span></span></span></span><span class="mbin">+</span><span class="mord mathrm">3</span><span class="mord mathit">x</span><span class="mbin">+</span><span class="mord mathrm">5</span><span class="mclose">)</span></span></span></span> 的最高點幾乎是一模一樣的，只是把函數換掉而已。</p>
+<h3 id="-">結語</h3>
+<p>您可以看到上述用爬山演算法尋找函數最高點或最低點的程式，其實非常的簡單，只不過是看看兩邊是否有更好的解，如果有就移過去罷了。</p>
+<p>但是、這麼簡單的演算法，其實威力是非常強大的，這種方法可以求解的問題非常的多，很多人工智慧上非常重要的問題，其實都只不過是在進行函數優化的動作，也就是尋找某個函數的低點或高點而已，這些問題其實大部分都可以使用爬山演算法來求解。</p>
+<p>當然、要能尋找更複雜函數的「區域最佳解」，還必須進一步的對上述程式進行封裝與抽象化，我們將在下一篇文章中解說將上述爬山程式抽象化後的版本，並用該程式來求更複雜函數的解。</p>
+<h3 id="-">參考文獻</h3>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Hill-climbing">Wikipedia:Hill climbing</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/%E7%88%AC%E5%B1%B1%E7%AE%97%E6%B3%95">維基百科：爬山演算法</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

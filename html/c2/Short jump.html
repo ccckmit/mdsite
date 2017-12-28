@@ -1,0 +1,117 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >>  C 語言 -- 短程跳躍 (goto)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="c-goto-">C 語言 -- 短程跳躍 (goto)</h2>
+<p><strong>程式範例</strong></p>
+<pre><code>    #include &lt;stdio.h&gt;
+
+    int main(int argc, char *argv[]) {
+      int a = atoi(argv[1]);
+      int b = atoi(argv[2]);
+      char *fileName = argv[3];
+      if (b == 0) // can&#39;t divide by 0
+        goto DivideByZero;
+      int result = a/b;
+      FILE *file;
+      if ((file=fopen(fileName, &quot;w&quot;)) == NULL)
+        goto FileError;
+      else {
+        fprintf(file, &quot;%d/%d=%d\n&quot;, a, b, result);
+        printf(&quot;save to file %s : %d/%d=%d\n&quot;, fileName, a, b, result);
+      }
+      fclose(file);
+      goto Exit;
+    DivideByZero:
+      printf(&quot;Error  : Divide by zero\n&quot;);
+      goto Exit;
+    FileError:
+      printf(&quot;Error : File error\n&quot;);
+      goto Exit;
+    Exit:
+      return 0;
+    }
+</code></pre><p><strong>執行結果</strong></p>
+<pre><code>    D:\cp&gt;gcc trygoto.c -o trygoto
+
+    D:\cp&gt;trygoto 7 2 div.txt
+    save to file div.txt : 7/2=3
+
+    D:\cp&gt;trygoto 7 0 div.txt
+    Error  : Divide by zero
+
+    D:\cp&gt;trygoto 7 2 trygoto.exe
+    Error : File error
+</code></pre><p><strong>注意事項</strong></p>
+<p>goto 指令之所以被認為是短程跳躍，是因為 goto 不可以跨越函數，舉例而言，以下的跳躍方式就會出錯。</p>
+<pre><code>    #include &lt;stdio.h&gt;
+
+    void div() {
+    DivideByZero:
+      printf(&quot;Error  : Divide by zero\n&quot;);
+    }
+
+    int main(int argc, char *argv[]) {
+      int a = atoi(argv[1]);
+      int b = atoi(argv[2]);
+      char *fileName = argv[3];
+      if (b == 0) // can&#39;t divide by 0
+        goto DivideByZero;
+      int result = a/b;
+      return 0;
+    }
+</code></pre><p><strong>編譯錯誤</strong></p>
+<pre><code>    D:\cp&gt;gcc trygotoerror.c -o trygotoerror
+    trygotoerror.c: In function `main&#39;:
+    trygotoerror.c:13: error: label `DivideByZero&#39; used but not defined
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

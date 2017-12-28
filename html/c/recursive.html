@@ -1,0 +1,136 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 C 語言程式書 >>  遞迴</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 C 語言程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">基礎語法</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">函數</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">陣列</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="parameter.html" class="pure-menu-link">參數傳遞</a></li>
+<li class="pure-menu-item"><a href="include.html" class="pure-menu-link">引用檔</a></li>
+<li class="pure-menu-item"><a href="module.html" class="pure-menu-link">模組化</a></li>
+<li class="pure-menu-item"><a href="callback.html" class="pure-menu-link">回呼</a></li>
+<li class="pure-menu-item"><a href="recursive.html" class="pure-menu-link">遞迴</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">範例：翻譯系統</a></li>
+<li class="pure-menu-item"><a href="advance.html" class="pure-menu-link">進階主題</a></li>
+<li class="pure-menu-item"><a href="exam.html" class="pure-menu-link">習題</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">遞迴</h1>
+<h2 id="-">自動產生英文語句</h2>
+<p>程式： gen.c</p>
+<pre><code class="lang-CPP">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+char *randPrint(char *a[], int size) {
+  int r = rand()%size;
+  printf(&quot; %s &quot;, a[r]);
+}
+
+/*
+S = NP VP
+NP = DET N
+VP = V NP
+N = dog | cat
+V = chase | eat
+DET = a | the
+*/
+
+char *n[] = {&quot;dog&quot;, &quot;cat&quot;};
+void N() { 
+  randPrint(n, 2);
+}
+
+char *v[] = {&quot;chase&quot;, &quot;eat&quot;};
+void V() {
+  randPrint(v, 2);
+}
+
+char *det[] = {&quot;a&quot;, &quot;the&quot;};
+void DET() {
+  randPrint(det, 2);
+}
+
+void NP() { DET(); N(); }
+
+void VP() {    V(); NP(); }
+
+void S() { NP(); VP(); }
+
+int main() {
+  srand(time(NULL));
+  S();
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc gen.c -o gen
+
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ the  cat  chase  the  cat
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ a  dog  eat  the  dog
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ the  dog  eat  the  cat
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ a  cat  eat  a  cat
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ a  cat  eat  the  dog
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ the  dog  eat  the  dog
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ the  dog  eat  the  dog
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ the  cat  chase  a  cat
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ the  dog  eat  a  dog
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ a  dog  eat  a  cat
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ a  cat  eat  the  cat
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ the  cat  eat  a  dog
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ a  dog  eat  a  dog
+D:\Dropbox\cccwd\db\c\code&gt;gen
+ the  dog  chase  a  cat
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

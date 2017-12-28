@@ -1,0 +1,341 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 JavaScript 程式書 >>  第 12 章 - 完整案例 RLab</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 JavaScript 程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 程式入門</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 基本語法</a></li>
+<li class="pure-menu-item"><a href="chapterString.html" class="pure-menu-link">3. 字串</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">6. 字典與 JSON</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">7. 物件導向與原型</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">8. 函式庫</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">9. 模組</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">10. 檔案與輸出入</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">11. 資料庫</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">12. 網路</a></li>
+<li class="pure-menu-item"><a href="answer.html" class="pure-menu-link">習題解答</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-12-rlab">第 12 章 - 完整案例 RLab</h1>
+<p>在我還是學生的時候，那時候我們還不知道甚麼是網路，因此只能在電腦上寫自己的程式，幾乎所有的程式都是從頭到尾自己寫，除了使用《系統預設的函式庫》以外，就沒有別的資源可以用了。</p>
+<p>但是、這30年來，程式語言的長相雖然並沒有非常大的改變，不過網路資源卻有了很大的改變。</p>
+<p>原本由微軟主導的開發環境，逐漸變成《微軟、蘋果、Google》三強鼎立的局面。</p>
+<p>除了這些商業公司之外，更重要的是開放原始碼的蓬勃發展，像是本書所採用的 node.js 就是個開放原始碼的系統。</p>
+<p>現在、只要你會善用《開放原始碼》與《各種套件》，那麼很少需要從頭打造整個系統了。</p>
+<p>於是、程式人的角色，往往從《手工業》變成了《組裝業》，我們愈來愈常使用外部的各種套件與模組，自己寫的程式往往只是將這些模組《黏合再一起形成我們所想要系統》而已！</p>
+<p>在本章中，筆者希望透過自己創建 rlab 這個《科學計算套件》的過程，分享一下參與這種《程式組裝業》所需要具備的能力！</p>
+<p>在科學計算領域，商用的軟體目前以 matlab 為主流，而開放原始碼軟體則有 R 、Octave 與 Python 的 (numpy, scipy) 等軟體。</p>
+<p>不過、截至目前為止，我仍然沒找到以javascript語言為主的完整《科學計算》套件，因此我決定自己打造一個。</p>
+<p>科學計算軟體通常必須支援《矩陣+機率統計》等功能，因此我們將使用 numeric.js 作為矩陣功能的主要模組, 用 jstat.js 作為機率統計功能的主要模組，然後再移植包裝一些較小的模組，組合建構出 rlab 這個科學計算套件，以下就是我們建構套件的過程。</p>
+<h2 id="-numeric-js">矩陣套件 numeric.js</h2>
+<p>在我所用過的 javascript 矩陣套件當中，numeric.js 是最完整的一個，因此 rlab 科學計算套件的建構，將會以 numeric.js 作為矩陣部分的核心。</p>
+<p>以下是 numeric.js 套件的 npm 網址：</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/numeric">https://www.npmjs.com/package/numeric</a></li>
+</ul>
+<p>雖然 npm 套件管理器中已經包含了 numeric.js 套件，但是很多套件都有自己的官方網站， numeric.js 也不例外，以下是 numeric.js 的官網。</p>
+<ul>
+<li><a href="http://www.numericjs.com/">http://www.numericjs.com/</a></li>
+</ul>
+<p>我們可以透過 npm install numeric 這個指令，安裝這個套件，然後寫個小程式 numericTest.js 來測試一下這個套件。</p>
+<p>檔案： numericTest.js</p>
+<pre><code class="lang-javascript">var numeric = require(&quot;numeric&quot;);
+
+function print(name, m) {
+  console.log(&quot;====================&quot;+name+&quot;=======================&quot;);
+  console.log(numeric.prettyPrint(m));
+}
+
+var A = [[1,2,3],[3,2,2],[4,3,5]];
+print(&quot;A&quot;, A);
+
+var iA = numeric.inv(A);
+print(&quot;iA&quot;, iA);
+
+var AiA = numeric.dot(A, iA);
+print(&quot;A*iA&quot;, AiA);
+</code></pre>
+<p>安裝與執行結果：</p>
+<pre><code>D:\jsbook&gt;npm install numeric
+D:\jsbook
+`-- numeric@1.2.6
+
+npm WARN enoent ENOENT: no such file or directory, open &#39;D:\jsbook\package.json&#39;
+
+npm WARN jsbook No description
+npm WARN jsbook No repository field.
+npm WARN jsbook No README data
+npm WARN jsbook No license field.
+
+D:\jsbook&gt;node numericTest.js
+====================A=======================
+[[          1,          2,          3],
+ [          3,          2,          2],
+ [          4,          3,          5]]
+====================iA=======================
+[[    -0.5714,     0.1429,     0.2857],
+ [          1,          1,         -1],
+ [    -0.1429,    -0.7143,     0.5714]]
+====================A*iA=======================
+[[          1,          0,          0],
+ [ -1.665e-16,          1,  -2.22e-16],
+ [ -4.441e-16,  4.441e-16,          1]]
+</code></pre><p>您可以看到上述程式中，我們用 numeric.inv(A) 這行指令輕鬆地就計算出了反矩陣，這種函數如果要自己寫，其實會很花時間的，但是用了套件之後，我們輕輕鬆鬆的就可以做完這些《矩陣運算》的動作。</p>
+<p>當然、不只這些，numeric.js 套件其實還蠻完整的，您可以參考下列網址中的內容，進一步瞭解這個套件到底提供了哪些函數？</p>
+<ul>
+<li><a href="http://www.numericjs.com/documentation.html">http://www.numericjs.com/documentation.html</a></li>
+</ul>
+<h2 id="-jstat-js">統計套件 jstat.js</h2>
+<p>雖然 numeric.js 套件在矩陣上很好用，但是不支援機率統計的功能，因此我們找到了 jstat.js 這個套件，其 npm 網址如下：</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/jstat">https://www.npmjs.com/package/jstat</a></li>
+</ul>
+<p>您可以從中找出此專案在 github 上的連結，網址如下：</p>
+<ul>
+<li><a href="https://github.com/jstat/jstat">https://github.com/jstat/jstat</a></li>
+</ul>
+<p>該專案有自己的說明文件，位於下列網址：</p>
+<ul>
+<li><a href="http://jstat.github.io/">http://jstat.github.io/</a></li>
+</ul>
+<p>透過這個說明文件，我們可以瞭解這個套件該如何使用。</p>
+<p>jstat 裡面雖然也支援了一些《向量矩陣》之類的功能，但是這方面的能力並不夠強大，所以我們在《向量矩陣》方面還是會採用 numeric.js ，但是在《機率分布》還有《統計檢定》方面則會使用 jstat.js 套件的內容。</p>
+<p>以下是 jstat 這兩個部份的說明文件：</p>
+<ul>
+<li>機率分布 -- <a href="http://jstat.github.io/distributions.html">http://jstat.github.io/distributions.html</a></li>
+<li>統計檢定 -- <a href="http://jstat.github.io/test.html">http://jstat.github.io/test.html</a></li>
+</ul>
+<p>現在、我們已經具有足夠的資源，可以開始建構我們的 rlab 科學計算套件了！</p>
+<h2 id="-rlab-js">科學計算套件 -- RLab.js</h2>
+<p>我們所建構好的 rlab 專案，也同樣放上了 npm 和 github，其網址如下：</p>
+<ul>
+<li>rlab on npm -- <a href="https://www.npmjs.com/packagelab">https://www.npmjs.com/packagelab</a></li>
+<li>rlab on github -- <a href="https://github.com/ccckmit/rlab">https://github.com/ccckmit/rlab</a></li>
+</ul>
+<p>您只要用下列指令就可以安裝 rlab 套件。</p>
+<pre><code>npm install rlab
+</code></pre><p>安裝好之後，您可以寫些小程式來測試看看。</p>
+<p>首先是機率部分的測試，以下是程式碼</p>
+<p>檔案：probabilityEx.js</p>
+<pre><code class="lang-javascript">var R = require(&quot;rlab&quot;);
+var dice = R.steps(1,6);
+log(&quot;sample(1:6, 10)&quot;, R.samples(dice, 10));
+log(&quot;runif(10,0,1)=&quot;, R.runif(10, 0, 1).str());
+log(&quot;rnorm(10,5,1)=&quot;, R.rnorm(10, 5, 1).str());
+log(&quot;dnorm(5,5,1)=&quot;, R.dnorm(5, 5, 1));
+log(&quot;pnorm(5,5,1)=&quot;, R.pnorm(5, 5, 1));
+log(&quot;qnorm(0.5,5,1)=&quot;, R.qnorm(0.5, 5, 1));
+log(&quot;rbinom(10, 5, 0.5)=&quot;, R.rbinom(10,5,0.5));
+log(&quot;dbinom(4, 5, 0.5)=&quot;, R.dbinom(4,5,0.5));
+log(&quot;dbinom(5, 5, 0.5)=&quot;, R.dbinom(5,5,0.5));
+log(&quot;pbinom(4, 5, 0.5)=&quot;, R.pbinom(4,5,0.5));
+log(&quot;qbinom(0.9, 5, 0.5)=&quot;, R.qbinom(0.9,5,0.5));
+</code></pre>
+<p>執行結果 :</p>
+<pre><code>$ node probabilityEx.js
+sample(1:6, 10) [ 3, 5, 3, 2, 3, 3, 1, 2, 4, 3 ]
+runif(10,0,1)= [0.9119,0.5899,0.6839,0.1350,0.6894,0.9512,0.8186,0.5826,0.4279,0
+.5125]
+rnorm(10,5,1)= [5.8961,5.4312,6.0002,5.3623,5.5281,4.4413,6.2144,5.7173,5.3111,1
+.3146]
+dnorm(5,5,1)= 0.3989422804014327
+pnorm(5,5,1)= 0.5
+qnorm(0.5,5,1)= 5
+rbinom(10, 5, 0.5)= [ 2, 1, 2, 2, 4, 4, 1, 4, 3, 2 ]
+dbinom(4, 5, 0.5)= 0.15625
+dbinom(5, 5, 0.5)= 0.03125
+pbinom(4, 5, 0.5)= 0.96875
+qbinom(0.9, 5, 0.5)= 4
+</code></pre><p>接著測試一下統計功能，以下是程式碼：</p>
+<p>檔案 : statisticsEx.js</p>
+<pre><code class="lang-javascript">var R = require(&quot;rlab&quot;);
+var v = [1,3,5];
+log(&quot;v.max()=&quot;, v.max());
+log(&quot;v.min()=&quot;, v.min());
+log(&quot;v.sum()=&quot;, v.sum());
+log(&quot;v.normalize()=&quot;, v.normalize());
+log(&quot;v.normalize().sum()=&quot;, v.normalize().sum());
+log(&quot;v.product()=&quot;, v.product());
+log(&quot;v.mean()=&quot;, v.mean());
+log(&quot;v.range()=&quot;, v.range());
+log(&quot;v.median()=&quot;, v.median());
+log(&quot;v.variance()=&quot;, v.variance());
+log(&quot;v.sd()=&quot;, v.sd(), &quot; sd^2=&quot;, v.sd()*v.sd());
+log(&quot;v.cov(v)=&quot;, v.cov(v), &quot;v.cor(v)=&quot;, v.cor(v));
+log(&quot;factorial(5)=&quot;, R.factorial(5));
+</code></pre>
+<p>執行結果:</p>
+<pre><code>$ node statisticsEx.js
+v.max()= 5
+v.min()= 1
+v.sum()= 9
+v.normalize()= [ 0.1111111111111111, 0.3333333333333333, 0.5555555555555556 ]
+v.normalize().sum()= 1
+v.product()= 15
+v.mean()= 1
+v.range()= 4
+v.median()= 3
+v.variance()= 2.6666666666666665
+v.sd()= 1.632993161855452  sd^2= 2.6666666666666665
+v.cov(v)= 4 v.cor(v)= 1
+factorial(5)= 120
+</code></pre><p>然後測試《檢定功能》，以下是程式碼</p>
+<p>檔案 : testEx.js</p>
+<pre><code>var R = require(&quot;rlab&quot;);
+var v = [1,3,5];
+
+var x = R.rnorm(10, 0, 0.1);
+log(&quot;x=&quot;, x.str());
+log(&quot;x.sort()=&quot;, x.sort().str());
+
+var t1=R.ttest({x:x, mu:0});
+R.report(t1);
+</code></pre><p>執行結果 :</p>
+<pre><code>$ node testEx.js
+x= [-0.1405,0.0495,-0.1850,0.0824,0.0687,-0.0854,-0.1049,-0.1171,0.0947,-0.1592]
+
+x.sort()= [-0.0854,-0.1049,-0.1171,-0.1405,-0.1592,-0.1850,0.0495,0.0687,0.0824,
+0.0947]
+=========== report ==========
+name    : ttest(X)
+h       : H0:mu=0
+alpha   : 0.0500
+op      : =
+pvalue  : 0.0003
+ci      : [-0.2599,-0.1101]
+df      : 9.0000
+mean    : -0.1850
+sd      : 0.1047
+</code></pre><p>然後在測試矩陣功能，以下是程式碼</p>
+<p>檔案 : matrixEx.js</p>
+<pre><code class="lang-javascript">var M = require(&quot;rlab&quot;).M;
+var v = [1,2,3];
+log(&quot;v.sin()=&quot;, v.sin());
+log(&quot;v.norm2()=&quot;, v.norm2());
+log(&quot;v.norm2Squared()=&quot;, v.norm2Squared());
+
+var A = [[1,2,3],[4,5,6],[7,3,9]];
+var AiA = A.inv().dot(A);
+log(&quot;AiA=\n&quot;, AiA.strM());
+log(&quot;AiA.tr()=\n&quot;, AiA.tr().strM());
+log(&quot;A=\n&quot;, A.str());
+log(&quot;A.mul(0.1)=\n&quot;, A.mul(0.1).strM());
+log(&quot;A.row(1)=&quot;, A.row(1));
+log(&quot;A.col(1)=&quot;, A.col(1));
+log(&quot;A.sumM()=&quot;, A.sumM());
+log(&quot;A.rowSum()=&quot;, A.rowSum());
+log(&quot;A.colSum()=&quot;, A.colSum());
+log(&quot;A.mean(row)=&quot;, A.rowMean().str());
+log(&quot;A.mean(col)=&quot;, A.colMean().str());
+
+var D = M.diag(v);
+log(&quot;D=&quot;, D);
+
+var Eλ = M.eigR(A);
+var E = Eλ.E, λ=Eλ.lambda;
+log(&quot;E*[λ]*E-1=&quot;, E.dot(λ.diag()).dot(E.inv()).strM());
+</code></pre>
+<p>矩陣功能的執行結果 :</p>
+<pre><code>$ node matrixEx.js
+v.sin()= [ 0.8414709848078965, 0.9092974268256817, 0.1411200080598672 ]
+v.norm2()= 3.7416573867739413
+v.norm2Squared()= 14
+AiA=
+ [[          1,   1.11e-16,  -1.11e-16],
+ [          0,          1,  4.441e-16],
+ [ -3.331e-16, -3.331e-16,          1]]
+AiA.tr()=
+ [[          1,          0, -3.331e-16],
+ [   1.11e-16,          1, -3.331e-16],
+ [  -1.11e-16,  4.441e-16,          1]]
+A=
+ [[1.0000,2.0000,3.0000],[4.0000,5.0000,6.0000],[7.0000,3.0000,9.0000]]
+A.mul(0.1)=
+ [[        0.1,        0.2,        0.3],
+ [        0.4,        0.5,        0.6],
+ [        0.7,        0.3,        0.9]]
+A.row(1)= [ 4, 5, 6 ]
+A.col(1)= [ 2, 5, 3 ]
+A.sumM()= 40
+A.rowSum(2)= [ 6, 15, 19 ]
+A.colSum(2)= [ 12, 10, 18 ]
+A.mean(row)= [2.0000,5.0000,6.3333]
+A.mean(col)= [4.0000,3.3333,6.0000]
+D= [ [ 1, 0, 0 ], [ 0, 2, 0 ], [ 0, 0, 3 ] ]
+E*[λ]*E-1= [[          1,          2,          3],
+ [          4,          5,          6],
+ [          7,          3,          9]]
+</code></pre><p>最後我們還自己加上了微分和積分的函數，測試程式如下：</p>
+<p>檔案 : differentialEx.js</p>
+<pre><code class="lang-javascript">var R = require(&quot;rlab&quot;);
+
+var d = R.D.d, i=R.D.i, sin=R.sin, PI = R.PI, x2=(x)=&gt;x*x;
+
+log(&#39;d(x^2,2)=&#39;, d(x2, 2));
+log(&#39;d(sin(x/4),pi/4)=&#39;, d(sin, PI/4));
+log(&#39;i(x^2,0,1)=&#39;, i(x2,0,1));
+log(&#39;i(sin(x),0,pi/2)=&#39;, i(sin,0,PI/2));
+</code></pre>
+<p>微積分部分的執行結果 :</p>
+<pre><code>D:\Dropbox\github\rlab\example&gt;node differentialEx.js
+d(x^2,2)= 4.000999999999699
+d(sin(x/4),pi/4)= 0.7067531099743674
+i(x^2,0,1)= 0.33283350000000095
+i(sin(x),0,pi/2)= 0.9997035898637557
+</code></pre><p>至於這樣的模組是如何上傳到 npm 與 github 的，請大家參考以下這篇投影片！</p>
+<ul>
+<li><a href="https://www.slideshare.net/ccckmit/javascript-npm">用十分鐘瞭解JavaScript的模組 -- 《還有關於npm套件管理的那些事情》</a></li>
+</ul>
+<h2 id="-">結語</h2>
+<p>到目前為止，我們已經介紹完 javascript + node.js 的語法、函式庫、模組、檔案、資料庫、網路等等功能。</p>
+<p>當您學會這些部分，您就已經學會 javascript 語言與 node.js 平台了。</p>
+<p>不過、node.js 主要是用來寫網站伺服端 server 的，而 javascript 則是瀏覽器裏唯一的語言，因此是前端網頁開發的主力。兩者合併就可以成為強大的網站開發工具。</p>
+<p>但是要學習網站開發，還需要像 HTML, CSS, jQuery, Koa 等方面的知識，我們將會在本書的續集當中，介紹如何用 node.js 開發網站的這個主題。</p>
+<p>如果你想學習網站設計，那麼就請閱讀本書的續集 - <a href="https://www.gitbook.com/book/ccckmit/javascript-web">《專門為中學生寫的 JavaScript 程式書 - 網站設計篇》</a> 吧！</p>
+<ul>
+<li>續集網址 -- <a href="https://www.gitbook.com/book/ccckmit/javascript-web">https://www.gitbook.com/book/ccckmit/javascript-web</a></li>
+</ul>
+<h2 id="-">習題</h2>
+<ol>
+<li>請開始邁向偉大的航道，寫一個《自己真正想寫》的 node.js 專案吧！</li>
+</ol>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

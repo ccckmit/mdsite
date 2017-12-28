@@ -1,0 +1,236 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  有 BNF 的口語翻譯系統</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-bnf-">有 BNF 的口語翻譯系統</h1>
+<p>程式： BnfSpokenMt.js</p>
+<pre><code class="lang-javascript">// S = Q? NP* (VP)* . 
+// VP = VP (c VP)* | (v* V+ v*)+ NP*
+// NP = NP (c NP)* | (n* N+)
+
+// 小明 有 5 個 蘋果 ， 給 了 小華 3 個 蘋果 ， 請問 他 還 剩 幾 個 蘋果 ？
+// NP   V  n    NP      V  v  NP   n    NP      Q    NP v  V  n     NP
+//      VP              VP                              VP    
+
+var c = console;
+
+var tagMap={
+  N : [&quot;小明&quot;, &quot;小華&quot;, &quot;小莉&quot;, &quot;大雄&quot;, &quot;爸爸&quot;, &quot;魚&quot;, &quot;天&quot;, &quot;家&quot;, &quot;風&quot;, &quot;日&quot;, &quot;旅人&quot;, &quot;人&quot;, &quot;衣&quot;, &quot;者&quot;,
+       &quot;他&quot;, &quot;你&quot;, &quot;我&quot;, 
+       &quot;蘋果&quot;, &quot;橘子&quot;, &quot;柳丁&quot;, &quot;番茄&quot;],
+  V : [&quot;有&quot;, &quot;給&quot;, &quot;剩&quot;, &quot;吃&quot;, &quot;去&quot;, &quot;捕&quot;, &quot;回&quot;, &quot;至&quot;, &quot;爭&quot;, &quot;勝&quot;, &quot;吹&quot;, &quot;抓&quot;, &quot;緊&quot;, &quot;敗&quot;, &quot;勝&quot;, &quot;照&quot;, &quot;脫&quot;, &quot;狂&quot;, &quot;暖&quot;],
+  v : [&quot;還&quot;, &quot;了&quot;, &quot;一起&quot;, &quot;不&quot;],
+  c : [&quot;又&quot;, &quot;和&quot;, &quot;且&quot;, &quot;或&quot;, &quot;與&quot;],
+  n : [&quot;幾&quot;, &quot;這&quot;, &quot;那&quot;, &quot;5&quot;, &quot;3&quot;, &quot;個&quot;, &quot;隻&quot;, &quot;條&quot;, &quot;黑&quot;, &quot;大&quot;, &quot;的&quot;],
+  Q : [&quot;請問&quot;, &quot;為甚麼&quot;],
+  &quot;.&quot; : [&quot;，&quot;, &quot;？&quot;, &quot;。&quot;]
+}
+
+var mtMap = {
+  &quot;小明&quot;:&quot;ShaoMin&quot;, &quot;小華&quot;:&quot;ShaoHua&quot;, &quot;小莉&quot;:&quot;ShaoLi&quot;, &quot;大雄&quot;:&quot;DaShon&quot;, 
+  &quot;他&quot;:&quot;he&quot;, &quot;你&quot;:&quot;you&quot;, &quot;我&quot;:&quot;me&quot;, 
+  &quot;蘋果&quot;:&quot;apple&quot;, &quot;橘子&quot;:&quot;tangerine&quot;, &quot;柳丁&quot;:&quot;orange&quot;, &quot;番茄&quot;:&quot;tomato&quot;,
+  &quot;有&quot;:&quot;have&quot;, &quot;給&quot;:&quot;give&quot;, &quot;剩&quot;:&quot;own&quot;, &quot;吃&quot;:&quot;eat&quot;, &quot;一起&quot;:&quot;together&quot;,
+  &quot;還&quot;:&quot;still&quot;, &quot;又&quot;:&quot;again&quot;, &quot;和&quot;:&quot;and&quot;, &quot;了&quot;:&quot;_le&quot;, &quot;且&quot;:&quot;and2&quot;, &quot;或&quot;:&quot;or&quot;, &quot;與&quot;:&quot;and3&quot;,
+  &quot;個&quot;:&quot;_ge&quot;, &quot;隻&quot;:&quot;_ji&quot;, &quot;條&quot;:&quot;_tio&quot;, &quot;的&quot;:&quot;_de&quot;, 
+  &quot;幾&quot;:&quot;_gi&quot;, &quot;這&quot;:&quot;this&quot;, &quot;那&quot;:&quot;that&quot;, 
+  &quot;黑&quot;:&quot;black&quot;, &quot;大&quot;:&quot;big&quot;, &quot;天&quot;:&quot;sky&quot;, &quot;風&quot;:&quot;wind&quot;, &quot;爸爸&quot;:&quot;Papa&quot;, &quot;去&quot;:&quot;go&quot;, &quot;捕&quot;:&quot;hunt&quot;, &quot;魚&quot;:&quot;fish&quot;, &quot;為甚麼&quot;:&quot;why&quot;, &quot;不&quot;:&quot;not&quot;, &quot;回&quot;:&quot;back&quot;, &quot;家&quot;:&quot;home&quot;,
+  &quot;風&quot;:&quot;wind&quot;, &quot;日&quot;:&quot;sun&quot;, &quot;旅人&quot;:&quot;travler&quot;, &quot;人&quot;:&quot;people&quot;, &quot;衣&quot;:&quot;cloth&quot;, &quot;者&quot;:&quot;guy&quot;,
+  &quot;至&quot;:&quot;come&quot;, &quot;爭&quot;:&quot;argue&quot;, &quot;勝&quot;:&quot;win&quot;, &quot;吹&quot;:&quot;blow&quot;, &quot;抓&quot;:&quot;catch&quot;, &quot;緊&quot;:&quot;tighten&quot;, &quot;敗&quot;:&quot;lose&quot;, &quot;勝&quot;:&quot;win&quot;, &quot;照&quot;:&quot;shine&quot;, &quot;脫&quot;:&quot;take_off&quot;, &quot;狂&quot;:&quot;wild&quot;, &quot;暖&quot;:&quot;warm&quot; , 
+  &quot;請問&quot;:&quot;Q&quot;, &quot;？&quot;:&quot;？&quot;
+}
+
+var wi = 0;
+var words = [], mtWords=[];
+
+function isTag(tag) {
+  var tagWords=tagMap[tag];
+  if (typeof tagWords === &quot;undefined&quot;) 
+    return false;
+  else
+    return (tagWords.indexOf(words[wi])&gt;=0);
+}
+
+function mt(w) {
+  var wt = mtMap[w];
+  if (typeof wt === &#39;undefined&#39;)
+    return w;
+  else
+    return wt;
+}
+
+var print = function(s) { process.stdout.write(s) }
+
+function next(tag) {
+  var w = words[wi];
+  if (isTag(tag)) {
+    print(w+&#39;:&#39;+tag+&quot; &quot;);
+    mtWords.push(mt(w));
+    wi++;
+    return w;
+  } else {
+    print(w+&#39;:&#39;+tag+&quot;:X &quot;);
+    throw Error(&quot;Error !&quot;);    
+  }
+}
+
+function T() {
+  while (wi &lt; words.length) {
+    S();
+  }
+}
+
+// S = Q? NP* (VP)* . 
+function S() {
+  if (isTag(&quot;Q&quot;)) 
+    next(&quot;Q&quot;);
+
+  while (isTag(&quot;n&quot;) || isTag(&quot;N&quot;)) 
+    NP();
+
+  while (isTag(&quot;V&quot;) || isTag(&quot;v&quot;)) {
+    VP();
+  }
+  next(&quot;.&quot;);
+  console.log(&#39;&#39;);
+}
+
+// VP = VP (c VP)* | (v* V+ v*)+ NP*
+function VP() {
+  while (isTag(&quot;v&quot;) || isTag(&quot;V&quot;)) {
+    while (isTag(&quot;v&quot;)) next(&quot;v&quot;);
+    do { next(&quot;V&quot;) } while (isTag(&quot;V&quot;));
+    while (isTag(&quot;v&quot;)) next(&quot;v&quot;);
+  }
+  while (isTag(&quot;n&quot;) || isTag(&quot;N&quot;))
+    NP();
+}
+
+// NP = NP (c NP)* | (n* N+)
+function NP() {
+  while (isTag(&quot;n&quot;)) next(&quot;n&quot;);
+  do { next(&quot;N&quot;) } while (isTag(&quot;N&quot;));
+  if (isTag(&quot;c&quot;)) {
+    next(&quot;c&quot;);
+    NP();
+  }
+}
+
+function parse(sentence) {
+  words=sentence.split(&quot; &quot;);
+  wi = 0, mtWords=[];
+  c.log(&quot;======= 中文 =============&quot;);
+  c.log(words.join(&quot; &quot;));
+  c.log(&quot;======= 剖析 =============&quot;);
+  T(words);
+  c.log(&quot;======= 英文 =============&quot;);
+  c.log(mtWords.join(&quot; &quot;));
+}
+
+parse(&quot;小明 有 5 個 蘋果 ， 給 了 小華 3 個 蘋果 ， 請問 他 還 剩 幾 個 蘋果 ？&quot;);
+parse(&quot;小明 和 小華 一起 吃 蘋果 。&quot;);
+parse(&quot;黑 黑 的 天 ， 大 大 的 風 ， 爸爸 去 捕 魚 ， 為甚麼 還 不 回 家 ？&quot;);
+// 全文： https://www.facebook.com/photo.php?fbid=1464494203561879&amp;set=p.1464494203561879&amp;type=3&amp;theater
+// parse(&quot;聽 狂 風 怒 吼 ，  真 叫 我們 害怕 。 爸爸！爸爸！ 我們 心理 多麼 牽掛 ， 只要 您 早點兒 回家，就是 空 船 也罷 ！&quot;);
+// parse(&quot;我 的 好 孩子 ，  爸爸 回來 啦 ！ 你 看 船艙 裡 ， 裝 滿 魚 和 蝦 ， 努力 就 有 好 收穫 ， 大 風 大 浪 不用 怕 ， 快 去 告訴 媽媽 ， 爸爸 已經 回 家 ！&quot;);
+parse(&quot;風 與 日 。 風 日 爭 ， 旅人 至 ， 脫 者 勝 ， 風 狂 吹 ， 人 緊 衣 ， 風 敗 ， 日 暖 照 ， 人 脫 衣 ， 日 勝 。&quot;);
+</code></pre>
+<p>執行結果：</p>
+<pre><code>D:\js&gt;node mtBnfSpoken.js
+======= 中文 =============
+小明 有 5 個 蘋果 ， 給 了 小華 3 個 蘋果 ， 請問 他 還 剩 幾 個 蘋果 ？
+======= 剖析 =============
+小明:N 有:V 5:n 個:n 蘋果:N ，:.
+給:V 了:v 小華:N 3:n 個:n 蘋果:N ，:.
+請問:Q 他:N 還:v 剩:V 幾:n 個:n 蘋果:N ？:.
+======= 英文 =============
+ShaoMin have 5 _ge apple ， give _le ShaoHua 3 _ge apple ， Q he still own _gi _
+ge apple ？
+======= 中文 =============
+小明 和 小華 一起 吃 蘋果 。
+======= 剖析 =============
+小明:N 和:c 小華:N 一起:v 吃:V 蘋果:N 。:.
+======= 英文 =============
+ShaoMin and ShaoHua together eat apple 。
+======= 中文 =============
+黑 黑 的 天 ， 大 大 的 風 ， 爸爸 去 捕 魚 ， 為甚麼 還 不 回 家 ？
+======= 剖析 =============
+黑:n 黑:n 的:n 天:N ，:.
+大:n 大:n 的:n 風:N ，:.
+爸爸:N 去:V 捕:V 魚:N ，:.
+為甚麼:Q 還:v 不:v 回:V 家:N ？:.
+======= 英文 =============
+black black _de sky ， big big _de wind ， Papa go hunt fish ， why still not ba
+ck home ？
+======= 中文 =============
+風 與 日 。 風 日 爭 ， 旅人 至 ， 脫 者 勝 ， 風 狂 吹 ， 人 緊 衣 ， 風 敗 ，
+日 暖 照 ， 人 脫 衣 ， 日 勝 。
+======= 剖析 =============
+風:N 與:c 日:N 。:.
+風:N 日:N 爭:V ，:.
+旅人:N 至:V ，:.
+脫:V 者:N 勝:V ，:.
+風:N 狂:V 吹:V ，:.
+人:N 緊:V 衣:N ，:.
+風:N 敗:V ，:.
+日:N 暖:V 照:V ，:.
+人:N 脫:V 衣:N ，:.
+日:N 勝:V 。:.
+======= 英文 =============
+wind and3 sun 。 wind sun argue ， travler come ， take_off guy win ， wind wild
+ blow ， people tighten cloth ， wind lose ， sun warm shine ， people take_off
+cloth ， sun win 。
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

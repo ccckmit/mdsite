@@ -1,0 +1,1487 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人造語 >>  道本語 v.s 人造語</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人造語</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="syntax.html" class="pure-menu-link">1. 語法</a></li>
+<li class="pure-menu-item"><a href="semantics.html" class="pure-menu-link">2. 語義</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">3. 程式</a></li>
+<li class="pure-menu-item"><a href="dictionary.html" class="pure-menu-link">4. 字典</a></li>
+<li class="pure-menu-item"><a href="application.html" class="pure-menu-link">5. 應用</a></li>
+<li class="pure-menu-item"><a href="research.html" class="pure-menu-link">6. 研究</a></li>
+<li class="pure-menu-item"><a href="ArtiEnglish.html" class="pure-menu-link">人造英語</a></li>
+<li class="pure-menu-item"><a href="ArtiChinese.html" class="pure-menu-link">人造漢語</a></li>
+<li class="pure-menu-item"><a href="TokiPona.html" class="pure-menu-link">道本語</a></li>
+<li class="pure-menu-item"><a href="CPona.html" class="pure-menu-link">簡化漢語</a></li>
+<li class="pure-menu-item"><a href="future.html" class="pure-menu-link">未來展望</a></li>
+<li class="pure-menu-item"><a href="foundation.html" class="pure-menu-link">人造語協會</a></li>
+<li class="pure-menu-item"><a href="community.html" class="pure-menu-link">社群</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-v-s-">道本語 v.s 人造語</h1>
+<p>道本語希望能用來交談，所以採用 li 與 e 來分割 S V O，成為 S li V e O。</p>
+<p>人造語考慮到打字，所以文章中用 &#39; 代表 li ，用 / 代表 e，這兩個符號都可以在不需要《中英切換》的狀態下方便的打出來， &#39; 和 / 兩個符號的發音仍然是用 li 與 e 。</p>
+<p>道本語採用 Xaaaaa 的語法，將修飾語 a 放在名詞 N 或動詞 V 的後面，但是這樣並不符合《中英文》的習慣，因此在《人造語》當中，我們改為 aaaaaX 的方式，比較符合《中英文使用者》的習慣！</p>
+<table>
+<thead>
+<tr>
+<th>道本漢語</th>
+<th>人造小漢語</th>
+<th>說明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>器食</td>
+<td>食器</td>
+<td>吃的器具 (筷，叉，碗)</td>
+</tr>
+<tr>
+<td>器戰</td>
+<td>戰器</td>
+<td>戰爭的器具 (槍，刀)</td>
+</tr>
+</tbody>
+</table>
+<p>另外否定語句也是按照中英文的習慣，按照 否(可)V 的形式。</p>
+<table>
+<thead>
+<tr>
+<th>道本漢語</th>
+<th>人造漢語</th>
+<th>範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>我 可否休</td>
+<td>我&#39;否可休</td>
+<td>我不能休息</td>
+</tr>
+</tbody>
+</table>
+<p>道本語為了簡化，讓《你我》後面不需要加 li，就可以接動詞，但是這樣就破壞了語法，因此《人造漢語》將 &#39; 補回去，這樣讓語法能夠統一。</p>
+<p>《人造語》的語法為：  L = S?(&#39;V(/O)?)<em>a</em>. </p>
+<p>《人造語》既可以用來講，也可以用來寫，然後機器還能完全正確的自動翻譯成《其他人造語》和《道本語》。</p>
+<p>《人造語》詞彙中間可以隨意加入空白，空白沒有意義，只是用來斷詞方便閱讀而已！</p>
+<p>另外、有一些小修改，像是道本語數字只有 1,2,5，這是為了降低單字量，但是如果用打字，其實把阿拉伯數字 0-9 加入比較好！</p>
+<p>另外道本語的顏色採用《色料三原色的紅黃藍》但是這樣對電腦使用者很不直覺，因此我們加入綠，這樣就可以支援《色光三原色》了！</p>
+<p>接著我們加入《醫》《法》兩字，形成下列擴充辭典！</p>
+<table>
+<thead>
+<tr>
+<th>tp</th>
+<th>tc</th>
+<th>en     </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ti</td>
+<td>3</td>
+<td>3      </td>
+</tr>
+<tr>
+<td>fo</td>
+<td>4</td>
+<td>4      </td>
+</tr>
+<tr>
+<td>fi</td>
+<td>5</td>
+<td>5      </td>
+</tr>
+<tr>
+<td>si</td>
+<td>6</td>
+<td>6      </td>
+</tr>
+<tr>
+<td>se</td>
+<td>7</td>
+<td>7      </td>
+</tr>
+<tr>
+<td>et</td>
+<td>8</td>
+<td>8      </td>
+</tr>
+<tr>
+<td>ni</td>
+<td>9</td>
+<td>9      </td>
+</tr>
+<tr>
+<td>te</td>
+<td>十</td>
+<td>ten    </td>
+</tr>
+<tr>
+<td>ha</td>
+<td>百</td>
+<td>hundred</td>
+</tr>
+<tr>
+<td>sa</td>
+<td>千</td>
+<td>k      </td>
+</tr>
+<tr>
+<td>lalo</td>
+<td>綠</td>
+<td>green  </td>
+</tr>
+<tr>
+<td>medi</td>
+<td>醫</td>
+<td>medical</td>
+</tr>
+<tr>
+<td>loli</td>
+<td>法</td>
+<td>law    </td>
+</tr>
+</tbody>
+</table>
+<h2 id="-v-s-">範例: 道本漢語 v.s 人造漢語</h2>
+<table>
+<thead>
+<tr>
+<th>道本漢語</th>
+<th>人造小漢語</th>
+<th>說明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>器食</td>
+<td>食器</td>
+<td>吃的器具 (筷，叉，碗)</td>
+</tr>
+<tr>
+<td>器戰</td>
+<td>戰器</td>
+<td>戰爭的器具 (槍，刀)</td>
+</tr>
+<tr>
+<td>人好</td>
+<td>好人</td>
+<td>好人 (朋友)</td>
+</tr>
+<tr>
+<td>人戰</td>
+<td>戰人</td>
+<td>戰士 (軍人))</td>
+</tr>
+<tr>
+<td>人性</td>
+<td>性人</td>
+<td>妓女，交配者</td>
+</tr>
+<tr>
+<td>人愛</td>
+<td>愛人</td>
+<td>愛人，女朋友</td>
+</tr>
+<tr>
+<td>人大</td>
+<td>大人</td>
+<td>大人 (成年人)</td>
+</tr>
+<tr>
+<td>人小</td>
+<td>小人</td>
+<td>小人 (小孩)</td>
+</tr>
+<tr>
+<td>水怪</td>
+<td>怪水</td>
+<td>Crazy Water (酒)</td>
+</tr>
+<tr>
+<td>我多</td>
+<td>多我</td>
+<td>多個我 (我們)</td>
+</tr>
+<tr>
+<td>它多</td>
+<td>多它</td>
+<td>多個他 (他們，也可指無生物)</td>
+</tr>
+<tr>
+<td>我食 e 果</td>
+<td>我&#39;食/果</td>
+<td>我食水果</td>
+</tr>
+<tr>
+<td>蟲 li 食 e 食</td>
+<td>蟲&#39;食/食</td>
+<td>蟲食食物</td>
+</tr>
+<tr>
+<td>你 死 e 蟲 小</td>
+<td>你&#39;死/小蟲</td>
+<td>你殺了小蟲</td>
+</tr>
+<tr>
+<td>蟲 li 食 e 物</td>
+<td>蟲&#39;食/ 物</td>
+<td>蟲食某物</td>
+</tr>
+<tr>
+<td>我 有 e 器 你</td>
+<td>我&#39;有/你器</td>
+<td>我有你的工具</td>
+</tr>
+<tr>
+<td>你 大 li 壞</td>
+<td>你&#39;大&#39;壞</td>
+<td>你又大又壞</td>
+</tr>
+<tr>
+<td>日 li 大 li 好</td>
+<td>日&#39;大&#39;好</td>
+<td>太陽又大又好</td>
+</tr>
+<tr>
+<td>蟲 li 食 e 果 li 性</td>
+<td>蟲&#39;食/果&#39;性</td>
+<td>蟲食果子且交配</td>
+</tr>
+<tr>
+<td>人怪 li 死 e 人小</td>
+<td>怪人&#39;死&#39;小人</td>
+<td>怪人殺了小孩</td>
+</tr>
+<tr>
+<td>我 玩 否</td>
+<td>我&#39;否玩</td>
+<td>我不玩</td>
+</tr>
+<tr>
+<td>我 知 否</td>
+<td>我&#39;否知</td>
+<td>我不知</td>
+</tr>
+<tr>
+<td>人 否</td>
+<td>否人</td>
+<td>沒人</td>
+</tr>
+<tr>
+<td>人 否 li 說</td>
+<td>否人&#39;說</td>
+<td>沒人說話</td>
+</tr>
+<tr>
+<td>屋 上 否 li  在 土</td>
+<td>否上屋&#39;在土</td>
+<td>沒高樓 在 田野</td>
+</tr>
+<tr>
+<td>我 有 否 e 衣</td>
+<td>我&#39;否有/衣</td>
+<td>我 沒有 衣服</td>
+</tr>
+<tr>
+<td>否   li   髒</td>
+<td>否&#39;髒</td>
+<td>沒有東西髒了</td>
+</tr>
+<tr>
+<td>否   li   大</td>
+<td>否&#39;大</td>
+<td>沒有東西重要</td>
+</tr>
+<tr>
+<td>山氣</td>
+<td>氣山</td>
+<td>鼻子</td>
+</tr>
+<tr>
+<td>棒男</td>
+<td>男棒</td>
+<td>陰莖</td>
+</tr>
+<tr>
+<td>孔女</td>
+<td>女孔</td>
+<td>陰道</td>
+</tr>
+<tr>
+<td>繩頭</td>
+<td>頭繩</td>
+<td>頭髮</td>
+</tr>
+<tr>
+<td>人小 li 要 e 水果</td>
+<td>小人&#39;要/果水</td>
+<td>小孩要果汁</td>
+</tr>
+<tr>
+<td>你食 e 果壞 e 水髒</td>
+<td>你&#39;食/壞果/髒水</td>
+<td>你食壞水果和髒水</td>
+</tr>
+<tr>
+<td>我 要 e 食</td>
+<td>我&#39;要/食物</td>
+<td>我要食物</td>
+</tr>
+<tr>
+<td>它 li 要有 e 屋</td>
+<td>它&#39;要有/屋</td>
+<td>他想要房屋</td>
+</tr>
+<tr>
+<td>人戰好多</td>
+<td>多好戰人</td>
+<td>很多好戰士</td>
+</tr>
+<tr>
+<td>我 看 好</td>
+<td>我&#39;看好</td>
+<td>我視力好</td>
+</tr>
+<tr>
+<td>我 好 看</td>
+<td>我&#39;好看</td>
+<td>我很好看</td>
+</tr>
+<tr>
+<td>人小 li 在屋知</td>
+<td>小人&#39;在知屋</td>
+<td>小孩在學校</td>
+</tr>
+<tr>
+<td>衣我 像 衣你</td>
+<td>我衣 像 你衣</td>
+<td>我和你的衣服很像</td>
+</tr>
+<tr>
+<td>我 玩 否</td>
+<td>我 否玩</td>
+<td>我不玩</td>
+</tr>
+<tr>
+<td>我 知 否</td>
+<td>我 否知</td>
+<td>我不知</td>
+</tr>
+<tr>
+<td>人否</td>
+<td>否人</td>
+<td>沒人</td>
+</tr>
+<tr>
+<td>人否 li 說</td>
+<td>否人&#39;說</td>
+<td>沒人 說話</td>
+</tr>
+<tr>
+<td>屋 上 否 li 在 土</td>
+<td>否上屋&#39;在土</td>
+<td>沒高樓 在 土地</td>
+</tr>
+<tr>
+<td>我 有否 e 衣</td>
+<td>我&#39;否有/衣</td>
+<td>我沒有衣服</td>
+</tr>
+<tr>
+<td>否 li 髒</td>
+<td>否&#39;髒</td>
+<td>沒有東西髒了</td>
+</tr>
+<tr>
+<td>人 全</td>
+<td>全人</td>
+<td>全部的人</td>
+</tr>
+<tr>
+<td>人 全 li 食</td>
+<td>全人&#39;食</td>
+<td>全部的人都在食</td>
+</tr>
+<tr>
+<td>我 要 e 全</td>
+<td>我要/全</td>
+<td>我要全部</td>
+</tr>
+<tr>
+<td>繩頭</td>
+<td>頭繩</td>
+<td>頭髮</td>
+</tr>
+<tr>
+<td>蟲 li 食 e 足我</td>
+<td>蟲&#39;食/我足</td>
+<td>蟲咬我的腳</td>
+</tr>
+<tr>
+<td>繩頭我 li 有 e 水</td>
+<td>我頭繩&#39;有/水</td>
+<td>我頭髮濕了</td>
+</tr>
+<tr>
+<td>你 好否好 ?</td>
+<td>你 好否 ?</td>
+<td>你好不好？</td>
+</tr>
+<tr>
+<td>它 li 愛否愛 e 你?</td>
+<td>它&#39;愛否/你?</td>
+<td>他愛不愛你？</td>
+</tr>
+<tr>
+<td>愛</td>
+<td>愛</td>
+<td>肯定回答：愛</td>
+</tr>
+<tr>
+<td>愛否</td>
+<td>愛否</td>
+<td>否定回答：不愛</td>
+</tr>
+<tr>
+<td>藍黃</td>
+<td>綠</td>
+<td>綠色 (說明：道本語用色料三原色)</td>
+</tr>
+<tr>
+<td>黃</td>
+<td>紅綠</td>
+<td>黃色 (說明：人造小漢語用色光三原色)</td>
+</tr>
+<tr>
+<td>我 食 靠 器食</td>
+<td>我&#39;食 靠 食器</td>
+<td>#  31  靠=with=kepeken</td>
+</tr>
+<tr>
+<td>你 死 e 蟲 靠 足你</td>
+<td>你&#39;死/蟲 靠 你足</td>
+<td>你用腳踩死蟲</td>
+</tr>
+<tr>
+<td>它 靠 e 器多</td>
+<td>它靠/多器</td>
+<td>他用很多工具</td>
+</tr>
+<tr>
+<td>你 靠否 e 頭</td>
+<td>你&#39;否靠/頭</td>
+<td>你不用大腦</td>
+</tr>
+<tr>
+<td>人上 li 愛</td>
+<td>上人&#39;愛</td>
+<td>#  32 複合字  : 神愛人</td>
+</tr>
+<tr>
+<td>道上 li 多</td>
+<td>上道&#39;多</td>
+<td>宗教很多</td>
+</tr>
+<tr>
+<td>人頭 li 怪</td>
+<td>頭人&#39;怪</td>
+<td>領導人很怪</td>
+</tr>
+<tr>
+<td>我 愛 e 人 Pepe</td>
+<td>我 愛 Pepe人</td>
+<td>#  33 專有名詞 : 我愛Pepe這個人</td>
+</tr>
+<tr>
+<td>我 說 e 說 Espanol</td>
+<td>我 說 Espanol文</td>
+<td>我說西班牙文</td>
+</tr>
+<tr>
+<td>人小 li 來否</td>
+<td>小人 否來</td>
+<td>#  34 來=kama=come : 小孩沒來</td>
+</tr>
+<tr>
+<td>人藍黃小 li 來</td>
+<td>小綠人 li 來</td>
+<td>小綠人來了</td>
+</tr>
+<tr>
+<td>我要來知e說Frances</td>
+<td>我 要來知 Frances文</td>
+<td>我要學法語</td>
+</tr>
+<tr>
+<td>男像 ,  女像</td>
+<td>像男 , 像女</td>
+<td>兄弟 , 姊妹</td>
+</tr>
+<tr>
+<td>屋水怪</td>
+<td>怪水屋</td>
+<td># 38 的=of=pi  奇怪的浴室</td>
+</tr>
+<tr>
+<td>屋的水怪</td>
+<td>怪水的屋</td>
+<td>怪水=酒   : 居酒屋，酒吧！</td>
+</tr>
+<tr>
+<td>人 的 土屋</td>
+<td>屋土的人</td>
+<td># 39 pi 的範例  城市人</td>
+</tr>
+<tr>
+<td>人頭的人戰</td>
+<td>戰人的頭人</td>
+<td>戰士的領袖 = 將軍</td>
+</tr>
+<tr>
+<td>葉色,葉大,蜥大</td>
+<td>葉色,大葉,大蜥</td>
+<td># 40 生物 : 花, 樹, 恐龍(大爬蟲)</td>
+</tr>
+<tr>
+<td>屋的人Lisa</td>
+<td>Lisa人的屋</td>
+<td># 41 擁有 pi : Lisa 的房屋 </td>
+</tr>
+<tr>
+<td>葉的人Jorge</td>
+<td>George人的葉</td>
+<td>George 的樹</td>
+</tr>
+<tr>
+<td>我和你li人好</td>
+<td>我和你&#39;好人</td>
+<td># 42 和=and=en</td>
+</tr>
+<tr>
+<td>我 在旁 人好我</td>
+<td>我 在旁 我好人</td>
+<td># 43 旁=poka : 我在我朋友旁邊</td>
+</tr>
+<tr>
+<td>好! 壞! 糟!</td>
+<td>好! 壞! 糟!</td>
+<td># 44 感嘆詞 : 好，壞，糟了！</td>
+</tr>
+<tr>
+<td>物 li 在 眼我</td>
+<td>物&#39;在 我眼</td>
+<td>有東西在我眼睛</td>
+</tr>
+<tr>
+<td>我食源這:我要食</td>
+<td>我食源這:我要食</td>
+<td># 46 源=tan=&quot;cause&quot;, &quot;reason&quot;, &quot;origin&quot;</td>
+</tr>
+<tr>
+<td>人愛我li來源土Japon</td>
+<td>我愛人 來源 Japan土</td>
+<td>我愛人來自日本</td>
+</tr>
+<tr>
+<td>我 知否 e 源</td>
+<td>我 否知/源</td>
+<td>我不知道原因</td>
+</tr>
+<tr>
+<td>人Bere喔!</td>
+<td>Bere人 喔!</td>
+<td># 47 喔=o ! </td>
+</tr>
+<tr>
+<td>人Pepe喔,我愛e你</td>
+<td>Pepe人 喔, 我&#39;愛/你</td>
+<td>Pepe喔，我愛你</td>
+</tr>
+<tr>
+<td>親女喔,你工多多!</td>
+<td>女親喔,你&#39;多多工!</td>
+<td>母親喔，你工作好多</td>
+</tr>
+<tr>
+<td>喔愛 e 我 !</td>
+<td>喔 愛/我 !</td>
+<td>請愛我！</td>
+</tr>
+<tr>
+<td>人小 喔 說 !</td>
+<td>小人 喔 說 !</td>
+<td>小孩請說話！</td>
+</tr>
+<tr>
+<td>你多 喔 玩 !</td>
+<td>多你 喔 玩 !</td>
+<td>你們請玩！</td>
+</tr>
+<tr>
+<td>說 !</td>
+<td>說 !</td>
+<td>Hello !           # 49 歡迎祝福 : </td>
+</tr>
+<tr>
+<td>日好!休好!食好!</td>
+<td>好日!好休!好食!</td>
+<td>good day! sleep well! eat well!</td>
+</tr>
+<tr>
+<td>1,2,手,數</td>
+<td>1, 10, 101, 數</td>
+<td>1,2,5,數          # 50 數字</td>
+</tr>
+<tr>
+<td>2 1</td>
+<td>11</td>
+<td>= 3 道本語只有1,2,5然後加法組合，</td>
+</tr>
+<tr>
+<td>手 2 2</td>
+<td>1001</td>
+<td>= 9 人造小漢語採二進位</td>
+</tr>
+<tr>
+<td>手 手 手</td>
+<td>1111</td>
+<td>= 15</td>
+</tr>
+<tr>
+<td>獸大手</td>
+<td>101 大獸</td>
+<td>5隻大獸           # 51 更多數字</td>
+</tr>
+<tr>
+<td>人多 li 來</td>
+<td>多人&#39;來</td>
+<td>很多人來</td>
+</tr>
+<tr>
+<td>我 數 1 !</td>
+<td>我1數!</td>
+<td>我第一名，I am number 1.</td>
+</tr>
+<tr>
+<td>人Pepe li 愛我的數1</td>
+<td>Pepe人&#39;1數的我愛</td>
+<td>Pepe 是我第一個女朋友</td>
+</tr>
+<tr>
+<td>這li獸小它的數2</td>
+<td>這 它的2數小獸</td>
+<td>這是他的第二隻小動物</td>
+</tr>
+<tr>
+<td>我 和 女我 li 1</td>
+<td>我 和 我女&#39;1</td>
+<td>我和女友結婚了！</td>
+</tr>
+<tr>
+<td>喔 2 e 棒 這</td>
+<td>喔 2/棒 這</td>
+<td>折斷這棍棒 (一拆成二)      </td>
+</tr>
+<tr>
+<td>我工多.你工小.</td>
+<td>我&#39;多工.你&#39;小工</td>
+<td>我的工作多，你的工作少 # 52 比 較 </td>
+</tr>
+<tr>
+<td>我 遠</td>
+<td>我&#39;遠</td>
+<td>我遠去了           #  53   遠=weka=far </td>
+</tr>
+<tr>
+<td>土Mexico li遠源土Japon</td>
+<td>Mexico土 是遠源 Japon土</td>
+<td>墨西哥離日本很遠</td>
+</tr>
+<tr>
+<td>喔 遠 e 衣 你 !</td>
+<td>喔 遠/你衣 !</td>
+<td>請脫掉你的衣服</td>
+</tr>
+<tr>
+<td>我感壞.只我要工</td>
+<td>我感壞.只我要工</td>
+<td>我感覺很壞，只是我還要工作 # 54 只=taso=but</td>
+</tr>
+<tr>
+<td>我要食.只我有否e食</td>
+<td>我要食.只我否有/食</td>
+<td>我想要食，只是我沒有食物</td>
+</tr>
+<tr>
+<td>我要只e水</td>
+<td>我只要/水</td>
+<td>我只要喝水</td>
+</tr>
+<tr>
+<td>音玩</td>
+<td>玩音</td>
+<td>音樂 # 55 更多字 </td>
+</tr>
+<tr>
+<td>喔音否 !</td>
+<td>喔 否音!</td>
+<td>別吵</td>
+</tr>
+<tr>
+<td>面休</td>
+<td>休面</td>
+<td>床</td>
+</tr>
+<tr>
+<td>頁多</td>
+<td>多頁</td>
+<td>書</td>
+</tr>
+<tr>
+<td>這 li 啥 ?</td>
+<td>這&#39;啥 ?</td>
+<td>這是甚麼？</td>
+</tr>
+<tr>
+<td>你 工 e 啥 ?</td>
+<td>你&#39;工/啥 ?</td>
+<td>你做甚麼的？</td>
+</tr>
+<tr>
+<td>啥 li 糟 e 你 ?</td>
+<td>啥&#39;糟/你 ?</td>
+<td>甚麼事情困擾你？</td>
+</tr>
+<tr>
+<td>你要 e 啥 ?</td>
+<td>你&#39;要啥 ?</td>
+<td>你想要甚麼？</td>
+</tr>
+<tr>
+<td>你在啥 ?</td>
+<td>你&#39;在啥 ?</td>
+<td>你在哪裡？</td>
+</tr>
+<tr>
+<td>人啥 li 在 ?</td>
+<td>啥人&#39;在 ?</td>
+<td>甚麼人在？</td>
+</tr>
+<tr>
+<td>你看 e 人啥 ?</td>
+<td>你&#39;看/啥人 ?</td>
+<td>你在看甚麼人？</td>
+</tr>
+<tr>
+<td>你 愛 e 我 源啥 ?</td>
+<td>你&#39;愛/我 源 啥 ?</td>
+<td>你為何愛我？ // #  58   啥   2 </td>
+</tr>
+<tr>
+<td>你 壞 源 啥 ?</td>
+<td>你&#39;壞 源 啥 ?</td>
+<td>你為何那麼壞？</td>
+</tr>
+<tr>
+<td>你 來 源 土啥 ?</td>
+<td>你&#39;來 源 啥土 ?</td>
+<td>你從哪裡來？</td>
+</tr>
+<tr>
+<td>頁 這 li 色啥 ?</td>
+<td>這頁&#39;啥色 ?</td>
+<td>這頁是甚麼顏色？</td>
+</tr>
+<tr>
+<td>你 工 e 這靠啥 ?</td>
+<td>你&#39;工/這 靠啥 ?</td>
+<td>你怎麼做這件事？</td>
+</tr>
+<tr>
+<td>冰 li 在</td>
+<td>冰&#39;在</td>
+<td>很冷 // #  59   溫 度 </td>
+</tr>
+<tr>
+<td>火 li 在</td>
+<td>火&#39;在</td>
+<td>很熱 </td>
+</tr>
+<tr>
+<td>土 Groenlandia li冰</td>
+<td>Groenlandia土&#39;冰</td>
+<td>格陵蘭很冷</td>
+</tr>
+<tr>
+<td>我 冰</td>
+<td>我&#39;冰</td>
+<td>我冷</td>
+</tr>
+<tr>
+<td>我 感 冰</td>
+<td>我&#39;冰感</td>
+<td>我感到冷</td>
+</tr>
+<tr>
+<td>食 li 冰</td>
+<td>食&#39;冰</td>
+<td>食物涼了</td>
+</tr>
+<tr>
+<td>喔 火 e 食 !</td>
+<td>喔 火/食 !</td>
+<td>請熱一下食物</td>
+</tr>
+<tr>
+<td>我 要 e 水甜的冰多</td>
+<td>我&#39;要/多冰的甜水</td>
+<td>我要很冰的甜水</td>
+</tr>
+<tr>
+<td>它 li 在 上我</td>
+<td>它&#39;在 我上</td>
+<td>它在我上方 // #  61 方向的範例 </td>
+</tr>
+<tr>
+<td>蟲 li 在 旁你</td>
+<td>蟲&#39;在 你旁</td>
+<td>蟲在你旁邊</td>
+</tr>
+<tr>
+<td>我 在 旁水</td>
+<td>我&#39;在 水旁</td>
+<td>我在水旁邊</td>
+</tr>
+<tr>
+<td>食 li 在 內我</td>
+<td>食&#39;在 我內</td>
+<td>食物在我裡面</td>
+</tr>
+<tr>
+<td>人小 li 在 內屋</td>
+<td>小人&#39;在 屋內</td>
+<td>小孩在屋內</td>
+</tr>
+<tr>
+<td>器食 li 在 下你</td>
+<td>食器&#39;在 你下</td>
+<td>餐具在你下面</td>
+</tr>
+<tr>
+<td>屋知我li在後的屋你</td>
+<td>我知屋&#39;在你屋的後</td>
+<td>我學校在你家後面</td>
+</tr>
+<tr>
+<td>你 可 !</td>
+<td>你&#39;可 !</td>
+<td>你可以的 // #  62   可 </td>
+</tr>
+<tr>
+<td>人小li可否 食e水怪</td>
+<td>小人&#39;食否可/怪水</td>
+<td>小孩可以喝酒嗎？</td>
+</tr>
+<tr>
+<td>我 可否休</td>
+<td>我&#39;休否可</td>
+<td>我不能休息</td>
+</tr>
+<tr>
+<td>我 可否食e蟲紅!髒!</td>
+<td>我&#39;食否可/紅蟲!髒!</td>
+<td>我不能吃紅蟲，很髒！</td>
+</tr>
+<tr>
+<td>我 知e這:我可工e它</td>
+<td>我&#39;知/這:我&#39;工可/它</td>
+<td>我知道這個，我可以做它！</td>
+</tr>
+<tr>
+<td>我 要有e財或食</td>
+<td>我&#39;要有/財或食</td>
+<td>我想要有錢或食物 // #  63 或=anu</td>
+</tr>
+<tr>
+<td>你可食e果或甜.只1只</td>
+<td>你&#39;可食/果或甜.只1</td>
+<td>你可以吃水果或甜食，只能一種</td>
+</tr>
+<tr>
+<td>你 愛e我或它 ?</td>
+<td>你&#39;愛/我或它 ?</td>
+<td>你愛我還是愛她？</td>
+</tr>
+<tr>
+<td>你 說趨我 或 趨它 ?</td>
+<td>你&#39;說(我趨或它趨)?</td>
+<td>你對我說或他說呢？</td>
+</tr>
+<tr>
+<td>這li鳥或屋趨氣 ?</td>
+<td>這&#39;鳥或氣趨屋？</td>
+<td>這是鳥或飛機呢？</td>
+</tr>
+<tr>
+<td>否.這li人Superman!</td>
+<td>否.這&#39;Superman人!</td>
+<td>不、這是超人</td>
+</tr>
+<tr>
+<td>你來或啥 ?</td>
+<td>你&#39;來或啥 ?</td>
+<td>你來不來？</td>
+</tr>
+<tr>
+<td>你要e財或啥 ?</td>
+<td>你&#39;要/財或啥 ?</td>
+<td>你要錢嗎？</td>
+</tr>
+<tr>
+<td>A:我趨土Europa</td>
+<td>A:我&#39;Europa土趨</td>
+<td>我去歐洲 // #  64   也 </td>
+</tr>
+<tr>
+<td>B:好!我也趨土Europa</td>
+<td>B:好!我&#39;Europa土趨也</td>
+<td>好！我也去歐洲</td>
+</tr>
+<tr>
+<td>A:我多喔趨</td>
+<td>A:多我&#39;趨喔</td>
+<td>我們去喔</td>
+</tr>
+<tr>
+<td>B:我可否.我也食</td>
+<td>B:我&#39;否可.我&#39;食也</td>
+<td>我不能，我在吃東西</td>
+</tr>
+<tr>
+<td>A:啊!你看否看e鳥這?</td>
+<td>A:啊!你&#39;看否看/這鳥?</td>
+<td>啊!你看得到這隻鳥嗎?</td>
+</tr>
+<tr>
+<td>B:我也看e它</td>
+<td>B:我&#39;看也/它</td>
+<td>我也在看它！</td>
+</tr>
+<tr>
+<td>我力否</td>
+<td>我&#39;否力</td>
+<td>我沒力 // #  66   範 例 </td>
+</tr>
+<tr>
+<td>氣力</td>
+<td>力氣</td>
+<td>靈魂</td>
+</tr>
+<tr>
+<td>力喔在靠你 !</td>
+<td>力喔在靠你 !???</td>
+<td>願力與你同在</td>
+</tr>
+<tr>
+<td>水力的屋趨</td>
+<td>趨屋的力水</td>
+<td>汽油 (車子的力水)</td>
+</tr>
+<tr>
+<td>群的道上</td>
+<td>上道的群</td>
+<td>宗教團體</td>
+</tr>
+<tr>
+<td>我停</td>
+<td>我&#39;停</td>
+<td>我停下來</td>
+</tr>
+<tr>
+<td>圖趨</td>
+<td>趨圖</td>
+<td>電影</td>
+</tr>
+<tr>
+<td>喔尾e器的圖趨 !</td>
+<td>喔尾/趨圖的器 !</td>
+<td>喔！關掉電視機</td>
+</tr>
+<tr>
+<td>圖土</td>
+<td>土圖</td>
+<td>地圖</td>
+</tr>
+<tr>
+<td>我要有e圖土的土Mexico</td>
+<td>我&#39;要有/Mexico土的土圖</td>
+<td>我要墨西哥的地圖</td>
+</tr>
+<tr>
+<td>我圖e圖</td>
+<td>我&#39;圖/圖</td>
+<td>我畫圖</td>
+</tr>
+<tr>
+<td>喔開e日</td>
+<td>開喔/日</td>
+<td>請打開燈！</td>
+</tr>
+<tr>
+<td>文你li好趨我</td>
+<td>你文&#39;我趨好</td>
+<td>我喜歡你的名字</td>
+</tr>
+<tr>
+<td>文你li啥 ?</td>
+<td>你文&#39;啥 ?</td>
+<td>你是甚麼名字？</td>
+</tr>
+<tr>
+<td>文我li人Eliazar</td>
+<td>我文&#39;Eliza人</td>
+<td>我的名字是 Eliza</td>
+</tr>
+<tr>
+<td>喔變否 !</td>
+<td>否變喔  !</td>
+<td>別改變 // #  67   變 </td>
+</tr>
+<tr>
+<td>全li變</td>
+<td>全&#39;變</td>
+<td>全部都在改變</td>
+</tr>
+<tr>
+<td>變li好</td>
+<td>變&#39;好</td>
+<td>改變是好事</td>
+</tr>
+<tr>
+<td>變li來</td>
+<td>變&#39;來</td>
+<td>改變已經到來！</td>
+</tr>
+<tr>
+<td>人變</td>
+<td>變人</td>
+<td>另一個人</td>
+</tr>
+<tr>
+<td>你或人變li食e甜我 ?</td>
+<td>你或變人&#39;食/我甜 ?</td>
+<td>你或其他人吃我的甜食呢？</td>
+</tr>
+<tr>
+<td>我要看e土變</td>
+<td>我&#39;要看/變土</td>
+<td>我想要看其他國家</td>
+</tr>
+<tr>
+<td>我知e這:你愛e我</td>
+<td>我&#39;知/這:你愛/我</td>
+<td>我知道你愛我 // #  68   沒 有   that , 用 ni (這)</td>
+</tr>
+<tr>
+<td>我要e這:你愛e我</td>
+<td>我&#39;要/這:你愛/我</td>
+<td>我想要你愛我</td>
+</tr>
+<tr>
+<td>你給e甜趨我.我食e甜你</td>
+<td>你&#39;給/我趨甜.我&#39;食/你甜</td>
+<td>你給我甜食，我吃你的甜食</td>
+</tr>
+<tr>
+<td>男li趨玩靠你.它li人愛我</td>
+<td>男&#39;你靠玩趨.它&#39;我愛人</td>
+<td>和你跳舞的男人‧.它是我愛人</td>
+</tr>
+<tr>
+<td>我要e甜增 !</td>
+<td>我&#39;要/增甜 !</td>
+<td>我要更多甜食 // #  69   增 = sin</td>
+</tr>
+<tr>
+<td>人增li來否來 ?</td>
+<td>增人&#39;來否來 ?</td>
+<td>更多人來不來？</td>
+</tr>
+<tr>
+<td>我要e屋趨增 !</td>
+<td>我&#39;要/增趨屋 !</td>
+<td>我想要新車！</td>
+</tr>
+<tr>
+<td>音玩這li增否 !</td>
+<td>玩音這&#39;否增 !</td>
+<td>這音樂不新！</td>
+</tr>
+<tr>
+<td>喔感e口我靠口你 !</td>
+<td>喔感/你口靠我口 !</td>
+<td>喔！親我 // #  70 創造力 </td>
+</tr>
+<tr>
+<td>皮我li給e水</td>
+<td>我皮&#39;給/水</td>
+<td>我在流汗</td>
+</tr>
+<tr>
+<td>喔給否e水眼 !</td>
+<td>喔否給/眼水 !</td>
+<td>喔！別哭！</td>
+</tr>
+<tr>
+<td>說停</td>
+<td>停說</td>
+<td>literature 文獻 (speech that remain)</td>
+</tr>
+<tr>
+<td>說玩</td>
+<td>玩說</td>
+<td>唱歌</td>
+</tr>
+<tr>
+<td>你工e這靠道啥 ?</td>
+<td>你&#39;工/啥道靠這 ?</td>
+<td>(you did that using what method?)</td>
+</tr>
+<tr>
+<td>可啦它li休</td>
+<td>可啦它&#39;休</td>
+<td>可能他在休息 // #  72   啦 - 前面有單一個字 </td>
+</tr>
+<tr>
+<td>可啦我怪</td>
+<td>可啦我&#39;怪</td>
+<td>可能我瘋了</td>
+</tr>
+<tr>
+<td>可啦我可工e這</td>
+<td>可啦我&#39;可工/這</td>
+<td>可能我會做這個工作</td>
+</tr>
+<tr>
+<td>人上喔遠e壞我</td>
+<td>上人喔遠/我壞</td>
+<td>上帝赦免我的罪</td>
+</tr>
+<tr>
+<td>像啦我遠e壞變</td>
+<td>像啦遠我/變壞</td>
+<td>同樣的我原諒他人的罪</td>
+</tr>
+<tr>
+<td>親你li死.像啦你死</td>
+<td>你親&#39;死.像啦你&#39;死</td>
+<td>你父母會死，同樣你也會死</td>
+</tr>
+<tr>
+<td>可啦我趨屋我</td>
+<td>可啦我&#39;我屋趨</td>
+<td>可能我會回家</td>
+</tr>
+<tr>
+<td>變啦我趨屋知</td>
+<td>變啦我&#39;知屋趨</td>
+<td>否則我可能會去學校</td>
+</tr>
+<tr>
+<td>我要有e財</td>
+<td>我&#39;要有/財</td>
+<td>我想要有錢</td>
+</tr>
+<tr>
+<td>變啦我可否食</td>
+<td>變啦我&#39;食否可</td>
+<td>否則我沒食物吃</td>
+</tr>
+<tr>
+<td>時尾.時來.</td>
+<td>尾時.來時.</td>
+<td>過去.未來 // #  73   時 </td>
+</tr>
+<tr>
+<td>時尾小. 時來小.</td>
+<td>小尾時. 小來時.</td>
+<td>剛剛.待會</td>
+</tr>
+<tr>
+<td>時這.時日.時黑</td>
+<td>這時.日時.黑時</td>
+<td>現在.白天.晚上.</td>
+</tr>
+<tr>
+<td>時日這.時黑這</td>
+<td>這日時.這黑時</td>
+<td>今天.今晚.</td>
+</tr>
+<tr>
+<td>時日來.時黑尾</td>
+<td>來日時.尾黑時</td>
+<td>明天.昨晚.</td>
+</tr>
+<tr>
+<td>時多.</td>
+<td>多時</td>
+<td>很多次 (many times)</td>
+</tr>
+<tr>
+<td>我有否e時</td>
+<td>我&#39;有否/時</td>
+<td>我沒有時間</td>
+</tr>
+<tr>
+<td>人否li知e時來</td>
+<td>否人&#39;知/來時</td>
+<td>沒人知道未來</td>
+</tr>
+<tr>
+<td>時尾li尾</td>
+<td>尾時&#39;尾</td>
+<td>過去就過去了！</td>
+</tr>
+<tr>
+<td>時尾啦我人小</td>
+<td>尾時啦我&#39;小人</td>
+<td>過去我是小孩 // #  74   時間和啦 </td>
+</tr>
+<tr>
+<td>時這啦我在</td>
+<td>這時啦我&#39;在</td>
+<td>現在我在這裡</td>
+</tr>
+<tr>
+<td>時來多啦我趨土Japon</td>
+<td>多來時啦我&#39;Japon土趨</td>
+<td>很久的未來我會去日本</td>
+</tr>
+<tr>
+<td>時日這啦我感好</td>
+<td>這日時啦我&#39;好感</td>
+<td>今天我感覺很好</td>
+</tr>
+<tr>
+<td>時黑尾啦我來怪</td>
+<td>尾黑時啦我&#39;怪來</td>
+<td>昨晚我醉了</td>
+</tr>
+<tr>
+<td>時來小啦黑li來</td>
+<td>小來時啦黑&#39;來</td>
+<td>待會就天黑了！</td>
+</tr>
+<tr>
+<td>時尾小啦人Paulina li 有e人小</td>
+<td>小尾時啦 Paulina人&#39;有/小人</td>
+<td>最近Paulina生小孩了</td>
+</tr>
+<tr>
+<td>你感啥 ?</td>
+<td>你&#39;啥感 ?</td>
+<td>你有甚麼感覺? // #  75   更 多   啥 </td>
+</tr>
+<tr>
+<td>你感e啥 ?</td>
+<td>你&#39;感/啥 ?</td>
+<td>你感覺到甚麼？</td>
+</tr>
+<tr>
+<td>時啥啦你來 ?</td>
+<td>啥時啦 你&#39;來 ?</td>
+<td>你甚麼時候來？</td>
+</tr>
+<tr>
+<td>你有e財的多啥 ?</td>
+<td>你&#39;有/啥多的財 ?</td>
+<td>你有多少錢？</td>
+</tr>
+<tr>
+<td>時的多啥你在土Africa</td>
+<td>Africa土在你多的時啥</td>
+<td>你會在非洲待多久？</td>
+</tr>
+<tr>
+<td>時的多啥啦你球e日?</td>
+<td>多的時啥啦 你&#39;球/日?</td>
+<td>你幾歲? how many times have you gone around the sun.</td>
+</tr>
+<tr>
+<td>時2 2啦我球 e 日</td>
+<td>4時啦我&#39;球/日</td>
+<td>我四歲</td>
+</tr>
+<tr>
+<td>我休啦全li好</td>
+<td>休我啦全&#39;好</td>
+<td>如果我休息就會好了 // #  76   if   ..  then   用   啦 </td>
+</tr>
+<tr>
+<td>親我li死啦我感壞</td>
+<td>我親&#39;死啦 我&#39;壞感</td>
+<td>如果我父母死了我會難過！</td>
+</tr>
+<tr>
+<td>你要開啦時全li好</td>
+<td>你&#39;開要啦 全時&#39;好</td>
+<td>如果你想開始，何時都行！</td>
+</tr>
+<tr>
+<td>你食e水怪啦 你來怪</td>
+<td>你&#39;食/怪水啦 你&#39;怪來</td>
+<td>如果你喝酒，你會醉！</td>
+</tr>
+<tr>
+<td>你工否啦 你有否e財</td>
+<td>你&#39;否工啦 你否有/財</td>
+<td>如果你不工作就會沒錢</td>
+</tr>
+<tr>
+<td>人壞li來啦喔火e頁這</td>
+<td>壞人&#39;來啦 喔火/這頁</td>
+<td>如果壞人來了，就燒了這紙</td>
+</tr>
+<tr>
+<td>你知e說這啦你知e說好</td>
+<td>你&#39;知/這說啦 你&#39;知/好說</td>
+<td>你知道這語言了，你認識道本語了！</td>
+</tr>
+<tr>
+<td>果 li 好趨我</td>
+<td>果&#39;我趨好</td>
+<td># 37 喜不喜歡</td>
+</tr>
+<tr>
+<td>你 好趨我</td>
+<td>你&#39;我趨好</td>
+<td></td>
+</tr>
+<tr>
+<td>人小 li 趨 屋知</td>
+<td>小人&#39;知屋趨</td>
+<td>#  36 趨=toward=tawa</td>
+</tr>
+<tr>
+<td>我 說趨你</td>
+<td>我&#39;你趨說</td>
+<td>我對你說</td>
+</tr>
+<tr>
+<td>人 愛 我li來趨 土</td>
+<td>我愛人&#39;土趨來</td>
+<td>我愛人來這裏了</td>
+</tr>
+<tr>
+<td>屋趨,屋趨水,屋趨氣</td>
+<td>趨屋,水趨屋,氣趨屋</td>
+<td>=  車,船,飛機 </td>
+</tr>
+<tr>
+<td>趨玩</td>
+<td>玩趨</td>
+<td>=  跳舞</td>
+</tr>
+<tr>
+<td>人頭的屋趨氣</td>
+<td>氣趨屋的頭人</td>
+<td>氣趨屋=飛機  : 機長 </td>
+</tr>
+<tr>
+<td>休和趨玩li好趨我</td>
+<td>休和玩趨&#39;我趨好</td>
+<td>我喜歡跳舞和休息</td>
+</tr>
+<tr>
+<td>我 要 趨玩 旁 你</td>
+<td>我&#39;要你旁玩趨</td>
+<td>我要和你跳舞</td>
+</tr>
+<tr>
+<td>喔工 ! 喔趨 !</td>
+<td>喔工 !  喔趨 !</td>
+<td>去工作! 去那裏！  # 48 喔: 命令 , </td>
+</tr>
+<tr>
+<td>趨好!來好!玩好!</td>
+<td>好趨!好來!好玩!</td>
+<td>good bye! welcome! have fun!</td>
+</tr>
+<tr>
+<td>啥 li 好趨你 ?</td>
+<td>啥&#39;你趨好 ?</td>
+<td>你喜歡甚麼？</td>
+</tr>
+<tr>
+<td>你趨啥 ?</td>
+<td>你&#39;趨啥 ?</td>
+<td>你去哪裡？</td>
+</tr>
+<tr>
+<td>道上 啥 li 好趨你 ?</td>
+<td>啥上道&#39;你趨好 ?</td>
+<td>你喜歡甚麼宗教？</td>
+</tr>
+<tr>
+<td>你 趨 靠 啥 ?</td>
+<td>你&#39;啥靠趨 ?</td>
+<td>你怎麼去？</td>
+</tr>
+<tr>
+<td>你 可 趨</td>
+<td>你&#39;趨可</td>
+<td>我可以去</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-">結語</h2>
+<p>該投影片最後有一句話，我一直沒看懂，先寫下來！</p>
+<pre><code>// #  End 
+器   日   1   li   可   給   e   日   趨   器   日   多   多   力   的   器   日   li   來   否   小 . 
+人   li   給   e   知   趨   人   多   啦   知   li   來   否   小 . 
+
+???
+
+1日器&#39;給可/日器的力多多日器趨日&#39;小否來.
+人&#39;給/多人趨知啦 知&#39;小否來.
+
+-  人   Buda
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

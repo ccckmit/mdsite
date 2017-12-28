@@ -1,0 +1,797 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陳鍾誠的網站 >>  如何透過 Blender 學習 3D 動畫設計</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">陳鍾誠的網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">陳鍾誠</a></li>
+<li class="pure-menu-item"><a href="course.html" class="pure-menu-link">課程地圖</a></li>
+<li class="pure-menu-item"><a href="booklist.html" class="pure-menu-link">書籍著作</a></li>
+<li class="pure-menu-item"><a href="codelist.html" class="pure-menu-link">程式作品</a></li>
+<li class="pure-menu-item"><a href="novel.html" class="pure-menu-link">小說故事</a></li>
+<li class="pure-menu-item"><a href="article.html" class="pure-menu-link">散文記事</a></li>
+<li class="pure-menu-item"><a href="paper.html" class="pure-menu-link">論文研究</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="license.html" class="pure-menu-link">授權聲明</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-blender-3d-">如何透過 Blender 學習 3D 動畫設計</h1>
+<h2 id="-">前言</h2>
+<p>我寫這篇文章的目的，是為了讓初學者可以快速的進入 Blender 動畫領域。</p>
+<p>我是個程式設計者，在 2008 年開始透過 Blender 2.47 版學習動畫設計，我學習得很慢，因為一路上並沒有人教我，或者與我一起學習。</p>
+<p>一開始學習 Blender 的時候，我仍然希望找到好的書籍幫助我學習，但是後來我發現自己錯了。</p>
+<p>因為，學習動畫最好的資源，並不是書籍，而是教學影片。如果您嘗試透過書籍來學習 Blender ，您應該會與我當初一樣，落入「學習緩慢、格格不入」的窘境。因此，本文只是一堆教學影片的導引，重點在教學影片，而非文章本身。</p>
+<h2 id="-">安裝</h2>
+<p>Blender 很小，很容易安裝，您可以從下列網址找到您想安裝的版本。</p>
+<ul>
+<li><a href="http://www.blender.org/download/get-blender/">http://www.blender.org/download/get-blender/</a></li>
+</ul>
+<p>以下是筆者對 Blender 所進行的基本介紹，您可以從中了解到 Blender 的歷史與其安裝的步驟。</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>下載與安裝</td>
+<td><a href="1_BlenderInstall.ppt">ppt</a></td>
+<td><a href="http://youtu.be/jrkVbbhMzrM">http://youtu.be/jrkVbbhMzrM</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Blender 的歷史</td>
+<td></td>
+<td><a href="http://youtu.be/iCyVoBeGwE4">http://youtu.be/iCyVoBeGwE4</a></td>
+</tr>
+</tbody>
+</table>
+<p>註記：由於 Blender 在 2.5 版開始有了非常重大的改變，因此建議大家不要在使用 2.5 之前的版本來學習 Blender，最好使用最新版本。</p>
+<h2 id="-">開始使用</h2>
+<p>當您安裝好 Blender 之後，請啟動它試試看，您會看到一個很棒的介面，但是這個介面對於陌生的使用者而言卻是個很大的瓶頸。</p>
+<p>在 Blender 的世界中，您必須善用滑鼠與快捷鍵，您最好使用 3 鍵式的滑鼠 (兩鍵式的將會很難用，建議不要用)，這種滑鼠的中鍵通常是滾輪。</p>
+<p>您可以用滾輪縮放畫面，或者壓住滾輪拖拉以便轉動角度，或者按住 Shift 同時移動滾輪進行平移動作。</p>
+<p>接著建議您可以按照下列順序，觀看「簡報與影片」，以便學習基本的 Blender 操作。</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>世界的操作</td>
+<td><a href="1_BlenderWorldOp.ppt">ppt</a></td>
+<td><a href="http://youtu.be/s8x9xGq5Rr8">http://youtu.be/s8x9xGq5Rr8</a></td>
+<td></td>
+</tr>
+<tr>
+<td>物件的新增</td>
+<td><a href="1_BlenderObjAdd.ppt">ppt</a></td>
+<td><a href="http://youtu.be/45b1EwdbJbc">http://youtu.be/45b1EwdbJbc</a></td>
+<td></td>
+</tr>
+<tr>
+<td>視角切換</td>
+<td><a href="1_BlenderView.ppt">ppt</a></td>
+<td><a href="http://youtu.be/6C2XE4d-g18">http://youtu.be/6C2XE4d-g18</a></td>
+<td></td>
+</tr>
+<tr>
+<td>平移、旋轉、縮放</td>
+<td><a href="1_BlenderGSR.ppt">ppt</a></td>
+<td><a href="http://youtu.be/1QZe7cFlxgw">http://youtu.be/1QZe7cFlxgw</a></td>
+<td></td>
+</tr>
+<tr>
+<td>視窗的切割</td>
+<td><a href="1_BlenderWinCut.ppt">ppt</a></td>
+<td><a href="http://youtu.be/BVetX9MlO4U">http://youtu.be/BVetX9MlO4U</a></td>
+<td></td>
+</tr>
+<tr>
+<td>做一個雪人</td>
+<td><a href="1_BlenderShowMan.ppt">ppt</a></td>
+<td><a href="http://youtu.be/WOrID2td-hs">http://youtu.be/WOrID2td-hs</a> <br/> <a href="http://youtu.be/XmbnEI8hp9o">http://youtu.be/XmbnEI8hp9o</a></td>
+<td></td>
+</tr>
+<tr>
+<td>做一個木偶人</td>
+<td><a href="1_BlenderWoodMan.ppt">ppt</a></td>
+<td><a href="http://youtu.be/4JgjNJbU4Ic">http://youtu.be/4JgjNJbU4Ic</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-">編輯模式</h2>
+<p>一但您會了 Blender 的基本操作之後，就可以開始建立自己想要的形狀，而非使用拼積木的方式去建構模型。</p>
+<p>要建立自己想要的形狀，必須進入編輯模式 (Edit Mode)，對某些物鍵進行改造的動作。</p>
+<p>筆者最喜歡的編輯方法是「擠出法」，用快速鍵 E 去擠出所想要物體的形狀，您可以從以下影片當中學習到有關編輯模式的基本操作。</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>編輯模式</td>
+<td><a href="2_BlenderEdit.ppt">ppt</a></td>
+<td><a href="http://youtu.be/EN2S28hJKk8">http://youtu.be/EN2S28hJKk8</a></td>
+<td></td>
+</tr>
+<tr>
+<td>編輯一間房子</td>
+<td></td>
+<td><a href="http://youtu.be/iZ5xNTMVf8k">http://youtu.be/iZ5xNTMVf8k</a></td>
+<td><a href="house.blend">模型</a></td>
+</tr>
+<tr>
+<td>擠出法</td>
+<td><a href="2_BlenderExtrude.ppt">ppt</a></td>
+<td><a href="http://youtu.be/WeD9G6I5aI4">http://youtu.be/WeD9G6I5aI4</a></td>
+<td><a href="extrude.blend">模型</a></td>
+</tr>
+<tr>
+<td>製作杯子</td>
+<td></td>
+<td><a href="http://youtu.be/imqnepDnUmE">http://youtu.be/imqnepDnUmE</a></td>
+<td></td>
+</tr>
+<tr>
+<td>曲面編輯</td>
+<td><a href="2_BlenderProportional.ppt">ppt</a></td>
+<td><a href="http://youtu.be/IbGhXtXMutc">http://youtu.be/IbGhXtXMutc</a></td>
+<td></td>
+</tr>
+<tr>
+<td>曲面：地形編輯</td>
+<td></td>
+<td><a href="http://youtu.be/cY3lYIdKVHE">http://youtu.be/cY3lYIdKVHE</a></td>
+<td><a href="Landscape.blend">模型</a></td>
+</tr>
+<tr>
+<td>布林建模</td>
+<td><a href="2_BlenderBoolean.ppt">ppt</a></td>
+<td><a href="http://youtu.be/JWiwOXO2IRk">http://youtu.be/JWiwOXO2IRk</a></td>
+<td><a href="boolean.blend">模型</a></td>
+</tr>
+<tr>
+<td>布林：有窗戶的房子</td>
+<td></td>
+<td>&lt;<a href="http://youtu.be/95bpZnHRaFA">http://youtu.be/95bpZnHRaFA</a></td>
+<td><a href="BooleanHouse.blend">模型</a></td>
+</tr>
+<tr>
+<td>分割與合併</td>
+<td><a href="2_BlenderCutMerge.ppt">ppt</a></td>
+<td><a href="http://youtu.be/eweE19Jtlrk">http://youtu.be/eweE19Jtlrk</a></td>
+<td><a href="CutMerge.blend">模型</a></td>
+</tr>
+<tr>
+<td>重新多邊形化 (Remesh)</td>
+<td></td>
+<td><a href="http://youtu.be/w3g9rSr2Fpw">http://youtu.be/w3g9rSr2Fpw</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-">材質與花紋</h2>
+<p>然而，一個好的 3D 模型不能只是形狀很像，還要有逼真的顏色、材質與花紋，才能讓模型呈現出適當的美感，以下關於 Blender 材質花紋設定的教學影片。</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>材質貼圖 (磚牆)</td>
+<td><a href="3_BlenderBrickCube.ppt">ppt</a></td>
+<td><a href="http://youtu.be/2B2xR19iE9k">http://youtu.be/2B2xR19iE9k</a></td>
+<td><a href="BrickCube.zip">模型</a>  <br/> <a href="BrickWall.zip">模型</a></td>
+</tr>
+<tr>
+<td>材質索引 (彩色方塊)</td>
+<td><a href="3_BlenderMaterialIndices.ppt">ppt</a></td>
+<td><a href="http://youtu.be/xuNTSVdqjWg">http://youtu.be/xuNTSVdqjWg</a></td>
+<td><a href="ColorCube.blend">模型</a>  <br/> <a href="StarColorCube.blend">模型</a></td>
+</tr>
+<tr>
+<td>玻璃材質 (杯子)</td>
+<td><a href="3_BlenderGlassCup.ppt">ppt</a></td>
+<td></td>
+<td><a href="GlassCup.zip">模型</a></td>
+</tr>
+<tr>
+<td>凹凸花紋</td>
+<td><a href="3_BlenderNormalTexture.ppt">ppt</a></td>
+<td><a href="http://youtu.be/YrdOoUetTT8">http://youtu.be/YrdOoUetTT8</a></td>
+<td><a href="NormalTexture.blend">模型</a></td>
+</tr>
+<tr>
+<td>凹凸表面 (殞石)</td>
+<td><a href="2_BlenderStone.ppt">ppt</a></td>
+<td><a href="http://youtu.be/jUgIWrTQXOY">http://youtu.be/jUgIWrTQXOY</a></td>
+<td><a href="Stone.zip">模型</a>  <br/> <a href="MyAsteroid.zip">模型</a>  <br/> <a href="rock.zip">模型</a></td>
+</tr>
+<tr>
+<td>UV 貼圖</td>
+<td><a href="3_BlenderUVMap.ppt">ppt</a></td>
+<td><a href="http://youtu.be/sta4iqjk5f4">http://youtu.be/sta4iqjk5f4</a></td>
+<td><a href="UVMap.zip">模型</a></td>
+</tr>
+<tr>
+<td>UV 貼圖 - 骰子</td>
+<td></td>
+<td><a href="http://youtu.be/TcSRvsxWFTc">http://youtu.be/TcSRvsxWFTc</a></td>
+<td><a href="UVDice.blend">模型</a></td>
+</tr>
+<tr>
+<td>UV 貼圖 - 對稱球</td>
+<td></td>
+<td><a href="http://youtu.be/G62p_CPYez4">http://youtu.be/G62p_CPYez4</a></td>
+<td></td>
+</tr>
+<tr>
+<td>UV 貼圖 - 人臉</td>
+<td></td>
+<td><a href="http://youtu.be/LfTtd1gziIY">http://youtu.be/LfTtd1gziIY</a></td>
+<td></td>
+</tr>
+<tr>
+<td>直接在模型上畫圖</td>
+<td></td>
+<td><a href="http://youtu.be/vl3T5id-ovA">http://youtu.be/vl3T5id-ovA</a></td>
+<td><a href="MonkeyVertexPaint.blend">模型</a></td>
+</tr>
+<tr>
+<td>透明貼圖</td>
+<td><a href="TransparentTexture.ppt">ppt</a></td>
+<td><a href="http://youtu.be/f1Zu75Orb1w">http://youtu.be/f1Zu75Orb1w</a> <BR/> <a href="http://youtu.be/vrq-dgeSdtw">http://youtu.be/vrq-dgeSdtw</a></td>
+<td><a href="TransparentTexture.zip">模型</a></td>
+</tr>
+</tbody>
+</table>
+<p>補充：隕石加上 Geometry/Displace 之後看來會更好，如  <a href="rock.jpg">此圖所示</a>  。</p>
+<p>推薦：<a href="http://www.blenderguru.com/videos/how-to-make-a-realistic-asteroid/">Andrew Price 的隕石教學</a></p>
+<h2 id="-">引入外部資源</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>引入材質 (五彩玻璃)</td>
+<td><a href="3_BlenderImportMaterial.ppt">ppt</a></td>
+<td><a href="http://youtu.beghXA7j01s4">http://youtu.beghXA7j01s4</a></td>
+<td><a href="ImportMaterial.zip">模型</a></td>
+</tr>
+<tr>
+<td>下載模型 (剪刀)</td>
+<td></td>
+<td><a href="http://youtu.be/Z1ZrXbNn7LY">http://youtu.be/Z1ZrXbNn7LY</a></td>
+<td></td>
+</tr>
+<tr>
+<td>匯入模型 (剪刀)</td>
+<td></td>
+<td><a href="http://youtu.be/v-JE6WQQYGo">http://youtu.be/v-JE6WQQYGo</a></td>
+</tr>
+</tbody>
+</table>
+<p>註：使用 Append 或 Link 可以將另一 .blend 檔內的物件、場景或材質匯入。</p>
+<p>註：感謝網友告知：關於BLENDER的模型轉移，在BLENDER2.66 版本推出了，ctrl+c ctrl+v 就可以完成兩個檔案間的模型移動了。</p>
+<h2 id="-">燈光、相機、圖層與呈像</h2>
+<p>即便模型已經很棒了，要是燈光打的不好，或者是相機鏡頭捉的不好，都無法呈現出好的作品，因此您還必須透過下列影片學習燈光與相機的相關使用方法。</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>燈光與相機</td>
+<td></td>
+<td><a href="http://youtu.be/ecwZMcEOUIk">http://youtu.be/ecwZMcEOUIk</a></td>
+<td><a href="LightCamera.blend">模型</a></td>
+</tr>
+<tr>
+<td>鎖定相機到此視角</td>
+<td></td>
+<td><a href="http://youtu.be/oZNrWIaDFnE">http://youtu.be/oZNrWIaDFnE</a></td>
+<td></td>
+</tr>
+<tr>
+<td>圖層</td>
+<td></td>
+<td><a href="http://youtu.be/R4fiUrxwDeU">http://youtu.be/R4fiUrxwDeU</a></td>
+<td></td>
+</tr>
+<tr>
+<td>互動式呈像 (Cycle Render)</td>
+<td></td>
+<td><a href="http://youtu.be/lrZel1bjn0Q">http://youtu.be/lrZel1bjn0Q</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Cycle Render 和原本的 Render 看來並不能直接套用，進一步的 Cycle Render 請參考： <ul>
+<li><a href="http://wiki.blender.org/index.php/Dev:Ref/Release_Notes/2.61/Cycles">http://wiki.blender.org/index.php/Dev:Ref/Release_Notes/2.61/Cycles</a></li>
+</ul>
+</li>
+<li>虛擬巡覽 (Shift-F) ： Andrew Price : Blender Fly Cam Upgrade -- <a href="http://www.youtube.com/watch?v=xcZmyD9jkI4">http://www.youtube.com/watch?v=xcZmyD9jkI4</a></li>
+<li>相機對準目前場景 (Ctrl-Alt-0) :  屬性視窗 (N) 選 Lock Camera to View (可動態調整相機對焦場景)</li>
+<li>迷失的時候： 按 Home 鍵可以將相機拉回物體場景內</li>
+<li>針對物體的視角： 選物體後按 . NumPad 可以針對物體切換視角，例如 . 1 可切換到物體正視角。</li>
+<li><p>選擇 Render/Postprocessing/Edge 可產生有邊線的卡通風格，若 Threshold 設很大則所有邊線都會出現。</p>
+</li>
+<li><p>推薦：從場景還原相機位置（相機追蹤)</p>
+<ul>
+<li><a href="http://youtu.be/qTwZO9Gi5yw">http://youtu.be/qTwZO9Gi5yw</a></li>
+<li><a href="http://youtu.be/XZGx6UI0s2U">http://youtu.be/XZGx6UI0s2U</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="-">基本動畫</h2>
+<p>到目前為止，我們已經學習了有關 3D 靜態模型的相關建構技術，但是卻還沒辦法讓模型動起來。在 Blender 當中，有關動畫 (Animation) 的部分可以很簡單，也可能很困難。</p>
+<p>要讓一個模型動一動，包含平移、縮放、旋轉，甚至是變化顏色、屬性或材質，都非常的簡單。但是要製作出逼真可操控的好模型，像是人物、動物等等，特別是需要關節骨架動作的模型，就沒有那麼容易了。</p>
+<p>讓我們先從容易的下手，介紹 Blender 當中最基本的動畫製作方式，請看下列教學影片。</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第一個動畫(立方體平移縮放旋轉)</td>
+<td></td>
+<td><a href="animation1.blend">模型</a></td>
+</tr>
+<tr>
+<td>跟隨曲線</td>
+<td></td>
+<td><a href="http://youtu.be/SxQWdE8vTqc">http://youtu.be/SxQWdE8vTqc</a></td>
+<td><a href="follow_path.blend">模型</a></td>
+</tr>
+<tr>
+<td>跟隨圓圈</td>
+<td></td>
+<td><a href="http://youtu.be/TLzZpuvUiGc">http://youtu.be/TLzZpuvUiGc</a></td>
+<td><a href="follow_circle.blend">模型</a></td>
+</tr>
+<tr>
+<td>竹蜻蜓飛行</td>
+<td></td>
+<td><a href="http://youtu.be/_8o3EZ5nJhc">http://youtu.be/_8o3EZ5nJhc</a></td>
+<td><a href="http://youtu.be/IEHzUME64jQ">成品</a></td>
+</tr>
+<tr>
+<td>直升機飛行</td>
+<td></td>
+<td><a href="http://youtu.be/AQftgnr6G_Y">http://youtu.be/AQftgnr6G_Y</a></td>
+<td><a href="http://youtu.be/71oyskcb1wM">成品</a></td>
+</tr>
+<tr>
+<td>影片貼圖 (電視)</td>
+<td></td>
+<td><a href="http://youtu.be/6SFEycfyuag">http://youtu.be/6SFEycfyuag</a></td>
+<td><a href="http://youtu.be/jRQU6Iqy1CI">成品</a></td>
+</tr>
+<tr>
+<td>熱氣球飛行</td>
+<td></td>
+<td><a href="http://youtu.be/9P0a5Gl3Zm4">http://youtu.be/9P0a5Gl3Zm4</a></td>
+<td><a href="http://youtu.be/M-FQn61q3L0">成品</a>  <br/> <a href="balloon_fly.zip">模型</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-shapekey">變形動畫 ShapeKey</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>變形 ShapeKey 1 (基礎)</td>
+<td></td>
+<td><a href="http://youtu.be/AKQJtEUu7VA">http://youtu.be/AKQJtEUu7VA</a></td>
+<td></td>
+</tr>
+<tr>
+<td>變形 ShapeKey 2 (方塊動畫)</td>
+<td></td>
+<td><a href="http://youtu.be/NkdIzTAiOCo">http://youtu.be/NkdIzTAiOCo</a></td>
+<td><a href="ShapeKey2.blend">模型</a></td>
+</tr>
+<tr>
+<td>變形 ShapeKey 3 (猴鼻子)</td>
+<td></td>
+<td><a href="http://youtu.be/m5_QthFJDEM">http://youtu.be/m5_QthFJDEM</a></td>
+<td><a href="ShapeKey3.blend">模型</a>  <br/> <a href="http://youtu.be/5PIU1MV7KZA">成品</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-">關節骨架</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>關節骨架基礎</td>
+<td><a href="4_BlenderArmatureBasic.ppt">ppt</a></td>
+<td><a href="http://youtu.be/oEOHdyb52K4">http://youtu.be/oEOHdyb52K4</a>  mac: <a href="http://youtu.be/GW1XJzVhsk8">http://youtu.be/GW1XJzVhsk8</a></td>
+<td><a href="ArmatureBasic.blend">模型</a></td>
+</tr>
+<tr>
+<td>Blender動畫：木偶人 (主控骨架)</td>
+<td></td>
+<td><a href="http://youtu.be/vgCR7ooDU9s">http://youtu.be/vgCR7ooDU9s</a></td>
+<td><a href="armatureController.blend">模型</a></td>
+</tr>
+<tr>
+<td>Blender動畫：木偶人 (完整骨架動畫)</td>
+<td></td>
+<td><a href="http://youtu.be/Htm1GPW5etc">http://youtu.be/Htm1GPW5etc</a></td>
+<td><a href="http://youtu.be/3kmT-I-16rs">成品</a>  <br/> <a href="woodman_armature.zip">模型</a></td>
+</tr>
+<tr>
+<td>Blender動畫：木偶人 (1:建模)</td>
+<td></td>
+<td><a href="http://youtu.be/zJhh2JRpTCE">http://youtu.be/zJhh2JRpTCE</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Blender動畫：木偶人 (2:綁定)</td>
+<td></td>
+<td><a href="http://youtu.be/J0952p-mNIc">http://youtu.be/J0952p-mNIc</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Blender動畫：木偶人 (3:動畫)</td>
+<td></td>
+<td><a href="http://youtu.be/zUUQ7cQSI6M">http://youtu.be/zUUQ7cQSI6M</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Blender動畫：橡皮人踢腿擺手 (動畫)</td>
+<td></td>
+<td><a href="http://youtu.be/91-gk5XNdhk">http://youtu.be/91-gk5XNdhk</a></td>
+<td><a href="peopleArmature.zip">模型</a></td>
+</tr>
+<tr>
+<td>Blender 的關節與骨架 (王銘璟示範)</td>
+<td></td>
+<td><a href="http://youtu.be/zvj4Gh2JCaU">http://youtu.be/zvj4Gh2JCaU</a></td>
+</tr>
+</tbody>
+</table>
+<p>筆者對關節骨架還不太熟練，沒辦法示範好進一步的操作，因此建議各位讀者看下列 cgboorman 在 YouTube 上的影片，以便練習進一步的關節骨架設計。</p>
+<ul>
+<li>Blender 2.6 Tutorial 13 - Bones &amp; Rigging 101 -- <a href="http://youtu.be/EcNGeIV0BsU">http://youtu.be/EcNGeIV0BsU</a></li>
+<li>Blender 2.6 Tutorial 30 - IK Rigging Pt. 1 / 3  -- <a href="http://youtu.be/4yiC6pEQMAw">http://youtu.be/4yiC6pEQMAw</a></li>
+<li>Blender 2.6 Tutorial 31 - IK Rigging Pt. 2 / 3  -- <a href="http://youtu.be/Cvjg7nDnVLk">http://youtu.be/Cvjg7nDnVLk</a><ul>
+<li>20:35 左手骨架鏡射為右手 (按 S X -1)，然後再用 Armature/flipname 將名稱也改變。</li>
+</ul>
+</li>
+<li>Blender 2.6 Tutorial 32 - IK Rigging Pt. 3 / 3  -- <a href="http://youtu.be/k3r1bWtJlAo">http://youtu.be/k3r1bWtJlAo</a><ul>
+<li>11:40 腳踝的 IK bone 控制。 24:00 主控全身的控制點 25:00 綁定，選 皮膚模型再選 Armature 按 Ctrl -P，選 Set Parent to Armature with Automatic Weight.</li>
+<li>骨架 X 軸鏡射操控打勾時，雙手 (雙腳) 會作相同動作。</li>
+</ul>
+</li>
+</ul>
+<h2 id="-">人物建模</h2>
+<p>由於筆者對人物建模還不熟悉，建議讀者看以下許家瑜同學示範的影片。</p>
+<ul>
+<li>許家瑜 (女娃 1) -- <a href="http://www.youtube.com/watch?v=sgmMwyOp6O0">http://www.youtube.com/watch?v=sgmMwyOp6O0</a></li>
+<li>許家瑜 (女娃 2) -- <a href="http://www.youtube.com/watch?v=kMb_e6OuX0k">http://www.youtube.com/watch?v=kMb_e6OuX0k</a></li>
+<li>許家瑜 (女娃 3) -- <a href="http://www.youtube.com/watch?v=N86qjlAvLcU">http://www.youtube.com/watch?v=N86qjlAvLcU</a></li>
+</ul>
+<h2 id="-">驅動控制</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Blender 動畫：驅動 (1) 用自身的位置控制Y軸大小</td>
+<td></td>
+<td><a href="http://youtu.be/nuFKEPlJ9EI">http://youtu.be/nuFKEPlJ9EI</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Blender 動畫：驅動 (2) 用empty物件控制z軸大小</td>
+<td></td>
+<td><a href="http://youtu.be/C3RrUHsmPnI">http://youtu.be/C3RrUHsmPnI</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Blender 動畫：驅動 (3a) 使用新屬性控制</td>
+<td></td>
+<td><a href="http://youtu.be/1d2X0eT3vic">http://youtu.be/1d2X0eT3vic</a></td>
+<td></td>
+</tr>
+<tr>
+<td>Blender 動畫：驅動 (3b) 球穿越閘門</td>
+<td></td>
+<td><a href="http://youtu.be/r7OFMFT28GY">http://youtu.be/r7OFMFT28GY</a></td>
+<td><a href="DriverBallGate.blend">模型</a></td>
+</tr>
+<tr>
+<td>Blender 動畫：驅動 (4) 直升機動螺旋槳就旋轉</td>
+<td></td>
+<td><a href="http://youtu.be/jWLJlGk6-Gs">http://youtu.be/jWLJlGk6-Gs</a></td>
+<td><a href="http://youtu.be/yF2qgHWdie8">成品</a>  <br/> <a href="DriverHelicopter.blend">模型</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-">粒子物理系統</h2>
+<p>有時候我們會想做出像火焰、水流、布料等等很難用建模做出來的動畫，此時就必須要使用粒子系統 (Particle System) 與物理系統 (Physics System)。</p>
+<p>Blender 中的粒子系統可以模擬出成千上萬的粒子噴射效果，這種效果在製作「火焰、煙霧、隕石」等效果時是非常必要的技術。而物理系統則是用來製作像是「布料、液體、煙霧、碰撞」等效果。以下是我們關於粒子物理系統的教學影片。</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>粒子系統基礎</td>
+<td><a href="5_BlenderParticles.ppt">ppt</a></td>
+<td><a href="http://youtu.be/bELPwqa3VF4">http://youtu.be/bELPwqa3VF4</a></td>
+<td><a href="ParticleBasics.blend">模型</a></td>
+</tr>
+<tr>
+<td>布料</td>
+<td><a href="5_BlenderCloth.ppt">ppt</a></td>
+<td><a href="http://youtu.be/PYby0fg6lFs">http://youtu.be/PYby0fg6lFs</a> <a href="http://youtu.be/P85r4hpyNGE">http://youtu.be/P85r4hpyNGE</a></td>
+<td><a href="Cloth.blend">模型</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-">合法素材取得</h2>
+<p>為了製作動畫，您通常需要取得一些外部的素材，像是「材質、圖片、模型、影片、音樂、音效」等等。</p>
+<p>如果您隨便從網路上取得這些素材，很容易就會不小心侵犯智慧財產權，因此最好能夠小心辨識素材的合法性。</p>
+<p>目前大部分的合法素材都是以創作共用的方式在網路上分享的，以下影片會告訴您如何去下載合法的動畫用素材，特別是「創作共用」類的素材。</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>動畫使用的創作共用素材</td>
+<td><a href="BlenderLegalResource.ppt">ppt</a></td>
+<td><a href="http://youtu.be/zQVkOuD4Ow8">http://youtu.be/zQVkOuD4Ow8</a> <a href="http://youtu.be/fHLrK2w35jI">http://youtu.be/fHLrK2w35jI</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>模型： <a href="http://www.blendswap.com/">http://www.blendswap.com/</a>, <ul>
+<li>森林場景： <a href="http://www.blendswap.com/blends/view/77903">http://www.blendswap.com/blends/view/77903</a></li>
+</ul>
+</li>
+<li>音樂：<a href="http://freemusicarchive.org/">http://freemusicarchive.org/</a> , <a href="http://www.jamendo.com/">http://www.jamendo.com/</a> , <a href="http://www.audiomicro.com/">http://www.audiomicro.com/</a> </li>
+<li>音效：<a href="http://www.freesfx.co.uk/">http://www.freesfx.co.uk/</a> , <a href="http://www.freesound.org/browse/">http://www.freesound.org/browse/</a> </li>
+</ul>
+<h2 id="-blender-">使用 Blender 加入後製特效</h2>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>文章/投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>以 Node Editor 製作模糊效果</td>
+<td></td>
+<td><a href="http://youtu.be/DB3K19cYi4gv">http://youtu.be/DB3K19cYi4gv</a></td>
+<td><a href="BlurBall.blend">ppt</a></td>
+</tr>
+<tr>
+<td>以 Node Editor 製作前景模糊、背景清楚的效果</td>
+<td></td>
+<td><a href="http://youtu.be/fj2aBmnXTcM">http://youtu.be/fj2aBmnXTcM</a></td>
+<td><a href="BlurBallOverGround2.blend">模型</a></td>
+</tr>
+<tr>
+<td>演算圖層：做出移動中有模糊效果的球</td>
+<td></td>
+<td>&lt;<a href="http://youtu.be/9_hcFK-9d8o">http://youtu.be/9_hcFK-9d8o</a></td>
+<td><a href="MovingBall.blend">模型</a></td>
+</tr>
+<tr>
+<td>演算圖層：做出被甜甜圈遮到的移動模糊球</td>
+<td></td>
+<td><a href="http://youtu.be/YqVf2Sd53wo">http://youtu.be/YqVf2Sd53wo</a></td>
+<td><a href="BallBump.blend">模型</a>  <br/> <a href="http://youtu.be/YqVf2Sd53wo">成品</a></td>
+</tr>
+<tr>
+<td><a href="removebackground">去除綠背景</a></td>
+<td></td>
+<td><a href="http://youtu.be/zo_6FfzAcwc">http://youtu.be/zo_6FfzAcwc</a></td>
+<td><a href="http://youtu.be/EfW1uw-TEBQ">影片成品</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-moviemaker-">使用 MovieMaker 編輯字幕、配音、與製作影片</h2>
+<p>最後，您需要將所有用 Blender 製作出來的影片都剪接放在一起，然後配上字幕、音樂與聲音。</p>
+<p>雖然 Blender 當中有一個 Video Sequence Editor 可以進行較複雜的影片後製動作，但是卻不太適合用來做字幕與配音，在此我們採用 Windows 當中內建的 MovieMaker，來示範影片製作剪輯的方法，以便能夠完整的介紹動畫製作的流程。</p>
+<table>
+<thead>
+<tr>
+<th>主題</th>
+<th>投影片</th>
+<th>教學影片</th>
+<th>模型下載</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>使用 MovieMaker 製作影片</td>
+<td></td>
+<td><a href="http://youtu.be/2maI-GKUmCE">http://youtu.be/2maI-GKUmCE</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><a href="http://www.aegisub.org/">http://www.aegisub.org/</a> -- Aegisub is a free, cross-platform open source tool for creating and modifying subtitles</li>
+<li>製作字幕軟體程式：快速幫影片配字幕（.srt） -- <a href="http://wiiind.com/?p=1282">http://wiiind.com/?p=1282</a></li>
+</ul>
+<h2 id="-">其他相關工具</h2>
+<ul>
+<li>開源影像處理軟體：建議採用 Krita -- <a href="http://krita.org/download/krita-desktop/">http://krita.org/download/krita-desktop/</a></li>
+<li>開源影片後製軟體：建議採用 Natron -- <a href="http://natron.inria.fr/">http://natron.inria.fr/</a></li>
+</ul>
+<h2 id="-blender-3d-">用 blender 做 3D 遊戲</h2>
+<ul>
+<li>Blender Game Tutorial (2.6): Building a 3D Game - Part 1 -- <a href="http://www.youtube.com/watch?v=5Wi23L3KI1U">http://www.youtube.com/watch?v=5Wi23L3KI1U</a></li>
+<li>Blender Game Tutorial (2.6): Building a 3D Game - Part 2 -- <a href="http://www.youtube.com/watch?v=ioz2V94Sq2I">http://www.youtube.com/watch?v=ioz2V94Sq2I</a></li>
+</ul>
+<h2 id="-">更多教材</h2>
+<p>對於進階的動畫，特別是關於骨架綁定等部分，有許多部分超出筆者目前的能力範圍，目前筆者還沒有製作相關影片，但是還好網路上有許多的同好，他們的動畫能力都遠超過我，像是德魯依、Andrew Price、Artspacemedia 等等，您可以參考下列網址，以便學習進一步的 Blender 動畫技巧。</p>
+<ul>
+<li>BornCG -- <a href="http://www.youtube.com/user/cgboorman/videos">http://www.youtube.com/user/cgboorman/videos</a><ul>
+<li>Blender 2.7 -- <a href="http://www.youtube.com/playlist?list=PLda3VoSoc_TR7X7wfblBGiRz-bvhKpGkS">http://www.youtube.com/playlist?list=PLda3VoSoc_TR7X7wfblBGiRz-bvhKpGkS</a></li>
+</ul>
+</li>
+<li>Andrew Price (英文：澳洲)：<a href="http://ccckmit.wikidot.com/3d:AndrewPrice">http://ccckmit.wikidot.com/3d:AndrewPrice</a></li>
+<li>德魯依 (中文：台灣)：<a href="http://ccckmit.wikidot.com/3d:druid">http://ccckmit.wikidot.com/3d:druid</a></li>
+<li>Artspacemedia (中文：台灣)：<a href="http://ccckmit.wikidot.com/3d:artspacemedia">http://ccckmit.wikidot.com/3d:artspacemedia</a><ul>
+<li>Blender 基礎教程 - Shape Keys的基本使用<ul>
+<li><a href="http://www.youtube.com/watch?v=Txbzb4wjoMw">http://www.youtube.com/watch?v=Txbzb4wjoMw</a></li>
+</ul>
+</li>
+<li>Blender 基礎教程 - 載入中文字型<ul>
+<li><a href="http://www.youtube.com/watch?v=vDY9CXcG364">http://www.youtube.com/watch?v=vDY9CXcG364</a></li>
+</ul>
+</li>
+<li>Blender 基礎教程 - 常用文字屬性的設定和應用<ul>
+<li><a href="http://www.youtube.com/watch?v=UH12xllyTko">http://www.youtube.com/watch?v=UH12xllyTko</a></li>
+</ul>
+</li>
+<li>Blender 基礎教程 - 演算圖層(Render Layers)基礎 1 (讚！)<ul>
+<li><a href="http://www.youtube.com/watch?v=Tqx9AQQycTs">http://www.youtube.com/watch?v=Tqx9AQQycTs</a></li>
+</ul>
+</li>
+<li>Blender 基礎教程 - 演算圖層(Render Layers)基礎 2 (遮罩 MaskLayer 的使用)<ul>
+<li><a href="http://www.youtube.com/watch?v=4xarYZILxy4">http://www.youtube.com/watch?v=4xarYZILxy4</a></li>
+</ul>
+</li>
+<li>Blender 基礎教程 - Driver(驅動)基礎 1<ul>
+<li><a href="http://www.youtube.com/watch?v=5DLeKVikRJI">http://www.youtube.com/watch?v=5DLeKVikRJI</a></li>
+</ul>
+</li>
+<li>Blender 基礎教程 - Driver(驅動)基礎 2<ul>
+<li><a href="http://www.youtube.com/watch?v=k2bsaKlLycc">http://www.youtube.com/watch?v=k2bsaKlLycc</a></li>
+</ul>
+</li>
+<li>Blender 基礎教程 - Driver(驅動)基礎 3<ul>
+<li><a href="http://www.youtube.com/watch?v=r5ViSPvcTNM">http://www.youtube.com/watch?v=r5ViSPvcTNM</a></li>
+</ul>
+</li>
+<li>Blender 基礎教程 - Driver(驅動)基礎 4<ul>
+<li><a href="http://www.youtube.com/watch?v=utlpOsXyqAs">http://www.youtube.com/watch?v=utlpOsXyqAs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>2D 轉 3D<ul>
+<li><a href="http://www.youtube.com/watch?v=IqnlB7xbAwY">http://www.youtube.com/watch?v=IqnlB7xbAwY</a></li>
+</ul>
+</li>
+<li>3D 印表 -- <a href="http://www.blender3d.org/e-shop/product_info_n.php?products_id=160">http://www.blender3d.org/e-shop/product_info_n.php?products_id=160</a></li>
+<li><p>快捷鍵：<a href="http://waldobronchart.be/blenderkeyboard/">http://waldobronchart.be/blenderkeyboard/</a></p>
+</li>
+<li><p>插件</p>
+<ul>
+<li>匯出成網頁:  <a href="http://www.blend4web.com/en/downloads/">http://www.blend4web.com/en/downloads/</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

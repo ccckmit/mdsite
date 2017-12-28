@@ -1,0 +1,244 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 JavaScript 設計網站 >>  第 2 章 - HTML 網頁設計</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">用 JavaScript 設計網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="html.html" class="pure-menu-link">2. HTML</a></li>
+<li class="pure-menu-item"><a href="css.html" class="pure-menu-link">3. CSS</a></li>
+<li class="pure-menu-item"><a href="javascript.html" class="pure-menu-link">4. JavaScript</a></li>
+<li class="pure-menu-item"><a href="frontend.html" class="pure-menu-link">5. 前端網頁</a></li>
+<li class="pure-menu-item"><a href="template.html" class="pure-menu-link">6. 樣版引擎</a></li>
+<li class="pure-menu-item"><a href="backend.html" class="pure-menu-link">7. 後端 Server</a></li>
+<li class="pure-menu-item"><a href="communication.html" class="pure-menu-link">8. 前後端通訊</a></li>
+<li class="pure-menu-item"><a href="project.html" class="pure-menu-link">9. 完整專案</a></li>
+<li class="pure-menu-item"><a href="online.html" class="pure-menu-link">10. 上線營運</a></li>
+<li class="pure-menu-item"><a href="running.html" class="pure-menu-link">11. 網站維護</a></li>
+<li class="pure-menu-item"><a href="framework.html" class="pure-menu-link">12. 進階框架</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">附錄</a></li>
+<li class="pure-menu-item"><a href="nginx.html" class="pure-menu-link">a. Nginx 的用途</a></li>
+<li class="pure-menu-item"><a href="digitalocean.html" class="pure-menu-link">b. Digital Ocean</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-2-html-">第 2 章 - HTML 網頁設計</h1>
+<h2 id="html-css-javascript">HTML、CSS 與 JavaScript</h2>
+<p>HTML、CSS 與 JavaScript 是讓 Web Browser 運作的三大技術，要學會 Web 程式設計的第一步，就是要學會這三項技術，在本章中，我們將從最基礎的 HTML 開始。</p>
+<p>如果您想要學習這些技術，筆者強烈的推薦您觀看 w3schools 這個網站，網址如下。</p>
+<ul>
+<li><a href="http://www.w3schools.com/">http://www.w3schools.com/</a></li>
+</ul>
+<p>學習 HTML、CSS、JavaScript 的順序，最好先從 HTML 開始，因為 HTML 最簡單，而且是整個 Web 技術的表現語言，學會 HTML 之後就可以學習 CSS，看看如何對 HTML 進行格式化套表呈現的動作，然後再進一步學習 JavaScript 這個小型程式語言，以便讓網頁更加動態，增強網頁的的互動功能。</p>
+<p>以下是 w3schools 當中這三個主題的網頁，如果您是一個程式設計師，相信您可以用很短的時間就學會這些主題。</p>
+<ul>
+<li><a href="http://www.w3schools.com/html/default.asp">http://www.w3schools.com/html/default.asp</a></li>
+<li><a href="http://www.w3schools.com/css/default.asp">http://www.w3schools.com/css/default.asp</a></li>
+<li><a href="http://www.w3schools.com/js/default.asp">http://www.w3schools.com/js/default.asp</a></li>
+</ul>
+<p>一但學會了 HTML、CSS、JavaScript 這三種技術，您就可以開始向 Server 端的技術邁進了。</p>
+<h2 id="-">簡易網頁</h2>
+<p>HTML 網頁是一種純文字檔案，您只要用記事本這樣的文字編輯器就可以輕易的編出來，以下是一個範例：</p>
+<pre><code class="lang-html">&lt;html&gt;
+&lt;body&gt;
+Hello!
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>檢視檔案：<a href="https://dl.dropbox.com/u/101584453/web/wp/code/hello1.htm">https://dl.dropbox.com/u/101584453/web/wp/code/hello1.htm</a></p>
+<p>您可以看到在上述範例中，Hello! 訊息被夾在 <code>&lt;body&gt;</code> 與 <code>&lt;/body&gt;</code> 中間，而外層又有 <code>&lt;html&gt;</code> 與 <code>&lt;/html&gt;</code> 包覆，像這樣的結構稱為標記語言 (Markup Language)。</p>
+<p>如果我們在上述文件中再加上一句 <code>&lt;a href=&quot;http://tw.yahoo.com/&quot;&gt;Yahoo!&lt;/a&gt;</code> 這樣的標記，那麼網頁中將會出現 Yahoo! 這個詞彙，該詞彙通常是藍色文字，而且可以用滑鼠點擊，當您點擊之後網頁就會被導到 Yahoo 台灣的首頁，這種點選後會導入另一個網頁的機制是 Web 的最大特色，稱為 Hyperlink (超連結)，而那些被 <code>&lt;a&gt; &lt;/a&gt;</code> 標記起來的文字，就稱為 Hyper Text (超文字)。</p>
+<pre><code class="lang-html">&lt;html&gt;
+&lt;body&gt;
+Hello! 
+&lt;a href=&quot;http://tw.yahoo.com/&quot;&gt;Yahoo!&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>(筆者註：標記 a 當中的 href 是 Hyperlink Reference (超連結引用) 的縮寫，而 a 則是 anchor (錨) 的意思)。</p>
+<p>檢視檔案：<hello2.htm></p>
+<p>而這也正是 HTML 之全名 Hyper Text Markup Language 的意義，也就是一種含有超連結的標記語言。</p>
+<p>由於 HTML 標記語言是有層次性的，因此在排版時我們經常都會使用縮排以凸顯出這種層次感，例如以上的範例經過縮排之後就變成了如下的情況。</p>
+<pre><code class="lang-html">&lt;html&gt;
+    &lt;body&gt;
+        Hello! 
+        &lt;a href=&quot;http://tw.yahoo.com/&quot;&gt;Yahoo!&lt;/a&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>檢視檔案：<hello3.htm></p>
+<p>這樣的結構看起來更加一目了然，能夠凸顯出每個層次之間的包含關係。</p>
+<h2 id="html-">HTML 的表頭</h2>
+<p>雖然上述範例已經是 HTML 網頁了，而且也通常可以正常檢視了，但是還不夠完整，一個完整的 HTML 網頁通常要包含足夠的表頭資訊，以便讓瀏覽器能正確的辨認這個網頁的類型與編碼方式，以下是一個範例：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39;&gt; 
+    &lt;/head&gt;
+    &lt;body&gt;
+        Hello! 你好！
+        &lt;a href=&quot;http://tw.yahoo.com/&quot;&gt;Yahoo!&lt;/a&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>檢視檔案：<hello4.htm></p>
+<p><img src="HtmlHello4.png" alt=""></p>
+<p>其中第一句的 <code>&lt;!DOCTYPE html&gt;</code> 是告訴瀏覽器，這個文件是一個 HTML 檔案，而  <code>&lt;meta charset=&#39;utf-8&#39;&gt;</code> 這句話，則是告訴瀏覽器這個文件的編碼是用 UTF-8 的格式。</p>
+<p>所以您必須將上述檔案，儲存成 unicode 的 UTF-8 格式，這樣網頁才能正確運作，否則就有可能出現亂碼的情況，以下是筆者使用 Notepad++ 設定 UTF-8 格式的情況。</p>
+<p><img src="NotepadUtf8.png" alt=""></p>
+<h2 id="-">格式化</h2>
+<p>從上述範例中，您可以看到即使我們在 HTML 的原始文字檔案中進行換行，但是呈現出來的結果卻沒有換行，如果您真的想要強制換行的話，在 HTML 當中必須用 <code>&lt;BR/&gt;</code> 這個標記，才能讓文字真正換行。</p>
+<p>但是強制換行並不是一個好的寫法，比較好的方法是用段落標記 <code>&lt;p&gt;...&lt;/p&gt;</code> 把您的段落包起來，這樣在段落結束後就會換行了。</p>
+<p>另外、還有 <code>&lt;b&gt;...&lt;/b&gt;</code> 標記 (也可以用 <code>&lt;strong&gt; ... &lt;/strong&gt;</code>) 可以讓文字變粗體，而 <code>&lt;i&gt;...&lt;/i&gt;</code> 指令則可以讓文字呈現斜體，<code>&lt;em&gt; ... &lt;/em&gt;</code> 標記可以強調文字，而 <code>&lt;code&gt;...&lt;/code&gt;</code> 可以讓文字以類似程式碼的字型輸出。</p>
+<p>若要讓文字變成上標，可以用 <code>&lt;sup&gt;...&lt;/sup&gt;</code>，或用 <code>&lt;sub&gt;...&lt;/sub&gt;</code> 則可以讓文字變下標，以下範例綜合的呈現了這些格式化標記的結果。</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&#39;utf-8&#39;&gt; 
+    &lt;/head&gt;
+    &lt;body&gt;
+      一般字體 (Plain Text) &lt;BR/&gt;
+      &lt;i&gt;斜體 (Italic)&lt;/i&gt; &lt;BR/&gt;
+      &lt;b&gt;粗體 (Bold)&lt;/b&gt; &lt;BR/&gt;
+      &lt;p&gt;
+        &lt;strong&gt;明顯 (Strong)&lt;/strong&gt;
+        &lt;em&gt;強調 (Emphasized)&lt;/em&gt;
+      &lt;/p&gt;
+      &lt;p&gt;
+        這是 &lt;sup&gt;上標&lt;/sup&gt; 與 &lt;sub&gt;下標&lt;/sub&gt; 的顯示情況！
+      &lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>檢視檔案：<format.htm></p>
+<p><img src="HtmlFormat.png" alt=""></p>
+<h2 id="-">標題</h2>
+<p>HTML 的章節標題共有六種層次，從 h1 到 h6，通常 h1 代表最大的第一層標題，會用最大的字型顯示，而 h6 則是最小的第六層標題，會用最小的字型顯示。</p>
+<pre><code class="lang-html">&lt;h1&gt;第 1 層段落標題&lt;/h1&gt;
+&lt;h2&gt;第 2 層段落標題&lt;/h2&gt;
+&lt;h3&gt;第 3 層段落標題&lt;/h3&gt;
+&lt;h4&gt;第 4 層段落標題&lt;/h4&gt;
+&lt;h5&gt;第 5 層段落標題&lt;/h5&gt;
+&lt;h6&gt;第 6 層段落標題&lt;/h6&gt;
+</code></pre>
+<p>而整個網頁的標題則是用 <code>&lt;title&gt;...&lt;/title&gt;</code> 進行標記，如下所示。</p>
+<pre><code class="lang-html">&lt;title&gt;網頁標題&lt;/title&gt;
+</code></pre>
+<p>以下是這些標題的使用範例，您可以點選看看。</p>
+<p>檢視檔案：<header1_6.htm></p>
+<p><img src="HtmlHeader1_6.png" alt=""></p>
+<h2 id="-image">影像 Image</h2>
+<p>在 HTML 中，要顯示影像或圖片，只要使用 <code>&lt;img src=&quot;圖片相對路徑&quot;&gt;</code> 就行了。如果要指定大小，就可以加上 width 與 height 屬性，如以下範例所示。</p>
+<pre><code class="lang-html">&lt;img src=&quot;F7501.gif&quot;/&gt;
+&lt;img src=&quot;F7501.gif&quot; width=&quot;200&quot; height=&quot;300&quot;/&gt;
+&lt;img src=&quot;F7501.gif&quot; width=&quot;20%&quot;/&gt;
+</code></pre>
+<p>上述第一個指令 <code>&lt;img src=&quot;F7501.jpg&quot;/&gt;</code> 會按照原圖大小顯示，而 <code>&lt;img src=&quot;F7501.jpg&quot; width=&quot;300&quot; height=&quot;500&quot;/&gt;</code> 則會將圖形縮放到寬度 200，高度 300 的大小，最後一個用 20% 代表縮放到寬度為瀏覽器畫面視窗的百分之二十那麼大。</p>
+<p>檢視檔案：<a href="https://dl.dropbox.com/u/101584453/web/wp/code/img.htm">https://dl.dropbox.com/u/101584453/web/wp/code/img.htm</a></p>
+<p><img src="HtmlImg.png" alt=""></p>
+<p>評論：竟然趁機為自己的書打廣告，真是太惡劣了！....</p>
+<h2 id="-table">表格 Table</h2>
+<p>在 HTML 當中、有很多排版都是使用表格的方式製作的，例如「側欄、上方橫幅」等等，表格的語法如以下範例所示。</p>
+<pre><code class="lang-html">&lt;table&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;欄 1&lt;/th&gt;
+&lt;th&gt;欄 2&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;th&gt;列 1&lt;/th&gt;
+&lt;td&gt;1,1&lt;/td&gt;
+&lt;td&gt;1,2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;th&gt;列 2&lt;/th&gt;
+&lt;td&gt;2, 1&lt;/td&gt;
+&lt;td&gt;2, 2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+</code></pre>
+<p>表格的語法都是由 <code>&lt;table&gt;...&lt;/table&gt;</code> 所夾住的，其中 <code>&lt;tr&gt;...&lt;/tr&gt;</code> 會夾住一個列，而每個列又可以分成數個欄，這些欄可能用 <code>&lt;th&gt;..&lt;/th&gt;</code> 或 <code>&lt;td&gt;...&lt;/td&gt;</code> 夾住，其中 th 通常是用在標頭、而 td 則是用在內容。</p>
+<p>檢視檔案：<table.htm></p>
+<p><img src="table.jpg" alt=""></p>
+<h2 id="-list">項目 list</h2>
+<p>HTML 的項目是用 <code>&lt;li&gt;...&lt;/li&gt;</code> 語法所框住的，如果在項目的外面加上 <code>&lt;ul&gt;...&lt;/ul&gt;</code> ，那就會顯示無編號的項目清單，若加上 <code>&lt;ol&gt;...&lt;/ol&gt;</code>，那就會顯示有編號的項目清單。</p>
+<p>無編號項目清單：</p>
+<pre><code class="lang-html">&lt;ul&gt;
+&lt;li&gt;項目 1&lt;/li&gt;
+&lt;li&gt;項目 2&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<p>有編號項目清單：</p>
+<pre><code class="lang-html">&lt;ol&gt;
+&lt;li&gt;項目 1&lt;/li&gt;
+&lt;li&gt;項目 2&lt;/li&gt;
+&lt;/ol&gt;
+</code></pre>
+<p>檢視檔案：<list.htm></p>
+<p><img src="list.jpg" alt=""></p>
+<h2 id="-form">表單 Form</h2>
+<p>在 HTML 當中，表單 (Form) 是指可以讓使用者進行輸入的元件，其語法是用 <code>&lt;form&gt; ...&lt;/form&gt;</code> 夾住一堆的輸入元件，這些輸入元件包含 input (輸入)、 textarea (文字區)、 select (選項) 等，其中的 input 還可以根據其 type 欄位顯示成 checkbox, color, date, datetime, datetime-local, email, file, hidden, image, month, number, password, radio, range, reset, search, submit, tel, text, time, url, week 等各種不同的輸入欄形式，以下是一個表單的範例。</p>
+<pre><code class="lang-html">&lt;form action=&quot;signup&quot; method=&quot;post&quot;&gt;
+帳號: &lt;input type=&quot;text&quot; name=&quot;user&quot;/&gt;&lt;br/&gt;
+密碼: &lt;input type=&quot;password&quot; name=&quot;password&quot;/&gt;&lt;br/&gt;
+信箱: &lt;input type=&quot;email&quot; name=&quot;email&quot;/&gt;&lt;br/&gt;
+生日: &lt;input type=&quot;date&quot; name=&quot;birthday&quot;/&gt;&lt;br/&gt;
+照片: &lt;input type=&quot;file&quot; name=&quot;picture&quot;/&gt;&lt;br/&gt;
+性別: &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;male&quot; checked/&gt; 男
+      &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;female&quot;/&gt; 女&lt;br/&gt;
+血型: &lt;select name=&quot;BloodType&quot;&gt;
+        &lt;option value=&quot;A&quot;&gt;A 型&lt;/option&gt;
+        &lt;option value=&quot;B&quot;&gt;B 型&lt;/option&gt;
+        &lt;option value=&quot;AB&quot;&gt;AB 型&lt;/option&gt;
+        &lt;option value=&quot;O&quot;&gt;O 型&lt;/option&gt;
+      &lt;/select&gt; &lt;br/&gt;
+自我介紹： &lt;br/&gt;
+&lt;textarea name=&quot;AboutMe&quot;&gt;
+&lt;/textarea&gt; &lt;br/&gt;
+
+&lt;input type=&quot;submit&quot; value=&quot;送出&quot;/&gt;&lt;input type=&quot;reset&quot; value=&quot;清除&quot;/&gt;&lt;br/&gt;
+&lt;/form&gt;
+</code></pre>
+<p>檢視檔案：<form.htm></p>
+<p><img src="form.jpg" alt=""></p>
+<p>在上述的範例中，當 submit 類型的送出鈕被按下後，瀏覽器會將這些填寫的資訊，以第一章所說的 GET/POST 方式，發送給伺服器，如果 method 欄位是 GET，那麼會採用在 HTTP 表頭網址處傳送 <code>singup?user=xxx&amp;password=xxx .....</code> 這樣的形式送出，這種方式會將密碼顯示在瀏覽器的網址列上，比較容易被看到，若 method 欄位是 POST，則會在 HTTP 表頭尾端加上 <code>user=xxx&amp;password=xxx ...</code>  的資訊，不會在網址列上被看到。當然、如果有人監控網路上訊息的話，還是會看得到這些輸入資訊。</p>
+<p>若要更安全，則必須採用 HTTPS 的 SSL 方式傳遞，這種方式會對訊息加密編碼，就比較不會有輸入訊息外洩的危險。</p>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li>W3School : HTML Turorial -- <a href="http://www.w3schools.com/html/default.asp">http://www.w3schools.com/html/default.asp</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

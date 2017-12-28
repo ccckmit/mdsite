@@ -1,0 +1,137 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >> sscanf 函數</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><p>#sscanf 函數</p>
+<p>Sscanf 是很好用的字串剖析工具，並且支援類似 Regular Expression 的功能。</p>
+<p>C 語言中的 scanf 函數，是初學者都會使用的，但也是大部分人都會誤用，或者是無法充分發揮其功能的。</p>
+<p>C 語言的 sscanf() 與 ssprintf() 這兩個函數，採用的是一種既創新又好用的設計法，</p>
+<p>事實上，函數 sscanf() 比 scanf() 更為好用，sscanf() 甚至支援了類似 Regular Expression 的功能，可以讓我們輕易的剖析格式化的字串。</p>
+<p>sscanf 的函數原形如下，其中的 format 格式字串具有複雜的格式指定功能，以下我們將詳細說明這些格式的用途。</p>
+<pre><code class="lang-c">int sscanf ( const char * str, const char * format, ...);
+
+str : 被剖析的字串
+format: 剖析格式
+
+
+在 format 字串中，以 % 起頭者為剖析段落，通常在剖析完成後會指定給後面的變數，其格式語法如下：
+
+剖析段落的語法：%[*][width][modifiers]type
+
+  % 代表變數開始
+
+  * 代表省略不放入變數中
+
+  width 代表最大讀取寬度
+
+  modifier 可以是 {h|I|L} 之一
+  說明 : 其中 h 代表 2 byte 的變數 (像 short int)，
+         I 代表 4 byte 的變數 (像 long int)，
+         L 是 8 byte 的變數 (像 long double)
+
+  type 則可以是 c, d,e,E,f,g,G,o, s, u, x, X 等基本型態，
+       也可以是類似 Regular Expression 的表達式。
+  說明: c : 字元 (char); 
+        d : 整數 (Decimal integer); 
+        f : 浮點數 (Floating Point); 
+        e,E : 科學記號 (Scientific notation); 
+        g,G : 取浮點數或科學記號當中短的那個; 
+        o : 八進位 (Octal Integer); 
+        u : 無號數 (unsigned integer); 
+        x, X : 十六進位 (Hexadecimal integer)
+</code></pre>
+<p>為了說明 sscanf 函數的用法，我們寫了以下程式，以示範 format 欄位的各種寫法。</p>
+<p><strong>檔案：sscanf.c</strong></p>
+<pre><code class="lang-c">#include &lt;stdio.h&gt;
+
+int main() {
+  char name[20], tel[50], field[20], areaCode[20], code[20];
+  int age;
+  sscanf(&quot;name:john age:40 tel:082-313530&quot;, &quot;%s&quot;, name);
+  printf(&quot;%s\n&quot;, name);
+  sscanf(&quot;name:john age:40 tel:082-313530&quot;, &quot;%8s&quot;, name);
+  printf(&quot;%s\n&quot;, name);
+  sscanf(&quot;name:john age:40 tel:082-313530&quot;, &quot;%[^:]&quot;, name);
+  printf(&quot;%s\n&quot;, name);
+  sscanf(&quot;name:john age:40 tel:082-313530&quot;, &quot;%[^:]:%s&quot;, field, name);
+  printf(&quot;%s %s\n&quot;, field, name);
+  sscanf(&quot;name:john age:40 tel:082-313530&quot;, &quot;name:%s age:%d tel:%s&quot;, name, &amp;age, tel);
+  printf(&quot;%s %d %s\n&quot;, name, age, tel);
+  sscanf(&quot;name:john age:40 tel:082-313530&quot;, &quot;%*[^:]:%s %*[^:]:%d %*[^:]:%s&quot;, name, &amp;age, tel);
+  printf(&quot;%s %d %s\n&quot;, name, age, tel);
+
+  char protocol[10], site[50], path[50];
+  sscanf(&quot;http://ccckmit.wikidot.com/cp/list/hello.txt&quot;, 
+     &quot;%[^:]:%*2[/]%[^/]/%[a-zA-Z0-9._/-]&quot;, 
+        protocol, site, path);
+  printf(&quot;protocol=%s site=%s path=%s\n&quot;, protocol, site, path);
+  return 1;
+}
+</code></pre>
+<p>其編譯執行結果如下所示。</p>
+<pre><code>D:\oc&gt;gcc sscanf.c -o sscanf
+
+D:\oc&gt;sscanf
+name:john
+name:joh
+name
+name john
+john 40 082-313530
+john 40 082-313530
+protocol=http site=ccckmit.wikidot.com path=cp/list/hello.txt
+</code></pre><p>###參考文獻</p>
+<ul>
+<li><a href="http://www.cplusplus.comeference/clibrary/cstdio/sprintf/">http://www.cplusplus.comeference/clibrary/cstdio/sprintf/</a></li>
+<li><a href="http://www.cplusplus.com/reference/clibrary/cstdio/sscanf/">http://www.cplusplus.com/reference/clibrary/cstdio/sscanf/</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

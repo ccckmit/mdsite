@@ -1,0 +1,168 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學習 JavaScript 進階技術 >>  衛星定位與地圖 </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">學習 JavaScript 進階技術</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="tool.html" class="pure-menu-link">開發工具</a></li>
+<li class="pure-menu-item"><a href="advance.html" class="pure-menu-link">進階概念</a></li>
+<li class="pure-menu-item"><a href="newSyntax.html" class="pure-menu-link">進階語法</a></li>
+<li class="pure-menu-item"><a href="es6.html" class="pure-menu-link">ES6 新語法</a></li>
+<li class="pure-menu-item"><a href="cssAdvance.html" class="pure-menu-link">CSS 進階</a></li>
+<li class="pure-menu-item"><a href="canvas.html" class="pure-menu-link">Canvas 繪圖</a></li>
+<li class="pure-menu-item"><a href="chart.html" class="pure-menu-link">統計圖表</a></li>
+<li class="pure-menu-item"><a href="game.html" class="pure-menu-link">遊戲設計</a></li>
+<li class="pure-menu-item"><a href="gpsmap.html" class="pure-menu-link">衛星地圖</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">影像處理</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">機器翻譯</a></li>
+<li class="pure-menu-item"><a href="frontendFramework.html" class="pure-menu-link">前端框架</a></li>
+<li class="pure-menu-item"><a href="softwareEngineering.html" class="pure-menu-link">軟體工程</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">衛星定位與地圖</h1>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/">Google Maps Javascript API</a><ul>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/map-simple">Simple Map</a> -- 簡單地圖。</li>
+<li><a href="https://developers.google.com/maps/documentation/javascript/examples/map-geolocation">Geolocation</a> -- 定位！</li>
+</ul>
+</li>
+</ul>
+<h2 id="-simplemap">範例: SimpleMap</h2>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Simple Map&lt;/title&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1.0&quot;&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;style&gt;
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+
+var map;
+function initMap() {
+  map = new google.maps.Map(document.getElementById(&#39;map&#39;), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 8
+  });
+}
+
+    &lt;/script&gt;
+    &lt;script src=&quot;https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&amp;callback=initMap&quot;
+        async defer&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="-geolocation">範例: Geolocation</h2>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Geolocation&lt;/title&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;initial-scale=1.0, user-scalable=no&quot;&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;style&gt;
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+// Note: This example requires that you consent to location sharing when
+// prompted by your browser. If you see the error &quot;The Geolocation service
+// failed.&quot;, it means you probably did not give permission for the browser to
+// locate you.
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById(&#39;map&#39;), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 6
+  });
+  var infoWindow = new google.maps.InfoWindow({map: map});
+
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(&#39;Location found.&#39;);
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn&#39;t support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        &#39;Error: The Geolocation service failed.&#39; :
+                        &#39;Error: Your browser doesn\&#39;t support geolocation.&#39;);
+}
+
+    &lt;/script&gt;
+    &lt;script src=&quot;https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&amp;signed_in=true&amp;callback=initMap&quot;
+        async defer&gt;
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

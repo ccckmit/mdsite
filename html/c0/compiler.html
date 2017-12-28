@@ -1,0 +1,133 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 C 語言寫《嵌入式作業系統》 >>  編譯器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">用 C 語言寫《嵌入式作業系統》</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="introduction.html" class="pure-menu-link">C 的專案結構</a></li>
+<li class="pure-menu-item"><a href="header.html" class="pure-menu-link">標頭檔 .h</a></li>
+<li class="pure-menu-item"><a href="io.html" class="pure-menu-link">輸出入</a></li>
+<li class="pure-menu-item"><a href="link.html" class="pure-menu-link">啟動與連結 ld</a></li>
+<li class="pure-menu-item"><a href="makefile.html" class="pure-menu-link">專案建置 Makefile</a></li>
+<li class="pure-menu-item"><a href="interrupt.html" class="pure-menu-link">中斷與切換</a></li>
+<li class="pure-menu-item"><a href="multitask.html" class="pure-menu-link">MultiTask</a></li>
+<li class="pure-menu-item"><a href="preemptive.html" class="pure-menu-link">強制切換</a></li>
+<li class="pure-menu-item"><a href="thread.html" class="pure-menu-link">作業系統</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">編譯器</h1>
+<p>撰寫中 ....</p>
+<h2 id="-">剖析</h2>
+<ul>
+<li><a href="https://github.com/embedded2015ubi/blob/master/parser.c">https://github.com/embedded2015ubi/blob/master/parser.c</a></li>
+</ul>
+<h2 id="-">程式碼產生</h2>
+<ul>
+<li><a href="https://github.com/embedded2015/rubi/blob/master/asm.h">https://github.com/embedded2015/rubi/blob/master/asm.h</a></li>
+</ul>
+<pre><code class="lang-C">#ifndef RUBI_ASM_INCLUDED
+#define RUBI_ASM_INCLUDED
+
+#include &lt;stdint.h&gt;
+
+unsigned char *ntvCode;
+int ntvCount;
+
+enum { EAX = 0, ECX, EDX, EBX, ESP, EBP, ESI, EDI };
+
+static inline void emit(unsigned char val)
+{
+    ntvCode[ntvCount++] = (val);
+}
+static inline void emitI32(unsigned int val)
+{
+    emit(val &lt;&lt; 24 &gt;&gt; 24);
+    emit(val &lt;&lt; 16 &gt;&gt; 24);
+    emit(val &lt;&lt;  8 &gt;&gt; 24);
+    emit(val &lt;&lt;  0 &gt;&gt; 24);
+}
+static inline void emitI32Insert(unsigned int val, int pos)
+{
+    ntvCode[pos + 0] = (val &lt;&lt; 24 &gt;&gt; 24);
+    ntvCode[pos + 1] = (val &lt;&lt; 16 &gt;&gt; 24);
+    ntvCode[pos + 2] = (val &lt;&lt;  8 &gt;&gt; 24);
+    ntvCode[pos + 3] = (val &lt;&lt;  0 &gt;&gt; 24);
+}
+
+#endif
+</code></pre>
+<h2 id="jit-">JIT 即時執行</h2>
+<p>範例 11: rubi/engine.c</p>
+<ul>
+<li><a href="https://github.com/embedded2015/rubi/blob/master/engine.c">https://github.com/embedded2015/rubi/blob/master/engine.c</a></li>
+</ul>
+<pre><code class="lang-C">// 以下為剪貼片段，並非完整程式碼 ...
+static void ssleep(uint32_t t) { usleep(t * CLOCKS_PER_SEC / 1000); }
+
+static void add_mem(int32_t addr) { mem.addr[mem.count++] = addr; }
+
+static int xor128()
+{
+    static uint32_t x = 123456789, y = 362436069, z = 521288629;
+    uint32_t t;
+    t = x ^ (x &lt;&lt; 11);
+    x = y; y = z; z = w;
+    w = (w ^ (w &gt;&gt; 19)) ^ (t ^ (t &gt;&gt; 8));
+    return ((int32_t) w &lt; 0) ? -(int32_t) w : (int32_t) w;
+}
+
+static void *funcTable[] = {
+    put_i32, /*  0 */ put_str, /*  4 */ put_ln, /*   8 */ malloc, /* 12 */
+    xor128,  /* 16 */ printf,  /* 20 */ add_mem, /* 24 */ ssleep, /* 28 */
+    fopen,   /* 32 */ fprintf, /* 36 */ fclose,  /* 40 */ fgets,   /* 44 */
+    free,    /* 48 */ freeAddr  /* 52 */
+};
+
+static int execute(char *source)
+{
+    init();
+    lex(source);
+    parser();
+    ((int (*)(int *, void **)) ntvCode)(0, funcTable);
+    dispose();
+    return 0;
+}
+// 程式未完 ....
+</code></pre>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

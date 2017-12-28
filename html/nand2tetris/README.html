@@ -1,0 +1,115 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nand2tetris -- 動手設計電腦的軟硬體 >>  Nand2tetris -- 動手設計電腦的軟硬體</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">Nand2tetris -- 動手設計電腦的軟硬體</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">課程</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 布林邏輯</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 算術電路</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 記憶電路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 組合語言</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 計算機結構</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 組譯器</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 虛擬機 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">8. 虛擬機 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">9. 高階語言</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">10. 編譯器 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">11. 編譯器 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter12.html" class="pure-menu-link">12. 作業系統</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">補充</a></li>
+<li class="pure-menu-item"><a href="bookSlide.html" class="pure-menu-link">補充投影片</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="nand2tetris-">Nand2tetris -- 動手設計電腦的軟硬體</h1>
+<p>陳鍾誠的《計算機結構》與《系統程式》課程，都採用 Nand2tetris 這門網路課程。</p>
+<ul>
+<li>Nand2tetris = 計算機結構 + 系統程式</li>
+</ul>
+<h2 id="-">教材</h2>
+<ul>
+<li>開放課程： <a href="https://www.coursera.org/course/nand2tetris1">coursera:nand2tetris</a> 。<ul>
+<li>官方網站： <a href="http://nand2tetris.org/">http://nand2tetris.org/</a></li>
+<li>課本： <a href="http://nand2tetris.org/book.php">英文版</a> | <a href="http://product.dangdang.com/9261236.html">中文版</a></li>
+<li>Coursera 課程： <a href="https://www.coursera.org/course/nand2tetris1">Part I</a> | <a href="https://www.coursera.org/learn/nand2tetris2/">PartII</a></li>
+<li>講義： <a href="http://nand2tetris.org/course.php">http://nand2tetris.org/course.php</a></li>
+<li>軟體： <a href="http://nand2tetris.org/software.php">http://nand2tetris.org/software.php</a></li>
+</ul>
+</li>
+<li>補充課程： <a href="https://zh-tw.coursera.org/learn/jisuanji-zucheng">计算机组成 Computer Organization</a> , by 陆俊林（Lu Junlin）</li>
+<li>補充教材： <ul>
+<li><a href="http://programmermagazine.github.io/mag/ymag201506/home.html">少年科技人雜誌/2015年6月/NandToTetris 慕課記 -- 從邏輯閘到方塊遊戲</a></li>
+<li><a href="http://programmermagazine.github.io/mag/pmag201507/home.html">程式人雜誌/2015年7月/向 Nand2Tetris 學習電腦硬體設計</a></li>
+<li><a href="http://programmermagazine.github.io/mag/ymag201508/home.html">少年科技人雜誌/2015年6月/NandToTetris Part II 自學記 -- 虛擬機、編譯器與作業系統</a></li>
+<li><a href="http://programmermagazine.github.io/mag/pmag201509/home.html">程式人雜誌/2015年9月/向 Nand2Tetris 學習系統軟體設計</a></li>
+<li><a href="HackALU.html">HackALU 的設計原理</a></li>
+<li><a href="http://product.dangdang.com/23358872.html">計算機組成與嵌入式系統</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="-nand2tetris">關於 nand2tetris</h2>
+<p><a href="http://www.nand2tetris.org/course.php">Nand2tetris</a> 是一門《專案導向》的網路線上課程。</p>
+<p>這門課要求學習者從硬體到軟體完整的實作一台電腦。</p>
+<p>學習者必須從《最基礎的 nand 閘開始，經過 ALU、CPU、組譯器、虛擬機、編譯器到作業系統》，完整的完成總共 12 個章節的習題。</p>
+<p>我用這門課作為金門大學資訊工程系《計算機結構》與《系統程式》的主要教材。</p>
+<p>二年級上學期先學習《計算機結構》，內容是 Nand2tetris 1-5 章。</p>
+<p>二年級下學期接著學《系統程式》，內容是 Nand2tetris 6-12 章。</p>
+<p>這兩門課的內容安排如下：</p>
+<h2 id="-">計算機結構</h2>
+<p>1 - <a href="chapter1.html">布林邏輯</a> -- 簡易基本電路</p>
+<p>2 - <a href="chapter2.html">算術電路</a> -- 加法器 與 ALU</p>
+<p>3 - <a href="chapter3.html">記憶電路</a> -- 正反器、暫存器與記憶體</p>
+<p>4 - <a href="chapter4.html">組合語言</a> -- 組合語言與機器指令</p>
+<p>5 - <a href="chapter5.html">計算機結構</a> -- 處理器與整台電腦</p>
+<h2 id="-">系統程式</h2>
+<p>6 - <a href="chapter6.html">組譯器</a> -- 將組合語言轉為機器語言</p>
+<p>7 - <a href="chapter7.html">虛擬機 (1)</a> -- 將中介語言轉為組合語言</p>
+<p>8 - <a href="chapter8.html">虛擬機 (2)</a> -- 將中介語言轉為組合語言</p>
+<p>9 - <a href="chapter9.html">高階語言</a> -- Hack 語言及語法</p>
+<p>10 - <a href="chapter10.html">編譯器 (1)</a> -- 高階語言剖析</p>
+<p>11 - <a href="chapter11.html">編譯器 (2)</a> -- 程式碼產生</p>
+<p>12 - <a href="chapter12.html">作業系統</a> -- 簡易作業系統</p>
+<h2 id="-">修課方法</h2>
+<ol>
+<li>您可以選擇以 nand2tetris 為主，或者自行設計一顆自己的處理器，或者自行提出其他方案。</li>
+<li>以 nand2tetris 為主者，請看 coursera 上的影片並做習題。</li>
+<li>自行設計處理器者，可用 VHDL/Verilog 等硬體描述語言。</li>
+<li>提出其他方案者，請在《第三週前》將方案提交給老師。</li>
+</ol>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

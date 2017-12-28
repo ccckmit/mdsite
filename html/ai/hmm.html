@@ -1,0 +1,81 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  隱馬可夫模型</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">隱馬可夫模型</h1>
+<p>在「馬可夫鏈」這一章中，我們已經介紹過「馬可夫模型」的概念。</p>
+<p>然而，對於某個機率現象而言，往往不是所有的隨機變數都可觀察到，我們通常只能觀察到部分的隨機變數，也就是系統當中有某些不可觀察的隱含變數。於是我們必須假設有某些不可觀察的隨機變數 Z 的存在。</p>
+<p>隱馬可夫模型 (Hidden Markov Model，HMM) 是用來描述具有隱含變數的隨機過程模型，此模型在人工智慧的許多子領域有很強的應用。</p>
+<p>在正常的馬可夫模型中，狀態對於觀察者來說是直接可見的。這樣狀態的轉換概率便是全部的參數。而在隱馬可夫模型中,狀態並不是直接可見的，但受狀態影響的某些變數則是可見的。每一個狀態在可能輸出的符號上都有一概率分佈。因此輸出符號的序列能夠透露出狀態序列的一些資訊。</p>
+<p>下圖顯示了 HMM 模型的概念，其中的 X 是隱含變數，Y 是可觀察變數，a 是轉換機率 (transition probabilities)，b 是輸出概率 (output probabilities)。</p>
+<p><img src="hmm1.jpg" alt=""></p>
+<p>如果將狀態轉換與輸出區分開來，上圖的連線可以進一步詳細區分為輸出線與轉換線，形成下列模型。</p>
+<p><img src="hmm2.jpg" alt=""></p>
+<p>如果以時間順序為觀察重點，則 HMM 模型可以用下列圖形表示。其中隱含變數  <img src="../timg/837c9f1adf5d.jpg" alt="">  是決定狀態的關鍵，影響了輸出變數  <img src="../timg/95be3b202f70.jpg" alt="">  與下一個狀態  <img src="../timg/ffd39f7b6d8a.jpg" alt=""> 。</p>
+<p><img src="hmm3.jpg" alt=""></p>
+<p>對於 HMM 模型而言，有三個重要的問題，都有對應的演算法可用。</p>
+<ol>
+<li>針對已知的模型，計算某一特定輸出序列的概率：可使用 Forward Algorithm 或 Backward Algorithm 解決.</li>
+<li>針對已知的模型，尋找最可能的能產生某一特定輸出序列的隱含狀態的序列：可以使用 Viterbi Algorithm 解決.</li>
+<li>針對某輸出序列，尋找最可能的狀態轉移以及輸出概率：通常使用最大可能性法則 (Maximum Likelihood) 的演算法，像是 Baum-Welch algorithm (又稱為 Forward-backward Algorithm) 解決，此種演算法是 EM 演算法的一種特例。</li>
+</ol>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li><a href="http://zh.wikipedia.org/zh-tw/%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B">維基百科:隱馬爾可夫模型</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Hidden_Markov_model">Wikipedia:Hidden Markov model</a></li>
+<li><a href="http://www.shokhirev.com/nikolai/abc/alg/hmm/hmm.html">http://www.shokhirev.com/nikolai/abc/alg/hmm/hmm.html</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

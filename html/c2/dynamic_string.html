@@ -1,0 +1,105 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >> 動態字串物件 — (Dynamic String)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><p>#動態字串物件 — (Dynamic String)</p>
+<p>可以動態增長的字串物件，讓您不用再為字串長度傷腦筋。</p>
+<p>歸根究底，字串誤用的問題，通常是由於 C 語言沒有提供一個標準的動態字串而造成的，如果您真的需要一個這樣的程式，那麼就應該採用一個支援動態字串的函式庫，然後將程式改寫如下。</p>
+<p>###範例、字串連接的 C 程式 (動態字串版)</p>
+<pre><code class="lang-c">Str *s = StrNew();
+for (i=0; i&lt;100; i++) {
+  StrAppend(s, token[i]);
+}
+</code></pre>
+<p>這樣的 C 語言程式，其實就與下列範例中的 Java 程式，看來相差不大了，最大的差別是 C 語言沒有支援物件的概念而已。</p>
+<p>範例、字串連接的 Java 程式</p>
+<pre><code class="lang-java">String s = &quot;&quot;;
+for (i=0; i&lt;100; i++)
+   s = s + token[i];
+</code></pre>
+<p>要能撰寫上述這樣的一個程式，動態字串函式庫至少要能支援 StrNew() 與 StrAppend() 這兩個函數，那麼我們應該怎麼做呢？其實，要自己打造這樣一個程式相當容易，筆者可以馬上撰寫一個，如以下範例所示。</p>
+<p>###範例：實作動態字串函式庫</p>
+<pre><code class="lang-c">typedef struct Str {
+  int len, size;
+  char *s;
+};
+
+Str *StrNew();
+void StrAppend(Str *str, char *s);
+
+Str *StrNew() {
+  Str *str = malloc(sizeof(Str));
+  str-&gt;s = malloc(1);
+  str-&gt;s[0] = &#39;\0&#39;;
+  str-&gt;len = 0;
+  str-&gt;size = 1;
+}
+
+void StrAppend(Str *str, char *s) {
+  int newLen = str-&gt;len + strlen(s);
+  if (newLen+1 &gt; str-&gt;size) {
+    int newSize = max(str-&gt;size*2, newLen+1);
+    char *t = malloc(newSize);
+    sprintf(t, &quot;%s%s&quot;, str-&gt;s, s);
+    free(str-&gt;s);
+    str-&gt;s = t;
+    str-&gt;len = newLen;
+    str-&gt;size = newSize;
+  } else {
+    strcat(&amp;str-&gt;s[str-&gt;len], s);
+    str-&gt;len += strlen(s);
+  }
+}
+</code></pre>
+<p>只要有了這樣一個函式庫，那麼我們就不需要為了 C 語言缺乏動態字串而困擾了，也就不需要每次都寫出難看且沒有效率的程式了，而是直接寫出乾淨，簡潔的函式庫了。</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

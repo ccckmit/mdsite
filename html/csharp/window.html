@@ -1,0 +1,210 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 程式設計 -- 基礎、視窗與網路 >>  C# 視窗程式：簡介</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">C# 程式設計 -- 基礎、視窗與網路</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">目錄</a></li>
+<li class="pure-menu-item"><a href="csharp.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="varexp.html" class="pure-menu-link">2. 運算式</a></li>
+<li class="pure-menu-item"><a href="ifloop.html" class="pure-menu-link">3. 流程控制</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="object.html" class="pure-menu-link">6. 物件導向</a></li>
+<li class="pure-menu-item"><a href="exception.html" class="pure-menu-link">7. 例外處理</a></li>
+<li class="pure-menu-item"><a href="file.html" class="pure-menu-link">8. 檔案處理</a></li>
+<li class="pure-menu-item"><a href="datastructure.html" class="pure-menu-link">9. 資料結構</a></li>
+<li class="pure-menu-item"><a href="regexp.html" class="pure-menu-link">10. 正規表達式</a></li>
+<li class="pure-menu-item"><a href="thread.html" class="pure-menu-link">11. 作業系統</a></li>
+<li class="pure-menu-item"><a href="window.html" class="pure-menu-link">12. 視窗程式</a></li>
+<li class="pure-menu-item"><a href="timer.html" class="pure-menu-link">13. 時間驅動</a></li>
+<li class="pure-menu-item"><a href="editor.html" class="pure-menu-link">14. 文字編輯器</a></li>
+<li class="pure-menu-item"><a href="graphics.html" class="pure-menu-link">15. 畫圖功能</a></li>
+<li class="pure-menu-item"><a href="gridview.html" class="pure-menu-link">16. 表格元件</a></li>
+<li class="pure-menu-item"><a href="net.html" class="pure-menu-link">17. 網路程式</a></li>
+<li class="pure-menu-item"><a href="udp.html" class="pure-menu-link">18. UDP 程式</a></li>
+<li class="pure-menu-item"><a href="tcp.html" class="pure-menu-link">19. TCP 程式</a></li>
+<li class="pure-menu-item"><a href="http.html" class="pure-menu-link">20. HTTP Server</a></li>
+<li class="pure-menu-item"><a href="web.html" class="pure-menu-link">21. HTTP Client</a></li>
+<li class="pure-menu-item"><a href="end.html" class="pure-menu-link">結語</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="c-">C# 視窗程式：簡介</h1>
+<h2 id="-c-">視窗與 C# 程式</h2>
+<p>本書所採用的視窗技術，是較舊型的 Windows Forms 技術，而非新型的 WPF 技術，雖然這種技術較為傳統，但是卻比較容易學習，對初學者而言是比較好上手的。</p>
+<p>要學習 C# 的視窗程式設計，只看程式碼往往是不夠的，因為程式碼沒有辦法傳達有關視覺化介面設計過程的實況訊息。因此、最好搭配教學影片同時學習。筆者在金門大學上課的時候，幾乎都有用 CamStudio 將上課過程進行螢幕錄影，讀者可以一邊觀看這些上課錄影，一邊參考本書的程式碼進行學習。</p>
+<ul>
+<li><a href="../cs/home.html">本書的首頁與影片</a></li>
+</ul>
+<p>讀者可以先看「C# 視窗程式設計簡介1, 2 與 C# 視窗控制項巡禮」等三部影片，並且操作一次，有了基本概念之後，就可以繼續下看下列的內容了。</p>
+<h2 id="-">按鈕測試</h2>
+<p>專案下載：<a href="https://dl.dropbox.com/u/101584453/cs/code/ButtonTest.zip">https://dl.dropbox.com/u/101584453/cs/code/ButtonTest.zip</a></p>
+<pre><code class="lang-CS">using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace ButtonTest
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            label1.Text = &quot;你好！&quot;;
+            textBox1.Text = &quot;我很好！&quot;;
+        }
+    }
+}
+</code></pre>
+<h2 id="-">文字型計算機</h2>
+<p>教學錄影：C# 文字型計算機 -- <a href="http://youtu.be/A1KVnrfVF7k">http://youtu.be/A1KVnrfVF7k</a>
+專案下載：<a href="https://dl.dropbox.com/u/101584453/cs/code/TextCalculator.zip">https://dl.dropbox.com/u/101584453/cs/code/TextCalculator.zip</a></p>
+<pre><code class="lang-CS">using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace TextCalculator
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void buttonEqual_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                double number1 = Double.Parse(textBoxNumber1.Text);
+                double number2 = Double.Parse(textBoxNumber2.Text);
+                string op = comboBoxOp.Text;
+                double result = 0.0;
+                // MessageBox.Show(number1 + op + number2 + &quot;=&quot;);
+                switch (op)
+                {
+                    case &quot;+&quot;: result = number1 + number2; break;
+                    case &quot;-&quot;: result = number1 - number2; break;
+                    case &quot;*&quot;: result = number1 * number2; break;
+                    case &quot;/&quot;: result = number1 / number2; break;
+                    default: throw new Exception(&quot;op=&quot; + op + &quot;:Error!&quot;);
+                }
+                textBoxResult.Text = result.ToString();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+            }
+        }
+    }
+}
+</code></pre>
+<h2 id="-">小字典</h2>
+<p>教學錄影：</p>
+<ul>
+<li>C# 實作字典查詢程式 -- <a href="http://youtu.be/yS3G-H_hrFU">http://youtu.be/yS3G-H_hrFU</a></li>
+<li>C# Array 與 List 物件的使用 -- <a href="http://youtu.be/EHSGtKpRprI">http://youtu.be/EHSGtKpRprI</a></li>
+<li>C# HashTable 與 Dictionary 物件的使用 -- <a href="http://youtu.be/hYH-npRmmKM">http://youtu.be/hYH-npRmmKM</a></li>
+<li>C# 將小字典擴充為小翻譯系統 -- <a href="http://youtu.be/_sFsTo41PXs">http://youtu.be/_sFsTo41PXs</a></li>
+</ul>
+<p>專案下載： <a href="https://dl.dropbox.com/u/101584453/cs/code/WinDictionary.zip">https://dl.dropbox.com/u/101584453/cs/code/WinDictionary.zip</a></p>
+<p>執行畫面：</p>
+<p><img src="DictionaryRun.png" alt="小字典執行畫面"></p>
+<p>介面設計</p>
+<p><img src="DictionaryDesign.png" alt="小字典介面設計"></p>
+<pre><code class="lang-CS">using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace WindowsFormsApplication1
+{
+    public partial class FormDictionary : Form
+    {
+        Dictionary&lt;String, String&gt; dict = new Dictionary&lt;string, string&gt;();
+
+        public FormDictionary()
+        {
+            InitializeComponent();
+        }
+
+        private void buttonQuery_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                String eword = comboBoxQuery.Text;
+                String cword = dict[eword];
+                richTextBox.Text = cword;
+            }
+            catch
+            {
+                MessageBox.Show(&quot;輸入錯誤，查不到！&quot;);
+            }
+        }
+
+        private void FormDictionary_Load(object sender, EventArgs e)
+        {
+            String[] eWords = new String[] { &quot;dog&quot;, &quot;cat&quot;, &quot;eat&quot;, &quot;chase&quot;, &quot;run&quot;, &quot;a&quot;,    &quot;the&quot; };
+            String[] cWords = new String[] { &quot;狗&quot;,  &quot;貓&quot;,  &quot;吃&quot;,  &quot;追&quot;,     &quot;跑&quot;,  &quot;一隻&quot;, &quot;這隻&quot; };
+            for (int i = 0; i &lt; eWords.Length; i++)
+            {
+                dict.Add(eWords[i], cWords[i]);
+            }
+        }
+    }
+}
+</code></pre>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

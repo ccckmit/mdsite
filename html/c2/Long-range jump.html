@@ -1,0 +1,104 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >>  長程跳躍 -- (setjump 與 longjump) </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="-setjump-longjump-">長程跳躍 -- (setjump 與 longjump)</h2>
+<p>在錯誤發生時，儲存行程狀態，執行特定程式的方法</p>
+<p><strong>程式範例： setjump 與 longjump</strong></p>
+<pre><code class="lang-C">    #include &lt;stdio.h&gt;
+    #include &lt;setjmp.h&gt;
+
+    jmp_buf jumper;
+
+    int div(int a, int b) {
+      if (b == 0) { // can&#39;t divide by 0
+        longjmp(jumper, -3);
+      }
+      return a / b;
+    }
+
+    int main(int argc, char *argv[]) {
+      int jstatus = setjmp(jumper);
+      if (jstatus == 0) {
+        int a = atoi(argv[1]);
+        int b = atoi(argv[2]);
+        printf(&quot;%d/%d&quot;, a, b);
+        int result = div(a, b);
+        printf(&quot;=%d\n&quot;, result);
+      } 
+      else if (jstatus == -3)
+        printf(&quot; --&gt; Error:divide by zero\n&quot;);
+      else
+        printf(&quot;Unhandled Error Case&quot;);
+    }
+</code></pre>
+<p><strong>執行結果</strong></p>
+<pre><code>    D:\cp&gt;gcc jump.c -o jump
+
+    D:\cp&gt;jump 7 2
+    7/2=3
+
+    D:\cp&gt;jump 7 0
+    7/0 --&gt; Error:divide by zero
+</code></pre><p><strong>來自 jserv 的建議</strong></p>
+<pre><code>    =&gt; 請提及 C 語言作例外處理的重要性，以及如何用 setjump/longjump 實做 user-level thread 和 coroutine
+
+    可參見拙作: http://blog.linux.org.tw/~jserv/archives/001848.html
+</code></pre><p><strong>參考文獻</strong></p>
+<ul>
+<li>Java2s (C / ANSI-C) » setjmp.h » longjmp,  <a href="http://www.java2s.com/Code/C/setjmp.h/longjmplongjump.htm">http://www.java2s.com/Code/C/setjmp.h/longjmplongjump.htm</a>  </li>
+<li>Exception Handling in C without C++ -- Clean error handling without overhead, by Tom Schotland and Peter Petersen <a href="http://www.on-time.com/ddj0011.htm">http://www.on-time.com/ddj0011.htm</a>  </li>
+<li>第16集 C语言中一种更优雅的异常处理机制, 作者：王胜祥　来源：希赛网　<a href="http://www.csai.cn">http://www.csai.cn</a>　2005年5月19日  </li>
+<li>第17集 全面了解setjmp与longjmp的使用, 作者：王胜祥　来源：希赛网　<a href="http://www.csai.cn">http://www.csai.cn</a>　2005年5月21日</li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 程式設計 -- 基礎、視窗與網路 >> </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">C# 程式設計 -- 基礎、視窗與網路</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">目錄</a></li>
+<li class="pure-menu-item"><a href="csharp.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="varexp.html" class="pure-menu-link">2. 運算式</a></li>
+<li class="pure-menu-item"><a href="ifloop.html" class="pure-menu-link">3. 流程控制</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="object.html" class="pure-menu-link">6. 物件導向</a></li>
+<li class="pure-menu-item"><a href="exception.html" class="pure-menu-link">7. 例外處理</a></li>
+<li class="pure-menu-item"><a href="file.html" class="pure-menu-link">8. 檔案處理</a></li>
+<li class="pure-menu-item"><a href="datastructure.html" class="pure-menu-link">9. 資料結構</a></li>
+<li class="pure-menu-item"><a href="regexp.html" class="pure-menu-link">10. 正規表達式</a></li>
+<li class="pure-menu-item"><a href="thread.html" class="pure-menu-link">11. 作業系統</a></li>
+<li class="pure-menu-item"><a href="window.html" class="pure-menu-link">12. 視窗程式</a></li>
+<li class="pure-menu-item"><a href="timer.html" class="pure-menu-link">13. 時間驅動</a></li>
+<li class="pure-menu-item"><a href="editor.html" class="pure-menu-link">14. 文字編輯器</a></li>
+<li class="pure-menu-item"><a href="graphics.html" class="pure-menu-link">15. 畫圖功能</a></li>
+<li class="pure-menu-item"><a href="gridview.html" class="pure-menu-link">16. 表格元件</a></li>
+<li class="pure-menu-item"><a href="net.html" class="pure-menu-link">17. 網路程式</a></li>
+<li class="pure-menu-item"><a href="udp.html" class="pure-menu-link">18. UDP 程式</a></li>
+<li class="pure-menu-item"><a href="tcp.html" class="pure-menu-link">19. TCP 程式</a></li>
+<li class="pure-menu-item"><a href="http.html" class="pure-menu-link">20. HTTP Server</a></li>
+<li class="pure-menu-item"><a href="web.html" class="pure-menu-link">21. HTTP Client</a></li>
+<li class="pure-menu-item"><a href="end.html" class="pure-menu-link">結語</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><table>
+<thead>
+<tr>
+<th style="text-align:left">主題</th>
+<th style="text-align:left">教學影片</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">第 1 章. <a href="csharp.html">簡介與開發環境</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 安裝與課程規定</td>
+<td style="text-align:left"><a href="http://youtu.be/MtCx-T71_bg">http://youtu.be/MtCx-T71_bg</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 開發環境使用</td>
+<td style="text-align:left"><a href="http://youtu.be/_9rEEWE3lXQ">http://youtu.be/_9rEEWE3lXQ</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 控制項巡禮</td>
+<td style="text-align:left"><a href="http://youtu.be/e5366D_ngAA">http://youtu.be/e5366D_ngAA</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 命令列 Hello 程式</td>
+<td style="text-align:left"><a href="http://youtu.be/WcN_Rzw1eac">http://youtu.be/WcN_Rzw1eac</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 命令列編譯器 csc</td>
+<td style="text-align:left"><a href="http://youtu.be/biz51oMWRKk">http://youtu.be/biz51oMWRKk</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 2 章. <a href="varexp.html">變數與運算式</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 基本型態宣告與觀察</td>
+<td style="text-align:left"><a href="http://youtu.be/T81pMd32tMY">http://youtu.be/T81pMd32tMY</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 基本運算操作</td>
+<td style="text-align:left"><a href="http://youtu.be/yMOJjz7VmaE">http://youtu.be/yMOJjz7VmaE</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 運算式家庭作業</td>
+<td style="text-align:left"><a href="http://youtu.be/JTUTdZjLBxI">http://youtu.be/JTUTdZjLBxI</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 3 章. <a href="ifloop.html">流程控制</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ if 語法</td>
+<td style="text-align:left"><a href="http://youtu.be/qM1DpkVqEkQ">http://youtu.be/qM1DpkVqEkQ</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ for, while 迴圈</td>
+<td style="text-align:left"><a href="http://youtu.be/Wk-RZvjgG2o">http://youtu.be/Wk-RZvjgG2o</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 4 章. <a href="array.html">陣列</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 陣列與迴圈</td>
+<td style="text-align:left"><a href="http://youtu.be/CoduSbHPKME">http://youtu.be/CoduSbHPKME</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 5 章. <a href="function.html">函數</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">- 函數的呼叫</td>
+<td style="text-align:left"><a href="http://youtu.be/dnkKId0ZO1c">http://youtu.be/dnkKId0ZO1c</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 6 章. <a href="object.html">物件導向</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 封裝</td>
+<td style="text-align:left"><a href="http://youtu.be/HLNAbXHSQHs">http://youtu.be/HLNAbXHSQHs</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 建構函數</td>
+<td style="text-align:left"><a href="http://youtu.be/HLNAbXHSQHs">http://youtu.be/HLNAbXHSQHs</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 繼承 1</td>
+<td style="text-align:left"><a href="http://youtu.be/pNkvMXp28AE">http://youtu.be/pNkvMXp28AE</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 繼承 2</td>
+<td style="text-align:left"><a href="http://youtu.be/GKxxE3UdGms">http://youtu.be/GKxxE3UdGms</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 多型</td>
+<td style="text-align:left"><a href="http://youtu.be/G1QQyXEpSCk">http://youtu.be/G1QQyXEpSCk</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 件導向練習題講解</td>
+<td style="text-align:left"><a href="http://youtu.be/Om50P0T_aVU">http://youtu.be/Om50P0T_aVU</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 7 章. <a href="exception.html">例外處理</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 錯誤處理</td>
+<td style="text-align:left"><a href="http://youtu.be/7bCefu8BB00">http://youtu.be/7bCefu8BB00</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 8 章. <a href="file.html">檔案處理</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 檔案處理</td>
+<td style="text-align:left"><a href="http://youtu.be/3EyPcAddd70">http://youtu.be/3EyPcAddd70</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 9 章. <a href="datastructure.html">資料結構</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ Array 與 List 物件的使用</td>
+<td style="text-align:left"><a href="http://youtu.be/EHSGtKpRprI">http://youtu.be/EHSGtKpRprI</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ HashTable 與 Dictionary 物件的使用</td>
+<td style="text-align:left"><a href="http://youtu.be/hYH-npRmmKM">http://youtu.be/hYH-npRmmKM</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 10 章. <a href="regexp.html">正規表達式</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">第 11 章. <a href="thread.html">作業系統與 Thread</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 線程與死結</td>
+<td style="text-align:left"><a href="http://youtu.be/O1b31Cc9bfw">http://youtu.be/O1b31Cc9bfw</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 12 章. <a href="window.html">視窗程式簡介</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 按鈕範例與視窗專案的結構</td>
+<td style="text-align:left"><a href="http://youtu.be/Vhk1SsZTTVk">http://youtu.be/Vhk1SsZTTVk</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 視窗程式設計簡介1</td>
+<td style="text-align:left"><a href="http://youtu.be/MtCx-T71_bg">http://youtu.be/MtCx-T71_bg</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 視窗程式設計簡介2</td>
+<td style="text-align:left"><a href="http://youtu.be/_9rEEWE3lXQ">http://youtu.be/_9rEEWE3lXQ</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 視窗控制項巡禮</td>
+<td style="text-align:left"><a href="http://youtu.be/e5366D_ngAA">http://youtu.be/e5366D_ngAA</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 文字型計算機</td>
+<td style="text-align:left"><a href="http://youtu.be/bJ-fANUuRcU">http://youtu.be/bJ-fANUuRcU</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 字典查詢程式</td>
+<td style="text-align:left"><a href="http://youtu.be/yS3G-H_hrFU">http://youtu.be/yS3G-H_hrFU</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 將小字典擴充為小翻譯系統</td>
+<td style="text-align:left"><a href="http://youtu.be/_sFsTo41PXs">http://youtu.be/_sFsTo41PXs</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 13 章. <a href="timer.html">時間驅動</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 時間驅動的邏輯</td>
+<td style="text-align:left"><a href="http://youtu.be/X0m8heWQrvM">http://youtu.be/X0m8heWQrvM</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 設計短跑用碼表</td>
+<td style="text-align:left"><a href="http://youtu.be/BAT8UsY__mU">http://youtu.be/BAT8UsY__mU</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ Timer 與碼錶</td>
+<td style="text-align:left"><a href="http://youtu.be/UA0rizekLow">http://youtu.be/UA0rizekLow</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ Timer 與小時鐘</td>
+<td style="text-align:left"><a href="http://youtu.be/NJ6B5-vO_88">http://youtu.be/NJ6B5-vO_88</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ Timer 與移動球</td>
+<td style="text-align:left"><a href="http://youtu.be/6Gs4MPzt6q4">http://youtu.be/6Gs4MPzt6q4</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 14 章. <a href="editor.html">設計文字編輯器</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 文字編輯器</td>
+<td style="text-align:left"><a href="http://youtu.be/xz5sKvZjLZI">http://youtu.be/xz5sKvZjLZI</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 15 章. <a href="graphics.html">畫圖功能</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 畫圖功能示範</td>
+<td style="text-align:left"><a href="http://youtu.be/8aAql8R4WSg">http://youtu.be/8aAql8R4WSg</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 小畫板</td>
+<td style="text-align:left"><a href="http://youtu.be/iD044JD3BI4">http://youtu.be/iD044JD3BI4</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 繪圖並存檔</td>
+<td style="text-align:left"><a href="http://youtu.be/wjpHUdPqdwc">http://youtu.be/wjpHUdPqdwc</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 抓取螢幕畫面</td>
+<td style="text-align:left"><a href="http://youtu.be/7qxv64yZCyE">http://youtu.be/7qxv64yZCyE</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 電子白板的設計</td>
+<td style="text-align:left"><a href="http://youtu.be/yqPR9IYD_6s">http://youtu.be/yqPR9IYD_6s</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 16 章. <a href="gridview.html">DataGridView 與 ListView 元件</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ DataGridView 元件的使用</td>
+<td style="text-align:left"><a href="http://youtu.be/XzsZRqLAi30">http://youtu.be/XzsZRqLAi30</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 製作賣紅茶的 POS 系統</td>
+<td style="text-align:left"><a href="http://youtu.be/XX0wHhvkkiE">http://youtu.be/XX0wHhvkkiE</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 17 章. <a href="net.html">網路程式設計</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 網路 UDP 程式設計</td>
+<td style="text-align:left"><a href="http://youtu.be/DxdfeURkNzU">http://youtu.be/DxdfeURkNzU</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 18 章. <a href="udp.html">UDP 程式設計</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 網路 UDP 程式設計</td>
+<td style="text-align:left"><a href="http://youtu.be/DxdfeURkNzU">http://youtu.be/DxdfeURkNzU</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 19 章. <a href="tcp.html">TCP 程式設計</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 單向 TCP 訊息傳遞程式</td>
+<td style="text-align:left"><a href="http://youtu.be/Zc1NjR2v-5k">http://youtu.be/Zc1NjR2v-5k</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 雙向 P2P 命令列聊天室</td>
+<td style="text-align:left"><a href="http://youtu.be/W5HG9DtC6EI">http://youtu.be/W5HG9DtC6EI</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 多人視窗版聊天室</td>
+<td style="text-align:left"><a href="http://youtu.be/lgojk1BOMsk">http://youtu.be/lgojk1BOMsk</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 多人視窗版聊天室(程式碼解析.md)</td>
+<td style="text-align:left"><a href="http://youtu.be/xRzh0yZ3rqw">http://youtu.be/xRzh0yZ3rqw</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 20 章. <a href="http.html">HTTP 程式設計 1 – Server</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ HTTP 協定與 HelloServer 的實作</td>
+<td style="text-align:left"><a href="http://youtu.be/0pniFEvdjcc">http://youtu.be/0pniFEvdjcc</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 傳回超連結的 HelloServer</td>
+<td style="text-align:left"><a href="http://youtu.be/KGbZ6nQrATY">http://youtu.be/KGbZ6nQrATY</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 設計簡易的 WebServer</td>
+<td style="text-align:left"><a href="http://youtu.be/QoqpaBAxPwQ">http://youtu.be/QoqpaBAxPwQ</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 21 章. <a href="web.html">HTTP 程式設計 2 – Client</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 單一網頁下載 (UrlDownloader.md)</td>
+<td style="text-align:left"><a href="http://youtu.be/eICPT158cxc">http://youtu.be/eICPT158cxc</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ Crawler 網路爬蟲</td>
+<td style="text-align:left"><a href="http://youtu.be/Ytl19GjnhMo">http://youtu.be/Ytl19GjnhMo</a></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 瀏覽器元件的控制</td>
+<td style="text-align:left"><a href="http://youtu.be/3mRW1_Usv6k">http://youtu.be/3mRW1_Usv6k</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 22 章. <a href="game.html">XNA 遊戲引擎</a></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">─ 打飛碟遊戲</td>
+<td style="text-align:left"><a href="http://youtu.be/DMPl0x__dMg">http://youtu.be/DMPl0x__dMg</a></td>
+</tr>
+<tr>
+<td style="text-align:left">第 23 章. <a href="end.html">結語</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

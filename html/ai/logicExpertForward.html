@@ -1,0 +1,120 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  實作：專家系統 - 前向推論程式</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="-">實作：專家系統 - 前向推論程式</h2>
+<p>以下是一個代表鴕鳥的動物世界規則庫。</p>
+<p>規則庫：animal_ostrich.kb</p>
+<pre><code>哺乳類 &lt;= 有毛. 
+哺乳類 &lt;= 泌乳. 
+鳥類   &lt;= 有羽毛. 
+鳥類   &lt;= 會飛 &amp; 生蛋. 
+食肉類 &lt;= 哺乳類 &amp; 吃肉.
+食肉類 &lt;= 有爪 &amp; 利齒 &amp; 兩眼前視.
+有蹄類 &lt;= 哺乳類 &amp; 有蹄.
+偶蹄類 &lt;= 哺乳類 &amp; 反芻.
+獵豹   &lt;= 哺乳類 &amp; 吃肉 &amp; 斑點.
+老虎   &lt;= 哺乳類 &amp; 吃肉 &amp; 條紋.
+長頸鹿 &lt;= 有蹄類 &amp; 長腿 &amp; 斑點.
+斑馬   &lt;= 有蹄類 &amp; 條紋.
+鴕鳥   &lt;= 鳥類 &amp; 長腿.
+
+會飛. 
+生蛋. 
+長腿.
+</code></pre><p>接著我們採用前述的「布林邏輯推論引擎 kb.js」，透過讀入規則檔並進行推論的方式，設計出「前向推論」的程式。</p>
+<p>檔案：kbReason.js</p>
+<pre><code class="lang-javascript">var fs = require(&#39;fs&#39;); // 引用檔案物件
+var kb = require(&#39;./kb&#39;);
+
+var kb1 = new kb();
+var code = fs.readFileSync(process.argv[2], &quot;utf8&quot;).replace(/\n/gi, &quot;&quot;); // 讀取檔案
+
+kb1.load(code);
+kb1.forwardChaining();
+</code></pre>
+<p>以下是上述「隱含鴕鳥前提」的規則庫經過「前向布林引擎」推論後得到的執行結果。</p>
+<pre><code>C:\Dropbox\Public\web\ai\code\KB&gt;node kbReason animal_ostrich.kb
+[&quot;哺乳類 &lt;= 有毛&quot;,&quot;哺乳類 &lt;= 泌乳&quot;,&quot;鳥類   &lt;= 有羽毛&quot;,&quot;鳥類   &lt;= 會飛 &amp; 生蛋&quot;,&quot;
+食肉類 &lt;= 哺乳類 &amp; 吃肉&quot;,&quot;食肉類 &lt;= 有爪 &amp; 利齒 &amp; 兩眼前視&quot;,&quot;有蹄類 &lt;= 哺乳類 &amp;
+有蹄&quot;,&quot;偶蹄類 &lt;= 哺乳類 &amp; 反芻&quot;,&quot;獵豹   &lt;= 哺乳類 &amp; 吃肉 &amp; 斑點&quot;,&quot;老虎   &lt;= 哺乳
+類 &amp; 吃肉 &amp; 條紋&quot;,&quot;長頸鹿 &lt;= 有蹄類 &amp; 長腿 &amp; 斑點&quot;,&quot;斑馬   &lt;= 有蹄類 &amp; 條紋&quot;,&quot;鴕
+鳥   &lt;= 鳥類 &amp; 長腿&quot;,&quot;會飛&quot;,&quot;生蛋&quot;,&quot;長腿&quot;,&quot;&quot;]
+rule:head=哺乳類 terms=[&quot;有毛&quot;]
+rule:head=哺乳類 terms=[&quot;泌乳&quot;]
+rule:head=鳥類 terms=[&quot;有羽毛&quot;]
+rule:head=鳥類 terms=[&quot;會飛 &quot;,&quot; 生蛋&quot;]
+rule:head=食肉類 terms=[&quot;哺乳類 &quot;,&quot; 吃肉&quot;]
+rule:head=食肉類 terms=[&quot;有爪 &quot;,&quot; 利齒 &quot;,&quot; 兩眼前視&quot;]
+rule:head=有蹄類 terms=[&quot;哺乳類 &quot;,&quot; 有蹄&quot;]
+rule:head=偶蹄類 terms=[&quot;哺乳類 &quot;,&quot; 反芻&quot;]
+rule:head=獵豹 terms=[&quot;哺乳類 &quot;,&quot; 吃肉 &quot;,&quot; 斑點&quot;]
+rule:head=老虎 terms=[&quot;哺乳類 &quot;,&quot; 吃肉 &quot;,&quot; 條紋&quot;]
+rule:head=長頸鹿 terms=[&quot;有蹄類 &quot;,&quot; 長腿 &quot;,&quot; 斑點&quot;]
+rule:head=斑馬 terms=[&quot;有蹄類 &quot;,&quot; 條紋&quot;]
+rule:head=鴕鳥 terms=[&quot;鳥類 &quot;,&quot; 長腿&quot;]
+rule:head=會飛 terms=&quot;&quot;
+rule:head=生蛋 terms=&quot;&quot;
+rule:head=長腿 terms=&quot;&quot;
+addFact(會飛)
+addFact(生蛋)
+addFact(長腿)
+addFact(鳥類)
+addFact(鴕鳥)
+facts=[&quot;會飛&quot;,&quot;生蛋&quot;,&quot;長腿&quot;,&quot;鳥類&quot;,&quot;鴕鳥&quot;]
+</code></pre><p>您可以看到上述系統利用「會飛. 生蛋. 長腿. 」等三個屬性，推論出了「鳥類、鴕鳥」這兩個結論。</p>
+<p>這個結果符合我們的預期，因此該程式的運作是正常的。</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >> 鏈結串列：外包物件版 — 嵌入式的鏈結串列，是模仿 Linux 核心的作法。</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><p>#鏈結串列：外包物件版 — 嵌入式的鏈結串列，是模仿 Linux 核心的作法。</p>
+<p>本範例的實作靈感來自 Linux 核心中的雙向鏈結串列，為了簡單起見，我們改為單向鏈結串列，以便讓讀者容易理解。</p>
+<p>###程式範例：</p>
+<p><strong>檔案：LinkedListEmbed.c</strong></p>
+<pre><code class="lang-c">#include &lt;stdio.h&gt;
+
+#define offsetof(type, member) ((size_t) &amp;((type *)0)-&gt;member)
+#define ListEntry(ptr,type,member) ((type *)((char *)(ptr)-(unsigned long)(&amp;((type *)0)-&gt;member)))
+#define ListNew(head) ((head)-&gt;next=NULL)
+#define ListAdd(head, node) { (node)-&gt;next=(head)-&gt;next; (head)-&gt;next = (node); }
+#define ListEach(head, pos) for (pos = (head)-&gt;next; pos != NULL; pos = pos-&gt;next)
+
+typedef struct listnode { 
+  struct listnode *next;
+} ListNode;
+
+typedef struct {
+    char *name;
+    int age;
+    ListNode node;
+} Person;
+
+void PersonListPrint(ListNode *head) {
+  ListNode *ptr;
+  ListEach(head, ptr) {
+    Person *person = ListEntry(ptr, Person, node);
+    printf(&quot;%s is %d years old\n&quot;, person-&gt;name, person-&gt;age);
+  }
+}
+
+// 請注意，在本程式中，ListEach 會忽略表頭節點，因此 head 不應該包在 Person 裡面。
+int main() {
+    ListNode head;
+    Person john = {
+      .name = &quot;John&quot;,
+      .age = 40,
+    };
+    Person mary = {
+      .name = &quot;Mary&quot;,
+      .age = 32,
+    };
+    Person george = {
+      .name = &quot;George&quot;,
+      .age = 26,
+    };
+    ListNew(&amp;head);
+    ListAdd(&amp;head, &amp;john.node);
+    ListAdd(&amp;head, &amp;mary.node);
+    ListAdd(&amp;head, &amp;george.node);
+    PersonListPrint(&amp;head);
+    return 0;
+}
+</code></pre>
+<p><strong>執行結果</strong></p>
+<pre><code>D:\cp&gt;gcc LinkedListEmbed.c -o LinkedListEmbed
+
+D:\cp&gt;LinkedListEmbed
+George is 26 years old
+Mary is 32 years old
+John is 40 years old
+</code></pre><ul>
+<li><strong>來自 jserv 的建議</strong><blockquote>
+<p>=&gt; 內文沒提到將資料搬出 list 結構的優勢，建議提供 for_each 的使用案例:</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p><a href="http://stackoverflow.com/questions/15754236/how-do-i-use-the-list-for-each-macro-in-list-h-from-the-linux-kernel-properly">http://stackoverflow.com/questions/15754236/how-do-i-use-the-list-for-each-macro-in-list-h-from-the-linux-kernel-properly</a>
+對於《將資料搬出 list 結構的優勢》這個問題，除了巨集展開不需要進函數， 速度可能會比較快之外，我也想不出其他的優勢了，所以就請大家自己想想，或者問 jserv 。</p>
+</blockquote>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

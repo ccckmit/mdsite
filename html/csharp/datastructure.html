@@ -1,0 +1,206 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 程式設計 -- 基礎、視窗與網路 >>  C# 程式基礎：資料結構</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">C# 程式設計 -- 基礎、視窗與網路</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">目錄</a></li>
+<li class="pure-menu-item"><a href="csharp.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="varexp.html" class="pure-menu-link">2. 運算式</a></li>
+<li class="pure-menu-item"><a href="ifloop.html" class="pure-menu-link">3. 流程控制</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="object.html" class="pure-menu-link">6. 物件導向</a></li>
+<li class="pure-menu-item"><a href="exception.html" class="pure-menu-link">7. 例外處理</a></li>
+<li class="pure-menu-item"><a href="file.html" class="pure-menu-link">8. 檔案處理</a></li>
+<li class="pure-menu-item"><a href="datastructure.html" class="pure-menu-link">9. 資料結構</a></li>
+<li class="pure-menu-item"><a href="regexp.html" class="pure-menu-link">10. 正規表達式</a></li>
+<li class="pure-menu-item"><a href="thread.html" class="pure-menu-link">11. 作業系統</a></li>
+<li class="pure-menu-item"><a href="window.html" class="pure-menu-link">12. 視窗程式</a></li>
+<li class="pure-menu-item"><a href="timer.html" class="pure-menu-link">13. 時間驅動</a></li>
+<li class="pure-menu-item"><a href="editor.html" class="pure-menu-link">14. 文字編輯器</a></li>
+<li class="pure-menu-item"><a href="graphics.html" class="pure-menu-link">15. 畫圖功能</a></li>
+<li class="pure-menu-item"><a href="gridview.html" class="pure-menu-link">16. 表格元件</a></li>
+<li class="pure-menu-item"><a href="net.html" class="pure-menu-link">17. 網路程式</a></li>
+<li class="pure-menu-item"><a href="udp.html" class="pure-menu-link">18. UDP 程式</a></li>
+<li class="pure-menu-item"><a href="tcp.html" class="pure-menu-link">19. TCP 程式</a></li>
+<li class="pure-menu-item"><a href="http.html" class="pure-menu-link">20. HTTP Server</a></li>
+<li class="pure-menu-item"><a href="web.html" class="pure-menu-link">21. HTTP Client</a></li>
+<li class="pure-menu-item"><a href="end.html" class="pure-menu-link">結語</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="c-">C# 程式基礎：資料結構</h1>
+<h2 id="-">容器函式庫</h2>
+<table>
+<thead>
+<tr>
+<th>一般型別</th>
+<th>泛型型別</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ArrayList</td>
+<td><code>List&lt; &gt;</code></td>
+<td>串列，以陣列實作的串列結構</td>
+</tr>
+<tr>
+<td>Queue</td>
+<td><code>Queue&lt; &gt;</code></td>
+<td>佇列，先進先出的結構</td>
+</tr>
+<tr>
+<td>Stack</td>
+<td><code>Stack&lt; &gt;</code></td>
+<td>堆疊，後進先出的結構</td>
+</tr>
+<tr>
+<td>Hashtable</td>
+<td><code>Dictionary&lt; &gt;</code></td>
+<td>雜湊表格，快速用 key 查找 value</td>
+</tr>
+<tr>
+<td>SortedList</td>
+<td><code>SortedList&lt; &gt;</code></td>
+<td>排序串列，使用排序與二分搜尋法的結構</td>
+</tr>
+<tr>
+<td>ListDictionary</td>
+<td><code>Dictionary&lt; &gt;</code></td>
+<td>字典，快速用 key 查找 value</td>
+</tr>
+<tr>
+<td>HybridDictionary</td>
+<td><code>Dictionary&lt; &gt;</code></td>
+<td>小集合採用 ListDictionary，集合變大時，會自動改用 Hashtable 的一種字典</td>
+</tr>
+<tr>
+<td>OrderedDictionary</td>
+<td><code>Dictionary&lt; &gt;</code></td>
+<td>比SortedList類別多了一些功能的類別</td>
+</tr>
+<tr>
+<td>SortedDictionary</td>
+<td><code>SortedDictionary&lt; &gt;</code></td>
+<td>鍵值一定是字串，用法跟 Hashtable 相似</td>
+</tr>
+<tr>
+<td>NameValueCollection</td>
+<td><code>Dictionary&lt; &gt;</code></td>
+<td>NameValueCollection可以單一索引鍵對應多重值</td>
+</tr>
+<tr>
+<td>DictionaryEntry</td>
+<td><code>KeyValPair&lt; &gt;</code></td>
+<td>字典中的一個項目，(Key, Value) 的結構</td>
+</tr>
+<tr>
+<td>StringCollection</td>
+<td><code>List&lt;String&gt;</code></td>
+<td>用法跟ArrayList相似</td>
+</tr>
+<tr>
+<td>StringDictionary</td>
+<td><code>Dictionary&lt;String&gt;</code></td>
+<td>字串字典</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>上層結構：Collection</li>
+<li>容器物件：Array, ArrayList, HashTable, SortedList</li>
+<li>位元容器：BitArray, BitVector32, </li>
+<li>泛型容器：NameValueCollection, Dictionary</li>
+</ul>
+<h2 id="-">容器的使用</h2>
+<p>範例：</p>
+<pre><code class="lang-CS">using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ArrayList a = new ArrayList();
+            a.Add(&quot;John&quot;);
+            a.Add(1);
+            a.Add(3.1416);
+            a.RemoveAt(2);
+
+            Object[] array = a.ToArray();
+            Console.WriteLine(array);
+
+            List&lt;Object&gt; list = new List&lt;Object&gt;();
+            list.Add(&quot;John&quot;);
+            list.Add(&quot;Mary&quot;);
+            list.Add(&quot;George&quot;);
+            list.Add(&quot;3.14159&quot;);
+            list.Add(3.14159);
+
+            foreach (Object o in list)
+                Console.Write(o+&quot; &quot;);
+            Console.WriteLine();
+            char c = &#39;A&#39;;
+//            Console.Write(&quot;{0:X}&quot;, (int) c);
+
+            Hashtable h = new Hashtable();
+            h.Add(&quot;John&quot;, &quot;0977332415&quot;);
+            h.Add(&quot;Mary&quot;, &quot;0977342415&quot;);
+            h.Add(&quot;George&quot;, &quot;0977372416&quot;);
+            h.Add(&quot;Peter&quot;, &quot;0977332425&quot;);
+            String gtel = (String) h[&quot;George&quot;];
+            Console.WriteLine(&quot;George Tel : &quot;+gtel);
+
+            Dictionary&lt;String, String&gt; d = new Dictionary&lt;string, string&gt;();
+            d.Add(&quot;John&quot;, &quot;0977332415&quot;);
+            d.Add(&quot;Mary&quot;, &quot;0977342415&quot;);
+            d.Add(&quot;George&quot;, &quot;0977372416&quot;);
+            d.Add(&quot;Peter&quot;, &quot;0977332425&quot;);
+            gtel = d[&quot;George&quot;];
+            Console.WriteLine(&quot;George Tel : &quot; + gtel);
+
+        }
+
+    }
+}
+</code></pre>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

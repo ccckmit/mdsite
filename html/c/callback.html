@@ -1,0 +1,114 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 C 語言程式書 >>  C 語言 -- 回呼</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 C 語言程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">基礎語法</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">函數</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">陣列</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="parameter.html" class="pure-menu-link">參數傳遞</a></li>
+<li class="pure-menu-item"><a href="include.html" class="pure-menu-link">引用檔</a></li>
+<li class="pure-menu-item"><a href="module.html" class="pure-menu-link">模組化</a></li>
+<li class="pure-menu-item"><a href="callback.html" class="pure-menu-link">回呼</a></li>
+<li class="pure-menu-item"><a href="recursive.html" class="pure-menu-link">遞迴</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">範例：翻譯系統</a></li>
+<li class="pure-menu-item"><a href="advance.html" class="pure-menu-link">進階主題</a></li>
+<li class="pure-menu-item"><a href="exam.html" class="pure-menu-link">習題</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="c-">C 語言 -- 回呼</h1>
+<h2 id="-">微分</h2>
+<p>檔案： @<a href="code/df.c">[df.c]</a></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+
+double dx = 0.001;
+
+double df(double (*f)(double), double x) {
+  double dy = f(x+dx) - f(x);
+  return dy/dx;
+}
+
+double square(double x) {
+  return x*x;
+}
+
+int main() {
+  printf(&quot;df(x^2,2)=%f\n&quot;, df(square, 2.0));
+  printf(&quot;df(sin(x),pi/4)=%f\n&quot;, df(sin, 3.14159/4));
+}
+</code></pre><p>執行結果</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc df.c -o df
+
+D:\Dropbox\cccwd\db\c\code&gt;df
+df(x^2,2)=4.001000
+df(sin(x/4),pi/4)=0.706754
+</code></pre><h2 id="-">積分</h2>
+<p>檔案： @<a href="code/integral.c">[integral.c]</a></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;math.h&gt;
+#define dx 0.001
+
+double integral(double (*f)(double), double a, double b) {
+  double x, area = 0.0;
+  for (x=a; x&lt;b; x=x+dx) {
+    area = area + f(x)*dx;
+  }
+  return area;
+}
+
+double square(double x) {
+  return x*x;
+}
+
+int main() {
+  printf(&quot;integral(x^2,0,1)=%f\n&quot;, integral(square,0,1));
+  printf(&quot;integral(sin(x),0,pi)=%f\n&quot;, integral(sin,0,3.14159));
+}
+</code></pre><p>執行結果</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc integral.c -o integral
+
+D:\Dropbox\cccwd\db\c\code&gt;integral
+integral(x^2,0,1)=0.332834
+integral(sin(x),0,pi)=2.000000
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

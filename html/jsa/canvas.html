@@ -1,0 +1,234 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學習 JavaScript 進階技術 >>  網頁畫布 Canvas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">學習 JavaScript 進階技術</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="tool.html" class="pure-menu-link">開發工具</a></li>
+<li class="pure-menu-item"><a href="advance.html" class="pure-menu-link">進階概念</a></li>
+<li class="pure-menu-item"><a href="newSyntax.html" class="pure-menu-link">進階語法</a></li>
+<li class="pure-menu-item"><a href="es6.html" class="pure-menu-link">ES6 新語法</a></li>
+<li class="pure-menu-item"><a href="cssAdvance.html" class="pure-menu-link">CSS 進階</a></li>
+<li class="pure-menu-item"><a href="canvas.html" class="pure-menu-link">Canvas 繪圖</a></li>
+<li class="pure-menu-item"><a href="chart.html" class="pure-menu-link">統計圖表</a></li>
+<li class="pure-menu-item"><a href="game.html" class="pure-menu-link">遊戲設計</a></li>
+<li class="pure-menu-item"><a href="gpsmap.html" class="pure-menu-link">衛星地圖</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">影像處理</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">機器翻譯</a></li>
+<li class="pure-menu-item"><a href="frontendFramework.html" class="pure-menu-link">前端框架</a></li>
+<li class="pure-menu-item"><a href="softwareEngineering.html" class="pure-menu-link">軟體工程</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-canvas">網頁畫布 Canvas</h1>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li>重要： <a href="https://developer.mozilla.org/zh-TW/docs/Web/Guide/HTML/Canvas_tutorial">MDN : Canvas 教學文件</a></li>
+<li>讚！ <a href="http://www.html5canvastutorials.com/tutorials/html5-canvas-images/">HTML5 Canvas Image Tutorial</a></li>
+<li><a href="http://www.w3schools.com/tags/canvas_drawimage.asp">http://www.w3schools.com/tags/canvas_drawimage.asp</a></li>
+<li><a href="http://blog.ring.idv.tw/comment.ser?i=386">淺談Canvas - saveestore</a></li>
+</ul>
+<h2 id="-html5-canvas-image-tutorial-http-www-html5canvastutorials-com-tutorials-html5-canvas-images-"><a href="http://www.html5canvastutorials.com/tutorials/html5-canvas-images/">HTML5 Canvas Image Tutorial</a> 的範例</h2>
+<p>範例 1 ： <a href="http://www.html5canvastutorials.com/tutorials/html5-canvas-line-width/">http://www.html5canvastutorials.com/tutorials/html5-canvas-line-width/</a></p>
+<p>範例 2 ： <a href="http://www.html5canvastutorials.com/tutorials/html5-canvas-line-caps/">http://www.html5canvastutorials.com/tutorials/html5-canvas-line-caps/</a></p>
+<p>範例 3 ： <a href="http://www.html5canvastutorials.com/tutorials/html5-canvas-circles/">http://www.html5canvastutorials.com/tutorials/html5-canvas-circles/</a></p>
+<p>範例 4 ： <a href="http://www.html5canvastutorials.com/tutorials/html5-canvas-rectangles/">http://www.html5canvastutorials.com/tutorials/html5-canvas-rectangles/</a></p>
+<p>範例 5 ： <a href="http://www.html5canvastutorials.com/advanced/html5-canvas-transform-rotate-tutorial/">http://www.html5canvastutorials.com/advanced/html5-canvas-transform-rotate-tutorial/</a></p>
+<p>範例 6 ： <a href="http://www.html5canvastutorials.com/tutorials/html5-canvas-text-color/">http://www.html5canvastutorials.com/tutorials/html5-canvas-text-color/</a></p>
+<p>範例 7 ： <a href="http://www.html5canvastutorials.com/tutorials/html5-canvas-images/">http://www.html5canvastutorials.com/tutorials/html5-canvas-images/</a></p>
+<p>範例 8 ： <a href="http://www.html5canvastutorials.com/advanced/html5-canvas-invert-image-colors-tutorial/">http://www.html5canvastutorials.com/advanced/html5-canvas-invert-image-colors-tutorial/</a></p>
+<p>範例 9 ： <a href="http://www.html5canvastutorials.com/advanced/html5-canvas-grayscale-image-colors-tutorial/">http://www.html5canvastutorials.com/advanced/html5-canvas-grayscale-image-colors-tutorial/</a></p>
+<p>範例 10 ： <a href="http://www.html5canvastutorials.com/advanced/html5-canvas-save-drawing-as-an-image/">http://www.html5canvastutorials.com/advanced/html5-canvas-save-drawing-as-an-image/</a></p>
+<p>範例 11 ： <a href="http://www.html5canvastutorials.com/advanced/html5-canvas-animation-stage/">http://www.html5canvastutorials.com/advanced/html5-canvas-animation-stage/</a></p>
+<p>範例 12 ： <a href="http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/">http://www.html5canvastutorials.com/advanced/html5-canvas-mouse-coordinates/</a></p>
+<h2 id="-">我的綜合範例</h2>
+<p>範例 ：  <a href="code/canvas/canvas.html">canvas.html</a></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;img id=&quot;ball&quot; width=&quot;220&quot; height=&quot;277&quot; src=&quot;ball.jpg&quot; alt=&quot;The Scream&quot; style=&quot;display:none&quot;&gt;
+&lt;p&gt;Canvas:&lt;/p&gt;
+&lt;canvas id=&quot;myCanvas&quot; width=&quot;240&quot; height=&quot;297&quot; style=&quot;border:1px solid #d3d3d3;&quot;/&gt;
+&lt;script&gt;
+window.onload = function() {
+  var c = document.getElementById(&quot;myCanvas&quot;);
+  var ctx = c.getContext(&quot;2d&quot;);
+  var img = document.getElementById(&quot;ball&quot;);
+  ctx.drawImage(img, 10, 100);
+  ctx.beginPath();
+  ctx.strokeStyle=&quot;red&quot;;
+  ctx.rect(20,20,40,40);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.fillStyle=&quot;#0000FF&quot;;
+  ctx.fillRect(80,20,50,50);
+  ctx.stroke();   
+  ctx.beginPath();
+  ctx.strokeStyle = &quot;black&quot;;
+  ctx.lineWidth = 5;
+  ctx.arc(100,75,50,0,2*Math.PI);
+  ctx.stroke();   
+}
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="-1">移動球 1</h2>
+<p>檔案： <a href="code/canvas/ballmove1.html">ballmove1.html</a></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;img id=&quot;ball&quot; src=&quot;ball.jpg&quot; alt=&quot;The Scream&quot;&gt;
+&lt;p&gt;Canvas:&lt;/p&gt;
+&lt;canvas id=&quot;myCanvas&quot; width=&quot;300&quot; height=&quot;300&quot; style=&quot;border:1px solid #d3d3d3;&quot;/&gt;
+&lt;script&gt;
+var img, ctx, canvas;
+var x=0, y=0;
+
+window.onload = function() {
+  canvas = document.getElementById(&quot;myCanvas&quot;);
+  ctx = canvas.getContext(&quot;2d&quot;);
+  img = document.getElementById(&quot;ball&quot;);
+  setTimeout(draw, 100);
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, x, y);
+    x+=10; y+=10;
+  setTimeout(draw, 100);    
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="-2">移動球 2</h2>
+<p>檔案： <a href="code/canvas/ballmove2.html">ballmove2.html</a></p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;img id=&quot;ball&quot; width=&quot;220&quot; height=&quot;277&quot; src=&quot;ball.jpg&quot; alt=&quot;The Scream&quot; style=&quot;display:none&quot;&gt;
+&lt;p&gt;Canvas:&lt;/p&gt;
+&lt;canvas id=&quot;myCanvas&quot; width=&quot;240&quot; height=&quot;297&quot; style=&quot;border:1px solid #d3d3d3;&quot;/&gt;
+&lt;script&gt;
+var img, ctx, canvas;
+var x=0, y=0;
+
+window.onload = main;
+
+function update() {
+    x+=2; y+=2;
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, x, y);
+}
+
+function main() {
+  img = document.getElementById(&quot;ball&quot;);
+  canvas = document.getElementById(&quot;myCanvas&quot;);
+    ctx = canvas.getContext(&quot;2d&quot;);
+    var loop = function() {
+        update();
+        draw();
+        window.requestAnimationFrame(loop, canvas);
+    };
+    window.requestAnimationFrame(loop, canvas);
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="-">網頁手繪板</h2>
+<p>本程式簡化自以下文章中的範例，該範例可選顏色與粗細，但為了讓初學整更容易懂，筆者將顏色固定為黑色，粗細固定為 3，並去除了相關的程式碼。</p>
+<ul>
+<li><a href="http://blog.darkthread.net/post-2011-10-30-html5-canvas-sktechpad.aspx">[黑暗執行緒 -- 用100行實現HTML5可存檔塗鴉版]</a></li>
+</ul>
+<p>檔案： <a href="http://ccc.nqu.edu.tw/db/jsb/code/painter.html">painter.html</a></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;範例 -- 手寫板&lt;/title&gt;
+    &lt;script src=&quot;http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.4.js&quot;&gt;
+    &lt;/script&gt;
+    &lt;script&gt;
+        var p_color = &quot;black&quot;;
+        var p_width = 3;
+        $(function () {
+            //取得canvas context
+            var $canvas = $(&quot;#cSketchPad&quot;);
+            var ctx = $canvas[0].getContext(&quot;2d&quot;);
+            ctx.lineCap = &quot;round&quot;;
+            ctx.fillStyle = &quot;white&quot;; //整個canvas塗上白色背景避免PNG的透明底色效果
+            ctx.fillRect(0, 0, $canvas.width(), $canvas.height());
+            var drawMode = false;
+            //canvas點選、移動、放開按鍵事件時進行繪圖動作
+            $canvas.mousedown(function (e) {
+                ctx.beginPath();
+                ctx.strokeStyle = p_color;
+                ctx.lineWidth = p_width;
+                ctx.moveTo(e.pageX - $canvas.position().left, e.pageY - $canvas.position().top);
+                drawMode = true;
+            })
+            .mousemove(function (e) {
+                if (drawMode) {
+                    ctx.lineTo(e.pageX - $canvas.position().left, e.pageY - $canvas.position().top);
+                    ctx.stroke();
+                }
+            })
+            .mouseup(function (e) {
+                drawMode = false;
+            });
+        });
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+ &lt;div id=&quot;dCanvas&quot;&gt;
+  &lt;canvas id=&quot;cSketchPad&quot; width=&quot;300&quot; height=&quot;300&quot; style=&quot;border: 2px solid gray&quot; /&gt;
+ &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="-">參考文獻</h2>
+<ul>
+<li>進階繪圖套件 -- <a href="http://blog.infographics.tw/2015/12/pixi-introduction/">2D WebGL 與 PIXI.js</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

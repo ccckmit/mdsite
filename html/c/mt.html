@@ -1,0 +1,275 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 C 語言程式書 >>  翻譯系統</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 C 語言程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">基礎語法</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">函數</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">陣列</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="parameter.html" class="pure-menu-link">參數傳遞</a></li>
+<li class="pure-menu-item"><a href="include.html" class="pure-menu-link">引用檔</a></li>
+<li class="pure-menu-item"><a href="module.html" class="pure-menu-link">模組化</a></li>
+<li class="pure-menu-item"><a href="callback.html" class="pure-menu-link">回呼</a></li>
+<li class="pure-menu-item"><a href="recursive.html" class="pure-menu-link">遞迴</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">範例：翻譯系統</a></li>
+<li class="pure-menu-item"><a href="advance.html" class="pure-menu-link">進階主題</a></li>
+<li class="pure-menu-item"><a href="exam.html" class="pure-menu-link">習題</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">翻譯系統</h1>
+<h2 id="-dict-c">範例：字典 -- dict.c</h2>
+<p>C 語言沒有物件，也沒有字典結構與對應的函式庫。</p>
+<p>C 語言可以說是高階語言裡面的低階語言，很多東西你都要自己來實作，或者採用其他人所寫的函式庫。</p>
+<h3 id="-">人員查詢 -- 姓名年齡分成兩個陣列</h3>
+<p>以下是一個實現用《姓名》搜尋《年齡》的範例，這種搜尋法是線性搜尋，比較慢但程式相對簡單！</p>
+<p>檔案：dict.c</p>
+<pre><code class="lang-javascript">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int  size    = 3;
+char *name[] = { &quot;john&quot;, &quot;mary&quot;, &quot;george&quot; };
+int  age[]   = { 20,     30,     40       };
+
+int findPeople(char *pName, int pSize) {
+  int i;
+  for (i=0; i&lt;size; i++) {
+    if (strcmp(name[i], pName)==0) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+int main() {
+  int mi = findPeople(&quot;mary&quot;, size);
+  if (mi &lt; 0) {
+    printf(&quot;not found!\n&quot;);
+  } else {
+    printf(&quot;people[%d]: name=%s, age=%d\n&quot;, mi, name[mi], age[mi]);
+  }
+}
+</code></pre>
+<p>執行結果</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc dict.c -o dict
+
+D:\Dropbox\cccwd\db\c\code&gt;dict
+people[1]: name=mary, age=30
+</code></pre><h3 id="-struct-">人員查詢 -- 使用結構 (struct)</h3>
+<p>以下改使用結構 struct 來儲存人的姓名和年齡，結構和物件有點像，可以用 object.data 存取資料，但是通常不會將函數宣告在結構裡面。(因為 C 沒有支援物件的觀念，所以試圖模仿物件導向時，寫起來會很囉唆且麻煩)。</p>
+<p>檔案：dict2.c</p>
+<pre><code class="lang-javascript">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define SIZE 3
+
+typedef struct {
+  char *name;
+  int  age;
+} People;
+
+People peoples[] = {
+  { .name=&quot;john&quot;, .age=20}, 
+  { .name=&quot;mary&quot;, .age=30}, 
+  { .name=&quot;george&quot;, .age=40}
+};
+
+int findPeople(char *pName, int pSize) {
+  int i;
+  for (i=0; i&lt;pSize; i++) {
+    if (strcmp(peoples[i].name, pName)==0) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+int main() {
+  int mi = findPeople(&quot;mary&quot;, SIZE);
+  if (mi &lt; 0) {
+    printf(&quot;not found!\n&quot;);
+  } else {
+    printf(&quot;people[%d]: name=%s, age=%d\n&quot;, mi, peoples[mi].name, peoples[mi].age);
+  }
+}
+</code></pre>
+<p>執行結果</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc dict2.c -o dict2
+
+D:\Dropbox\cccwd\db\c\code&gt;dict2
+people[1]: name=mary, age=30
+</code></pre><h2 id="-1-">英翻中系統 (版本 1)</h2>
+<p>程式： mt.c</p>
+<pre><code class="lang-CPP">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+char *e[] = {&quot;dog&quot;, &quot;cat&quot;, &quot;a&quot;,    &quot;chase&quot;,  &quot;eat&quot;, NULL};
+char *c[] = {&quot;狗&quot;,  &quot;貓&quot;,  &quot;一隻&quot;, &quot;追&quot;,     &quot;吃&quot; , NULL};
+
+int find(char *nameArray[], char *name) {
+  for (int i=0; nameArray[i] != NULL; i++) {
+    if (strcmp(nameArray[i], name)==0)
+    return i;
+  }
+  return -1;
+}
+
+void mt(char *words[], int len) {
+  for (int i=0; i&lt;len; i++) {
+    int ei = find(e, words[i]);
+    if (ei &lt; 0)
+      printf(&quot; _ &quot;);
+    else
+      printf(&quot; %s &quot;, c[ei]);
+  }
+}
+
+int main(int argc, char *argv[]) {
+  mt(&amp;argv[1], argc-1);
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>$ gcc mt.c -std=c99 -o mt
+
+$ ./mt a dog chase a cat
+ 一隻  狗  追  一隻  貓
+</code></pre><h2 id="-2-">英翻中系統 (版本 2 英中互翻)</h2>
+<p>程式： mt2.c</p>
+<pre><code class="lang-CPP">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+char *e[] = {&quot;dog&quot;, &quot;cat&quot;, &quot;a&quot;,    &quot;chase&quot;,  &quot;eat&quot;, NULL};
+char *c[] = {&quot;狗&quot;,  &quot;貓&quot;,  &quot;一隻&quot;, &quot;追&quot;,     &quot;吃&quot; , NULL};
+
+int find(char *nameArray[], char *name) {
+  int i;
+  for (i=0; nameArray[i] != NULL; i++) {
+    if (strcmp(nameArray[i], name)==0) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+void mt(char *words[], int len) {
+  int i;
+  for (i=0; i&lt;len; i++) {
+    int ei = find(e, words[i]);
+    int ci = find(c, words[i]);
+    if (ei &gt;= 0) {
+      printf(&quot; %s &quot;, c[ei]);
+    } else if (ci &gt;=0) {
+      printf(&quot; %s &quot;, e[ci]);
+    } else {
+      printf(&quot; _ &quot;);
+    }
+  }
+}
+
+int main(int argc, char *argv[]) {
+  mt(&amp;argv[1], argc-1); // 從 argv (例如：mt a dog chase a cat) 中取出尾部的位址 (例如：a dog chase a cat)。
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc mt2.c -o mt2
+
+D:\Dropbox\cccwd\db\c\code&gt;mt2 a dog chase a cat
+ 一隻  狗  追  一隻  貓
+
+D:\Dropbox\cccwd\db\c\code&gt;mt2 一隻 狗 追 一隻 貓
+ a  dog  chase  a  cat
+
+D:\Dropbox\cccwd\db\c\code&gt;mt2 a 狗 chase 一隻 cat
+ 一隻  dog  追  a  貓
+</code></pre><h2 id="-">中翻英系統</h2>
+<p>程式： c2e.c</p>
+<pre><code class="lang-CPP">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+char *e[] = {&quot;dog&quot;, &quot;cat&quot;, &quot;a&quot;,    &quot;chase&quot;,  &quot;eat&quot;, NULL};
+char *c[] = {&quot;狗&quot;,  &quot;貓&quot;,  &quot;一隻&quot;, &quot;追&quot;,     &quot;吃&quot; , NULL};
+
+int find(char *nameArray[], char *name) {
+  int i;
+  for (i=0; nameArray[i] != NULL; i++) {
+    if (strcmp(nameArray[i], name)==0) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+// 注意，一個中文字佔兩個 byte，也就是兩個 char
+void mt(char *s) {
+  int i, len;
+  for (i=0; i&lt;strlen(s); ) {  
+    for (len=8; len&gt;0; len-=2) {
+      char word[9];
+      strncpy(word, &amp;s[i], 9);
+      word[len] = &#39;\0&#39;;
+      int ci = find(c, word);
+      if (ci &gt;= 0) {
+        printf(&quot; %s &quot;, e[ci]);
+        i+=len;
+        break;
+      }
+    }
+    if (len &lt;=0) {
+      printf(&quot; _ &quot;);
+      i+=2; // 跳過一個中文字
+    }
+  }
+}
+
+int main(int argc, char *argv[]) {
+  mt(argv[1]); // 從 argv (例如：mt 一隻狗追一隻貓) 中取出參數一 (例如：一隻狗追一隻貓)
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc c2e.c -o c2e
+
+D:\Dropbox\cccwd\db\c\code&gt;c2e 一隻狗
+ a  dog
+
+D:\Dropbox\cccwd\db\c\code&gt;c2e 一隻狗追一隻貓
+ a  dog  chase  a  cat
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

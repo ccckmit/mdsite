@@ -1,0 +1,155 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 程式設計 -- 基礎、視窗與網路 >>  C# 視窗程式：時間驅動</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">C# 程式設計 -- 基礎、視窗與網路</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">目錄</a></li>
+<li class="pure-menu-item"><a href="csharp.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="varexp.html" class="pure-menu-link">2. 運算式</a></li>
+<li class="pure-menu-item"><a href="ifloop.html" class="pure-menu-link">3. 流程控制</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="object.html" class="pure-menu-link">6. 物件導向</a></li>
+<li class="pure-menu-item"><a href="exception.html" class="pure-menu-link">7. 例外處理</a></li>
+<li class="pure-menu-item"><a href="file.html" class="pure-menu-link">8. 檔案處理</a></li>
+<li class="pure-menu-item"><a href="datastructure.html" class="pure-menu-link">9. 資料結構</a></li>
+<li class="pure-menu-item"><a href="regexp.html" class="pure-menu-link">10. 正規表達式</a></li>
+<li class="pure-menu-item"><a href="thread.html" class="pure-menu-link">11. 作業系統</a></li>
+<li class="pure-menu-item"><a href="window.html" class="pure-menu-link">12. 視窗程式</a></li>
+<li class="pure-menu-item"><a href="timer.html" class="pure-menu-link">13. 時間驅動</a></li>
+<li class="pure-menu-item"><a href="editor.html" class="pure-menu-link">14. 文字編輯器</a></li>
+<li class="pure-menu-item"><a href="graphics.html" class="pure-menu-link">15. 畫圖功能</a></li>
+<li class="pure-menu-item"><a href="gridview.html" class="pure-menu-link">16. 表格元件</a></li>
+<li class="pure-menu-item"><a href="net.html" class="pure-menu-link">17. 網路程式</a></li>
+<li class="pure-menu-item"><a href="udp.html" class="pure-menu-link">18. UDP 程式</a></li>
+<li class="pure-menu-item"><a href="tcp.html" class="pure-menu-link">19. TCP 程式</a></li>
+<li class="pure-menu-item"><a href="http.html" class="pure-menu-link">20. HTTP Server</a></li>
+<li class="pure-menu-item"><a href="web.html" class="pure-menu-link">21. HTTP Client</a></li>
+<li class="pure-menu-item"><a href="end.html" class="pure-menu-link">結語</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="c-">C# 視窗程式：時間驅動</h1>
+<h2 id="-">碼表</h2>
+<p>教學錄影：C# Timer 與碼錶 -- <a href="http://youtu.be/UA0rizekLow">http://youtu.be/UA0rizekLow</a></p>
+<p>專案下載：</p>
+<ul>
+<li><a href="https://dl.dropbox.com/u/101584453/cs/code/TimerDemo.zip">https://dl.dropbox.com/u/101584453/cs/code/TimerDemo.zip</a></li>
+<li><a href="https://dl.dropbox.com/u/101584453/cs/code/TimerClock.zip">https://dl.dropbox.com/u/101584453/cs/code/TimerClock.zip</a></li>
+</ul>
+<p><img src="TimerCounter.png" alt="碼表畫面"></p>
+<pre><code class="lang-CS">using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace WindowsFormsApplication1
+{
+    public partial class Form1 : Form
+    {
+        int counter = 0;
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            counter++;
+            labelTimer.Text = &quot;&quot;+counter;
+        }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = true;
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+        }
+    }
+}
+</code></pre>
+<h2 id="-">小時鐘</h2>
+<p>教學錄影：C# Timer 與小時鐘 -- <a href="http://youtu.be/NJ6B5-vO_88">http://youtu.be/NJ6B5-vO_88</a></p>
+<p>專案下載：<a href="https://dl.dropbox.com/u/101584453/cs/code/Clock.zip">https://dl.dropbox.com/u/101584453/cs/code/Clock.zip</a></p>
+<p>執行畫面：</p>
+<p><img src="ClockRun.png" alt="小時鐘"></p>
+<p>介面設計</p>
+<p>請從工具箱中拉出一個 label 與一個 Timer，如下圖所示。</p>
+<p><img src="ClockDesign.png" alt="小時鐘介面設計"></p>
+<pre><code class="lang-CS">using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace TimerDemo
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            timer1_Tick(this, null);
+            timer1.Interval = 1000; // 設定每秒觸發一次
+            timer1.Enabled = true; // 啟動 Timer
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            DateTime time = DateTime.Now;
+//            label1.Text = time.TimeOfDay.ToString();
+//            label1.Text = time.Hour + &quot;:&quot; + time.Minute + &quot;:&quot; + time.Second;
+            label1.Text = String.Format(&quot;{0:00}:{1:00}:{2:00}&quot;, 
+                                                   time.Hour, time.Minute, time.Second);
+        }
+    }
+}
+</code></pre>
+<h2 id="-timer-">用 Timer 控制動畫</h2>
+<p>教學錄影：C# Timer 與移動球 -- <a href="http://youtu.be/6Gs4MPzt6q4">http://youtu.be/6Gs4MPzt6q4</a></p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

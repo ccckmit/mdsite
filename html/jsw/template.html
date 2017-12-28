@@ -1,0 +1,128 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 JavaScript 設計網站 >>  樣版引擎</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">用 JavaScript 設計網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="html.html" class="pure-menu-link">2. HTML</a></li>
+<li class="pure-menu-item"><a href="css.html" class="pure-menu-link">3. CSS</a></li>
+<li class="pure-menu-item"><a href="javascript.html" class="pure-menu-link">4. JavaScript</a></li>
+<li class="pure-menu-item"><a href="frontend.html" class="pure-menu-link">5. 前端網頁</a></li>
+<li class="pure-menu-item"><a href="template.html" class="pure-menu-link">6. 樣版引擎</a></li>
+<li class="pure-menu-item"><a href="backend.html" class="pure-menu-link">7. 後端 Server</a></li>
+<li class="pure-menu-item"><a href="communication.html" class="pure-menu-link">8. 前後端通訊</a></li>
+<li class="pure-menu-item"><a href="project.html" class="pure-menu-link">9. 完整專案</a></li>
+<li class="pure-menu-item"><a href="online.html" class="pure-menu-link">10. 上線營運</a></li>
+<li class="pure-menu-item"><a href="running.html" class="pure-menu-link">11. 網站維護</a></li>
+<li class="pure-menu-item"><a href="framework.html" class="pure-menu-link">12. 進階框架</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">附錄</a></li>
+<li class="pure-menu-item"><a href="nginx.html" class="pure-menu-link">a. Nginx 的用途</a></li>
+<li class="pure-menu-item"><a href="digitalocean.html" class="pure-menu-link">b. Digital Ocean</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">樣版引擎</h1>
+<p>網站的 server 端為了要把『網頁＋資料』融合呈現出來，通常會使用『樣版引擎』。</p>
+<p>如果要在前端融合呈現，樣版引擎也可以放在前端的瀏覽器內，由 javascript 呼叫。</p>
+<p>因此有許多 javascript 的樣版引擎被開發出來，像是 swig, pug (jade), ejs, mustache, handlebar.js 等等。</p>
+<p>以下是幾個樣板的範例：</p>
+<p>1 - EJS</p>
+<pre><code>&lt;% if (user) { %&gt;
+    &lt;h2&gt;&lt;%= user.name %&gt;&lt;/h2&gt;
+&lt;% } %&gt;
+</code></pre><p>2 - PUG</p>
+<pre><code>doctype html
+html(lang=&quot;en&quot;)
+  head
+    title= pageTitle
+    script(type=&#39;text/javascript&#39;).
+      if (foo) bar(1 + 5)
+  body
+    h1 Pug - node template engine
+    #container.col
+      if youAreUsingPug
+        p You are amazing
+      else
+        p Get on it!
+      p.
+        Pug is a terse and simple templating language with a
+        strong focus on performance and powerful features.
+</code></pre><p>甚至你也可以自己用『正規表達式』很快地寫一個樣版引擎：</p>
+<p>檔案：miniTemplateTest.js</p>
+<pre><code class="lang-javascript">var templateEngine = function (template, obj) {
+  return template.replace(/\{\{(.*?)\}\}/gmi, function (match, p1) {
+    if (p1 != null) return eval(&#39;obj.&#39;+p1)
+  })
+}
+
+var template = &#39;&lt;p&gt;Hello, my name is {{name}}. I\&#39;m {{profile.age}} years old.&lt;/p&gt;&#39;
+
+console.log(templateEngine(template, {
+  name: &quot;ccc&quot;,
+  profile: { age: 43 }
+}))
+</code></pre>
+<p>測試:</p>
+<pre><code>結果：
+=========================================
+$ node miniTemplateTest.js
+&lt;p&gt;Hello, my name is ccc. I&#39;m 43 years old.&lt;/p&gt;
+</code></pre><p>但是在 ECMA Script 6 (ES6) 提出了『模板字符串』（template string）之後，我們其實可以用『模板字符串』來取代樣版引擎，只是通常不能直接在『模板字符串』內寫程式，而是要採用『子樣板=&gt;樣板=&gt;母樣板』這樣的順序逐步建立樣板，而不能在像很多樣版引擎一樣，直接內崁程式在裡面就是了。</p>
+<p>以下是一個『模板字符串』的範例：</p>
+<p>檔案： es6template.js</p>
+<pre><code class="lang-javascript">var name = &#39;ccc&#39;
+var profile = { age: 43 }
+
+console.log(`&lt;p&gt;Hello, my name is ${name}. I&#39;m ${profile.age} years old.&lt;/p&gt;`)
+</code></pre>
+<p>執行：</p>
+<pre><code>bash-3.2$ node es6template.js
+&lt;p&gt;Hello, my name is ccc. I&#39;m 43 years old.&lt;/p&gt;
+</code></pre><p>更多關於 ES6 『模板字符串』的訊息，請參考下列文章：</p>
+<ul>
+<li><a href="http://es6.ruanyifeng.com/#docs/string#模板字符串">http://es6.ruanyifeng.com/#docs/string#模板字符串</a></li>
+</ul>
+<h2 id="-koa-2-">『模板字符串』結合 koa@2 的簡易留言板</h2>
+<ul>
+<li>專案： <a href="https://github.com/ccckmitoad2koa/tree/master/07-blogEs6">https://github.com/ccckmitoad2koa/tree/master/07-blogEs6</a><ul>
+<li>第一版 -- <a href="https://github.com/ccckmit/road2koa/blob/master/07-blogEs6/app.js">https://github.com/ccckmit/road2koa/blob/master/07-blogEs6/app.js</a></li>
+<li>再簡化 -- <a href="https://github.com/ccckmit/road2koa/blob/master/07-blogEs6/app2.js">https://github.com/ccckmit/road2koa/blob/master/07-blogEs6/app2.js</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

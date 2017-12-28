@@ -1,0 +1,862 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 程式設計 -- 基礎、視窗與網路 >>  C# 程式基礎：物件</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">C# 程式設計 -- 基礎、視窗與網路</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">目錄</a></li>
+<li class="pure-menu-item"><a href="csharp.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="varexp.html" class="pure-menu-link">2. 運算式</a></li>
+<li class="pure-menu-item"><a href="ifloop.html" class="pure-menu-link">3. 流程控制</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="object.html" class="pure-menu-link">6. 物件導向</a></li>
+<li class="pure-menu-item"><a href="exception.html" class="pure-menu-link">7. 例外處理</a></li>
+<li class="pure-menu-item"><a href="file.html" class="pure-menu-link">8. 檔案處理</a></li>
+<li class="pure-menu-item"><a href="datastructure.html" class="pure-menu-link">9. 資料結構</a></li>
+<li class="pure-menu-item"><a href="regexp.html" class="pure-menu-link">10. 正規表達式</a></li>
+<li class="pure-menu-item"><a href="thread.html" class="pure-menu-link">11. 作業系統</a></li>
+<li class="pure-menu-item"><a href="window.html" class="pure-menu-link">12. 視窗程式</a></li>
+<li class="pure-menu-item"><a href="timer.html" class="pure-menu-link">13. 時間驅動</a></li>
+<li class="pure-menu-item"><a href="editor.html" class="pure-menu-link">14. 文字編輯器</a></li>
+<li class="pure-menu-item"><a href="graphics.html" class="pure-menu-link">15. 畫圖功能</a></li>
+<li class="pure-menu-item"><a href="gridview.html" class="pure-menu-link">16. 表格元件</a></li>
+<li class="pure-menu-item"><a href="net.html" class="pure-menu-link">17. 網路程式</a></li>
+<li class="pure-menu-item"><a href="udp.html" class="pure-menu-link">18. UDP 程式</a></li>
+<li class="pure-menu-item"><a href="tcp.html" class="pure-menu-link">19. TCP 程式</a></li>
+<li class="pure-menu-item"><a href="http.html" class="pure-menu-link">20. HTTP Server</a></li>
+<li class="pure-menu-item"><a href="web.html" class="pure-menu-link">21. HTTP Client</a></li>
+<li class="pure-menu-item"><a href="end.html" class="pure-menu-link">結語</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="c-">C# 程式基礎：物件</h1>
+<p>C# 是很好的物件導向語言，而且微軟的 .NET Framework 函式庫設計得相當優美，這使得 C# 的魅力相當大。</p>
+<p>傳統的程式設計會將資料與程式分開，但是在物件導向的概念當中，資料與程式被合併成一個結構，這個結構就稱為物件。</p>
+<p>一個物件可以包含資料部分 (資料成員) 與函數部分 (函數成員)，函數成員可以對資料成員進行操作，以下是一個 C# 的物件範例，該範例中定義了一個人員 (Person1) 的結構，該結構包含兩個資料成員 (name, weight) 與一個成員函數 (checkWeight)，該函數會檢查人員結構的體重 (weight) 看看是重還是輕。另外，還包含了一個建構函數 Person1() ，這個建構函數可以讓使用者在建立物件時順便將參數傳入，這是物件導向的一種常見手法。</p>
+<pre><code class="lang-CS">using System;
+
+class Object1 {
+    public static void Main(String[] args) {
+        Person1 p1, p2;
+        p1 = new Person1(&quot;大雄&quot;, 50);
+        p2 = new Person1(&quot;胖虎&quot;, 80);
+        p1.checkWeight();
+        p2.checkWeight();
+        p2.weight = 68;
+        p1.checkWeight();
+        p2.checkWeight();
+    }
+}
+
+class Person1 {
+    public string name;
+    public int weight;
+
+    public Person1(string pName, int pWeight) {
+        name   = pName;
+        weight = pWeight;
+    }
+
+    public void checkWeight()
+    {
+        Console.Write(name+&quot;體重 &quot;+weight+&quot; 公斤,&quot;);
+        if (weight &lt; 70) 
+         Console.WriteLine(&quot;很苗條!&quot;);
+        else
+         Console.WriteLine(&quot;很穩重!&quot;);
+    }
+}
+</code></pre>
+<p>執行結果</p>
+<pre><code>D:\myweb\teach\CSharpProgramming&gt;csc Object1.cs
+Microsoft (R) Visual C# 2008 Compiler version 3.5.30729.1
+for Microsoft (R) .NET Framework version 3.5
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+
+D:\myweb\teach\CSharpProgramming&gt;Object1
+大雄體重 50 公斤,很苗條!
+胖虎體重 80 公斤,很穩重!
+大雄體重 50 公斤,很苗條!
+胖虎體重 68 公斤,很苗條!
+</code></pre><h2 id="-">封裝</h2>
+<p>在傳統的結構化程式設計 (像是 C, Fortran, Pascal) 當中，我們用函數來處理資料，但是函數與資料是完全區隔開來的兩個世界。然而，在物件導向當中，函數與資料被合為一體，形成一種稱為物件的結構，我們稱這種將函數與資料放在一起的特性為「封裝」。</p>
+<p>以下我們將以矩形物件為範例，說明 C# 當中的封裝語法，以及物件導向中的封裝概念。</p>
+<h3 id="-">範例一：封裝 -- 將函數與資料裝入物件當中</h3>
+<pre><code class="lang-CS">using System;
+
+class Rectangle
+{
+    double width, height;
+
+    double area()
+    {
+        return width * height;
+    }
+
+    public static void Main(string[] args)
+    {
+        Rectangle r = new Rectangle();
+        r.width = 5.0;
+        r.height = 8.0;
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+    }
+}
+</code></pre>
+<p>執行結果</p>
+<pre><code>r.area() = 40
+</code></pre><h3 id="-">修改進化版</h3>
+<p>由於上述物件與主程式混在一起，可能容易造成誤解，因此我們將主程式獨立出來，並且新增了一個 r2 的矩形物件，此時程式如下所示。</p>
+<pre><code class="lang-CS">using System;
+
+class Rectangle
+{
+    public double width, height;
+
+    public double area()
+    {
+        return width * height;
+    }
+}
+
+class Test
+{
+    public static void Main(string[] args)
+    {
+        Rectangle r = new Rectangle();
+        r.width = 5.0;
+        r.height = 8.0;
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+
+        Rectangle r2 = new Rectangle();
+        r2.width = 7.0;
+        r2.height = 4.0;
+        Console.WriteLine(&quot;r2.area() = &quot; + r2.area());
+    }
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>r.area() = 40
+r2.area() = 28
+</code></pre><h3 id="-">範例二：加上建構函數</h3>
+<pre><code class="lang-CS">using System;
+
+class Rectangle
+{
+    double width, height;
+
+    public Rectangle(double w, double h)
+    {
+        width = w;
+        height = h;
+    }
+
+    public double area()
+    {
+        return width * height;
+    }
+
+    public static void Main(string[] args)
+    {
+        Rectangle r = new Rectangle(5.0, 8.0);
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+    }
+}
+</code></pre>
+<p>執行結果</p>
+<pre><code>r.area() = 40
+</code></pre><h3 id="-0-">範例二：加上建構函數 -- 同時有 0 個與兩個引數</h3>
+<pre><code class="lang-CS">using System;
+
+class Rectangle
+{
+    public double width, height;
+
+    public Rectangle() { }
+
+    public Rectangle(double w, double h)
+    {
+        width = w;
+        height = h;
+    }
+
+    public double area()
+    {
+        return width * height;
+    }
+}
+
+class Test
+{
+    public static void Main(string[] args)
+    {
+        Rectangle r = new Rectangle(5.0, 8.0);
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+
+        Rectangle r2 = new Rectangle();
+        r2.width = 7.0;
+        r2.height = 4.0;
+        Console.WriteLine(&quot;r2.area() = &quot; + r2.area());
+    }
+}
+</code></pre>
+<h3 id="-">習題：向量物件</h3>
+<pre><code class="lang-CS">using System;
+
+class Vector
+{
+    double[] a;
+
+    public Vector(double[] array)
+    {
+        a = new double[array.GetLength(0)];
+        for (int i = 0; i &lt; a.GetLength(0); i++)
+        {
+            a[i] = array[i];
+        }
+    }
+
+    public Vector add(Vector v2)
+    {
+        Vector rv = new Vector(v2.a);
+        for (int i = 0; i &lt; rv.a.GetLength(0); i++)
+        {
+            rv.a[i] = this.a[i] + v2.a[i];
+        }
+        return rv;
+    }
+
+    public void print()
+    {
+        for (int i = 0; i &lt; a.GetLength(0); i++)
+        {
+            Console.Write(a[i] + &quot; &quot;);
+        }
+        Console.WriteLine();
+    }
+}
+
+class Test
+{
+    public static void Main(string[] args)
+    {
+        Vector v1 = new Vector(new double[] { 1.0, 2.0, 3.0 });
+        Vector v2 = new Vector(new double[] { 4.0, 5.0, 6.0 });
+        Vector v3 = v1.add(v2);
+
+        v1.print();
+        v2.print();
+        v3.print();
+    }
+}
+</code></pre>
+<p>進階練習 1：加上內積的函數，並寫出呼叫範例。
+進階練習 2：寫出矩陣物件 (有加法、乘法) (方法一：用二維陣列、方法二：用 Vector)。</p>
+<h3 id="-">習題：矩陣物件</h3>
+<h2 id="-">繼承</h2>
+<h3 id="-shape-">範例一：矩形、圓形繼承形狀 (Shape)</h3>
+<pre><code class="lang-CS">using System;
+
+class Shape
+{
+    public virtual double area() { return 0.0; }
+}
+
+class Rectangle : Shape
+{
+    double width, height;
+
+    public Rectangle(double w, double h)
+    {
+        width = w;
+        height = h;
+    }
+
+    public override double area()
+    {
+        return width * height;
+    }
+}
+
+class Circle : Shape
+{
+    double r;
+
+    public Circle(double r)
+    {
+        this.r = r;
+    }
+
+    public override double area()
+    {
+        return 3.1416 * r * r;
+    }
+}
+
+class Test
+{
+    public static void Main(string[] args)
+    {
+        Shape s = new Shape();
+        Console.WriteLine(&quot;s.area() = &quot; + s.area());
+
+        Rectangle r = new Rectangle(5.0, 8.0);
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+
+        Circle c = new Circle(2);
+        Console.WriteLine(&quot;c.area() = &quot; + c.area());
+    }
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>s.area() = 0
+r.area() = 40
+c.area() = 12.5664
+</code></pre><h3 id="-">範例二：加入厚度與體積函數 (在子物件使用父物件的欄位)</h3>
+<p>執行結果</p>
+<pre><code>s.area() = 0
+r.area() = 40
+r.volume() = 80
+c.area() = 12.5664
+c.volume() = 37.6992
+c.volume() = 62.832
+</code></pre><p>程式碼</p>
+<pre><code class="lang-CS">using System;
+
+class Shape
+{
+    public double thick;
+    public virtual double area() { return 0.0; }
+}
+
+class Rectangle : Shape
+{
+    double width, height;
+
+    public Rectangle(double w, double h)
+    {
+        width = w;
+        height = h;
+        thick = 2.0;
+    }
+
+    public override double area()
+    {
+        return width * height;
+    }
+
+    public double volume()
+    {
+        return width * height * thick;
+    }
+}
+
+class Circle : Shape
+{
+    double r;
+
+    public Circle(double r)
+    {
+        this.r = r;
+        thick = 3.0;
+    }
+
+    public override double area()
+    {
+        return 3.1416 * r * r;
+    }
+
+    public double volume()
+    {
+        return area() * thick;
+    }
+}
+
+class Test
+{
+    public static void Main(string[] args)
+    {
+        Shape s = new Shape();
+        Console.WriteLine(&quot;s.area() = &quot; + s.area());
+
+        Rectangle r = new Rectangle(5.0, 8.0);
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+        Console.WriteLine(&quot;r.volume() = &quot; + r.volume());
+
+        Circle c = new Circle(2);
+        Console.WriteLine(&quot;c.area() = &quot; + c.area());
+        Console.WriteLine(&quot;c.volume() = &quot; + c.volume());
+        c.thick = 5;
+        Console.WriteLine(&quot;c.volume() = &quot; + c.volume());
+    }
+}
+</code></pre>
+<h3 id="-volume-shape-">範例三：將 volume() 函數提到 Shape 物件中</h3>
+<pre><code class="lang-CS">using System;
+
+class Shape
+{
+    public double thick;
+    public virtual double area() { return 0.0; }
+    public double volume()
+    {
+        return area() * thick;
+    }
+}
+
+class Rectangle : Shape
+{
+    double width, height;
+
+    public Rectangle(double w, double h)
+    {
+        width = w;
+        height = h;
+        thick = 2.0;
+    }
+
+    public override double area()
+    {
+        return width * height;
+    }
+}
+
+class Circle : Shape
+{
+    double r;
+
+    public Circle(double r)
+    {
+        this.r = r;
+        thick = 3.0;
+    }
+
+    public override double area()
+    {
+        return 3.1416 * r * r;
+    }
+}
+
+class Test
+{
+    public static void Main(string[] args)
+    {
+        Shape s = new Shape();
+        Console.WriteLine(&quot;s.area() = &quot; + s.area());
+
+        Rectangle r = new Rectangle(5.0, 8.0);
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+        Console.WriteLine(&quot;r.volume() = &quot; + r.volume());
+
+        Circle c = new Circle(2);
+        Console.WriteLine(&quot;c.area() = &quot; + c.area());
+        Console.WriteLine(&quot;c.volume() = &quot; + c.volume());
+        c.thick = 5;
+        Console.WriteLine(&quot;c.volume() = &quot; + c.volume());
+    }
+}
+</code></pre>
+<h3 id="-">習題：人、學生與老師</h3>
+<p>請定義「人、學生與老師」等三個類別，其中的人有「姓名、性別、年齡」三個欄位，學生另外有「學號、年級」等兩個欄位，老師另外有「職等」的欄位，所有物件都有 print() 函數，可以將該物件的所有欄位印出。</p>
+<p>請建立一個具有 3 個學生與兩個老師的陣列，利用多型機制，呼叫 print 函數以便印出這 5 個人的基本資料，如下所示。</p>
+<pre><code>學生 --  姓名：王小明，性別：男，年齡：20，學號：R773122456，年級：一年級
+學生 --  姓名：李小華，性別：女，年齡：19，學號：R773122432，年級：一年級
+教師 --  姓名：陳福氣，性別：男，年齡：40，職等：教授
+學生 --  姓名：黃大虎，性別：男，年齡：22，學號：R773122721，年級：四年級
+教師 --  姓名：李美女，性別：女，年齡：35，職等：助理教授
+</code></pre><p>解答：</p>
+<pre><code class="lang-CS">using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Person
+{
+/*
+ * 請定義「人、學生與老師」等三個類別，其中的人有「姓名、性別、年齡」三個欄位，
+ * 學生另外有「學號、年級」等兩個欄位，老師另外有「職等」的欄位，所有物件都有 
+ * print() 函數，可以將該物件的所有欄位印出。
+ * 
+ * 請建立一個具有 3 個學生與兩個老師的陣列，利用多型機制，呼叫 print 函數以便
+ * 印出這 5 個人的基本資料，如下所示。    
+ * 
+ * 學生 --  姓名：王小明，性別：男，年齡：20，學號：R773122456，年級：一年級
+ * 學生 --  姓名：李小華，性別：女，年齡：19，學號：R773122432，年級：一年級
+ * 教師 --  姓名：陳福氣，性別：男，年齡：40，職等：教授
+ * 學生 --  姓名：黃大虎，性別：男，年齡：22，學號：R773122721，年級：四年級
+ * 教師 --  姓名：李美女，性別：女，年齡：35，職等：助理教授
+*/
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                Student s1 = new Student(&quot;王小明&quot;, &quot;男&quot;, 20, &quot;R773122456&quot;, 1);
+                Student s2 = new Student(&quot;李小華&quot;, &quot;女&quot;, 19, &quot;R773122432&quot;, 1);
+                Student s3 = new Student(&quot;黃大虎&quot;, &quot;男&quot;, 22, &quot;R773122721&quot;, 4);
+                Person t1 = new Person(&quot;陳福氣&quot;, &quot;男&quot;, 40);
+                Person t2 = new Person(&quot;李美女&quot;, &quot;女&quot;, 35);
+
+                Person[] list = { s1, s2, t1, s3, t2 };
+                foreach (Person p in list)
+                {
+                    p.print();
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        class Person
+        {
+            String name;
+            String sex;
+            int age;
+
+            public Person(String name, String sex, int age)
+            {
+                this.name = name;
+                this.sex = sex;
+                this.age = age;
+            }
+
+            public virtual Person print()
+            {
+                Console.Write(&quot;姓名：&quot;+name+&quot; 性別：&quot;+sex+&quot; 年齡：&quot;+age);
+                return this;
+            }
+        }
+
+        class Student : Person
+        {
+            String id;
+            int degree;
+
+            public Student(String name, String sex, int age, String id, int degree)
+                : base(name, sex, age)
+            {
+                this.id = id;
+                this.degree = degree;
+            }
+
+            public override Person print()
+            {
+                Console.Write(&quot;學生 -- &quot;);
+                base.print();
+                Console.Write(&quot; 學號：&quot; + id + &quot; 年級：&quot; + degree);
+                return this;
+            }
+        }
+}
+</code></pre>
+<h2 id="-">多型</h2>
+<p>物件導向的多型機制，是指當兩個以上的類別繼承同一種父類別時，我們可以用父類別型態容納子類別的物件，真正進行函數呼叫時會呼叫到子類別的函數，此種特性稱之為多型。</p>
+<p>以下是我們用 C# 實作的一個多型範例，在範例中，我們宣告了一個形狀類別，該類別具有一個 area() 函數可以計算該形狀的面積，然後我們又宣告了兩個子類別 Rectangle (矩形) 與 Circle (圓形)。我們將兩者放入到 shapes 陣列中，以便展示多型技巧，用父類別容器呼叫子類別的實體。</p>
+<h3 id="-">範例：形狀、矩形與圓形</h3>
+<pre><code class="lang-CS">using System;
+
+class Shape
+{
+    public virtual double area() { return 0.0; }
+
+    public static void Main(string[] args)
+    {
+        Rectangle r = new Rectangle(5.0, 8.0);
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+
+        Circle c = new Circle(3.0);
+        Console.WriteLine(&quot;c.area() = &quot; + c.area());
+
+        Shape[] shapes = { r, c };
+        for (int i = 0; i &lt; shapes.Length; i++)
+            Console.WriteLine(&quot;shapes[&quot; + i + &quot;].area()=&quot; + shapes[i].area());
+    }
+}
+
+class Rectangle : Shape
+{
+    double width, height;
+
+    public Rectangle(double w, double h)
+    {
+        width = w;
+        height = h;
+    }
+
+    public override double area()
+    {
+        return width * height;
+    }
+}
+
+class Circle : Shape
+{
+    double r;
+
+    public Circle(double r)
+    {
+        this.r = r;
+    }
+
+    public override double area()
+    {
+        return 3.1416 * r * r;
+    }
+}
+</code></pre>
+<p>執行結果</p>
+<pre><code>r.area() = 40
+c.area() = 28.2744
+shapes[0].area()=40
+shapes[1].area()=28.2744
+</code></pre><h3 id="-">範例：使用抽象父型態</h3>
+<pre><code class="lang-CS">using System;
+
+class ShapeTest
+{
+    public static void Main(string[] args)
+    {
+        Rectangle r = new Rectangle(5.0, 8.0);
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+
+        Circle c = new Circle(3.0);
+        Console.WriteLine(&quot;c.area() = &quot; + c.area());
+
+        Shape[] shapes = { r, c };
+        for (int i = 0; i &lt; shapes.Length; i++)
+            Console.WriteLine(&quot;shapes[&quot; + i + &quot;].area()=&quot; + shapes[i].area());
+    }
+}
+
+abstract class Shape
+{
+    public abstract double area();
+
+}
+
+class Rectangle : Shape
+{
+    double width, height;
+
+    public Rectangle(double w, double h)
+    {
+        width = w;
+        height = h;
+    }
+
+    public override double area()
+    {
+        return width * height;
+    }
+}
+
+class Circle : Shape
+{
+    double r;
+
+    public Circle(double r)
+    {
+        this.r = r;
+    }
+
+    public override double area()
+    {
+        return 3.1416 * r * r;
+    }
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>r.area() = 40
+c.area() = 28.2744
+shapes[0].area()=40
+shapes[1].area()=28.2744
+</code></pre><h3 id="-">範例：使用介面</h3>
+<pre><code class="lang-CS">using System;
+
+class ShapeTest
+{
+    public static void Main(string[] args)
+    {
+        Rectangle r = new Rectangle(5.0, 8.0);
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+
+        Circle c = new Circle(3.0);
+        Console.WriteLine(&quot;c.area() = &quot; + c.area());
+
+        Shape[] shapes = { r, c };
+        for (int i = 0; i &lt; shapes.Length; i++)
+            Console.WriteLine(&quot;shapes[&quot; + i + &quot;].area()=&quot; + shapes[i].area());
+    }
+}
+
+interface Shape
+{
+    double area();
+
+}
+
+class Rectangle : Shape
+{
+    double width, height;
+
+    public Rectangle(double w, double h)
+    {
+        width = w;
+        height = h;
+    }
+
+    public double area()
+    {
+        return width * height;
+    }
+}
+
+class Circle : Shape
+{
+    double r;
+
+    public Circle(double r)
+    {
+        this.r = r;
+    }
+
+    public double area()
+    {
+        return 3.1416 * r * r;
+    }
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>r.area() = 40
+c.area() = 28.2744
+shapes[0].area()=40
+shapes[1].area()=28.2744
+</code></pre><h3 id="-">範例：較完整複雜的版本</h3>
+<pre><code class="lang-CS">using System;
+
+class Shape
+{
+    public double thick = 0.0;
+    public virtual double area() { return 0.0; }
+    public double volume()
+    {
+        return area() * thick;
+    }
+
+    public override String ToString()
+    {
+        return &quot;Shape: thick=&quot; + thick+&quot; area=&quot;+area()+&quot; volume=&quot;+volume();
+    }
+}
+
+class Rectangle : Shape
+{
+    double width, height;
+
+    public Rectangle(double w, double h)
+    {
+        width = w;
+        height = h;
+        thick = 2.0;
+    }
+
+    public override String ToString()
+    {
+        return base.ToString()+&quot; Rectangle:width=&quot; + width + &quot; height=&quot; + height;
+    }
+
+    public override double area()
+    {
+        return width * height;
+    }
+}
+
+class Circle : Shape
+{
+    double r;
+
+    public Circle(double r)
+    {
+        this.r = r;
+        thick = 3.0;
+    }
+
+    public override String ToString()
+    {
+        return base.ToString() + &quot; Circle:r=&quot; + r + &quot; thick=&quot; + thick;
+    }
+
+    public override double area()
+    {
+        return 3.1416 * r * r;
+    }
+}
+
+class Test
+{
+    public static void Main(string[] args)
+    {
+        Shape s = new Shape();
+        Console.WriteLine(&quot;s.area() = &quot; + s.area());
+
+        Rectangle r = new Rectangle(5.0, 8.0);
+        Console.WriteLine(&quot;r.area() = &quot; + r.area());
+        Console.WriteLine(&quot;r.volume() = &quot; + r.volume());
+
+        Circle c = new Circle(2);
+        Console.WriteLine(&quot;c.area() = &quot; + c.area());
+        Console.WriteLine(&quot;c.volume() = &quot; + c.volume());
+        c.thick = 5;
+        Console.WriteLine(&quot;c.volume() = &quot; + c.volume());
+
+        Shape[] array = new Shape[] { s, r, c, r };
+        foreach (Shape o in array)
+        {
+//            Console.WriteLine(&quot;o.area()=&quot; + o.area() +&quot; o.volume()=&quot;+o.volume());
+            Console.WriteLine(o.ToString());
+        }
+    }
+}
+</code></pre>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li>C# 教學課程<ul>
+<li>結構教學課程 - <a href="http://msdn.microsoft.com/zh-tw/library/aa288471(VS.71).aspx">http://msdn.microsoft.com/zh-tw/library/aa288471(VS.71).aspx</a></li>
+<li>使用者定義轉換教學課程 - <a href="http://msdn.microsoft.com/zh-tw/library/aa288476(VS.71).aspx">http://msdn.microsoft.com/zh-tw/library/aa288476(VS.71).aspx</a></li>
+<li>運算子多載化教學課程 - <a href="http://msdn.microsoft.com/zh-tw/library/aa288467(VS.71).aspx">http://msdn.microsoft.com/zh-tw/library/aa288467(VS.71).aspx</a></li>
+</ul>
+</li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 JavaScript 程式書 >>  第 10 章 - 資料庫</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 JavaScript 程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 程式入門</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 基本語法</a></li>
+<li class="pure-menu-item"><a href="chapterString.html" class="pure-menu-link">3. 字串</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">6. 字典與 JSON</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">7. 物件導向與原型</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">8. 函式庫</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">9. 模組</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">10. 檔案與輸出入</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">11. 資料庫</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">12. 網路</a></li>
+<li class="pure-menu-item"><a href="answer.html" class="pure-menu-link">習題解答</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-10-">第 10 章 - 資料庫</h1>
+<h2 id="mongodb-json-">MongoDB 文件型 JSON 資料庫</h2>
+<h3 id="mongodb-">MongoDB -- 安裝與啟動</h3>
+<p>下載點: <a href="https://www.mongodb.org/downloads">https://www.mongodb.org/downloads</a></p>
+<p>下載完成後使用『下一步』大法即可完成安裝。</p>
+<p>安裝完成之後，在 windows 下必須設定系統路徑，我的路徑在： 『C:\Program Files\MongoDB\Server\3.0\bin』 當中。</p>
+<p>接著請啟動命令列，然後建立資料庫路徑 /db/mongodb/ ，接著輸入下列指令。</p>
+<pre><code>D:\db&gt;mongod --dbpath /db/mongodb
+</code></pre><p>此時 mongodb 伺服器就會啟動完成。</p>
+<pre><code>D:\db&gt;mongo
+MongoDB shell version: 3.0.2
+connecting to: test
+</code></pre><p>接著您就可以使用指令進行『新增/修改/刪除/查詢』了。</p>
+<h3 id="-">新增操作</h3>
+<p>參考： <a href="http://www.w3cschool.cc/mongodb/mongodb-insert.html">http://www.w3cschool.cc/mongodb/mongodb-insert.html</a></p>
+<pre><code class="lang-javascript">&gt; db.user.insert({user:&quot;CCC&quot;, password:&quot;123&quot;})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.user.find()
+{ &quot;_id&quot; : ObjectId(&quot;55486b1327403e89a3cc397a&quot;), &quot;user&quot; : &quot;ccc&quot;, &quot;password&quot; : &quot;123&quot; }
+&gt; db.user.insert({user:&quot;snoopy&quot;, password:&quot;321&quot;})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.user.find()
+{ &quot;_id&quot; : ObjectId(&quot;55486b1327403e89a3cc397a&quot;), &quot;user&quot; : &quot;ccc&quot;, &quot;password&quot; : &quot;123&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487073434ed6d677f8454d&quot;), &quot;user&quot; : &quot;snoopy&quot;, &quot;password&quot; : &quot;321&quot; }
+</code></pre>
+<h3 id="-">修改操作</h3>
+<p>參考： <a href="http://www.w3cschool.cc/mongodb/mongodb-update.html">http://www.w3cschool.cc/mongodb/mongodb-update.html</a></p>
+<pre><code class="lang-javascript">&gt; db.user.update({&quot;user&quot;:&quot;snoopy&quot;}, {&quot;user&quot;:&quot;snoopy&quot;, &quot;password&quot;:&quot;snoopy321&quot;})
+WriteResult({ &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 })
+&gt; db.user.find()
+{ &quot;_id&quot; : ObjectId(&quot;55486b1327403e89a3cc397a&quot;), &quot;user&quot; : &quot;ccc&quot;, &quot;password&quot; : &quot;123&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487073434ed6d677f8454d&quot;), &quot;user&quot; : &quot;snoopy&quot;, &quot;password&quot; : &quot;snoopy321&quot; }
+</code></pre>
+<h3 id="-">刪除操作</h3>
+<p>參考： <a href="http://www.w3cschool.cc/mongodb/mongodb-remove.html">http://www.w3cschool.cc/mongodb/mongodb-remove.html</a></p>
+<pre><code class="lang-javascript">&gt; db.user.find()
+{ &quot;_id&quot; : ObjectId(&quot;55486b1327403e89a3cc397a&quot;), &quot;user&quot; : &quot;ccc&quot;, &quot;password&quot; : &quot;123&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487073434ed6d677f8454d&quot;), &quot;user&quot; : &quot;snoopy&quot;, &quot;password&quot; : &quot;snoopy321&quot; }
+&gt; db.user.remove({user:&quot;ccc&quot;})
+WriteResult({ &quot;nRemoved&quot; : 1 })
+&gt; db.user.find()
+{ &quot;_id&quot; : ObjectId(&quot;55487073434ed6d677f8454d&quot;), &quot;user&quot; : &quot;snoopy&quot;, &quot;password&quot; : &quot;snoopy321&quot; }
+</code></pre>
+<h3 id="-">查詢操作</h3>
+<p>參考： <a href="http://www.w3cschool.cc/mongodb/mongodb-update.html">http://www.w3cschool.cc/mongodb/mongodb-update.html</a></p>
+<pre><code class="lang-javascript">&gt; db.user.insert({user:&quot;garfield&quot;, password:&quot;cookie&quot;})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.user.find()
+{ &quot;_id&quot; : ObjectId(&quot;55487073434ed6d677f8454d&quot;), &quot;user&quot; : &quot;snoopy&quot;, &quot;password&quot; : &quot;snoopy321&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487d09434ed6d677f8454e&quot;), &quot;user&quot; : &quot;garfield&quot;, &quot;password&quot;: &quot;cookie&quot; }
+&gt; db.user.find({user:&quot;garfield&quot;})
+{ &quot;_id&quot; : ObjectId(&quot;55487d09434ed6d677f8454e&quot;), &quot;user&quot; : &quot;garfield&quot;, &quot;password&quot;: &quot;cookie&quot; }
+&gt; db.user.find({user:&quot;snoopy&quot;})
+{ &quot;_id&quot; : ObjectId(&quot;55487073434ed6d677f8454d&quot;), &quot;user&quot; : &quot;snoopy&quot;, &quot;password&quot; :&quot;snoopy321&quot; }
+</code></pre>
+<h3 id="-">條件式查詢</h3>
+<p>參考： <a href="http://www.w3cschool.cc/mongodb/mongodb-operators.html">http://www.w3cschool.cc/mongodb/mongodb-operators.html</a></p>
+<pre><code class="lang-javascript">&gt; db.users.find({age :{$gt : 8}})
+{ &quot;_id&quot; : ObjectId(&quot;55487ecd3c69cbdeba209fb3&quot;), &quot;name&quot; : &quot;ccc&quot;, &quot;age&quot; : 45, &quot;password&quot; : &quot;321&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487eed3c69cbdeba209fb5&quot;), &quot;name&quot; : &quot;garfield&quot;, &quot;age&quot; : 9,&quot;password&quot; : &quot;garfield123&quot; }
+&gt; db.users.find()
+{ &quot;_id&quot; : ObjectId(&quot;55487ecd3c69cbdeba209fb3&quot;), &quot;name&quot; : &quot;ccc&quot;, &quot;age&quot; : 45, &quot;password&quot; : &quot;321&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487ede3c69cbdeba209fb4&quot;), &quot;name&quot; : &quot;snoopy&quot;, &quot;age&quot; : 5, &quot;password&quot; : &quot;snoopy123&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487eed3c69cbdeba209fb5&quot;), &quot;name&quot; : &quot;garfield&quot;, &quot;age&quot; : 9, &quot;password&quot; : &quot;garfield123&quot; }
+&gt; db.users.find().limit(2)
+{ &quot;_id&quot; : ObjectId(&quot;55487ecd3c69cbdeba209fb3&quot;), &quot;name&quot; : &quot;ccc&quot;, &quot;age&quot; : 45, &quot;password&quot; : &quot;321&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487ede3c69cbdeba209fb4&quot;), &quot;name&quot; : &quot;snoopy&quot;, &quot;age&quot; : 5, &quot;password&quot; : &quot;snoopy123&quot; }
+&gt; db.users.find().limit(2).skip(1)
+{ &quot;_id&quot; : ObjectId(&quot;55487ede3c69cbdeba209fb4&quot;), &quot;name&quot; : &quot;snoopy&quot;, &quot;age&quot; : 5, &quot;password&quot; : &quot;snoopy123&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487eed3c69cbdeba209fb5&quot;), &quot;name&quot; : &quot;garfield&quot;, &quot;age&quot; : 9,&quot;password&quot; : &quot;garfield123&quot; }
+</code></pre>
+<h3 id="-">排序與索引</h3>
+<pre><code class="lang-javascript">&gt; db.users.find().sort({age:1})
+{ &quot;_id&quot; : ObjectId(&quot;55487ede3c69cbdeba209fb4&quot;), &quot;name&quot; : &quot;snoopy&quot;, &quot;age&quot; : 5, &quot;password&quot; : &quot;snoopy123&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487eed3c69cbdeba209fb5&quot;), &quot;name&quot; : &quot;garfield&quot;, &quot;age&quot; : 9,&quot;password&quot; : &quot;garfield123&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487ecd3c69cbdeba209fb3&quot;), &quot;name&quot; : &quot;ccc&quot;, &quot;age&quot; : 45, &quot;password&quot; : &quot;321&quot; }
+&gt; db.users.find().sort({age:-1})
+{ &quot;_id&quot; : ObjectId(&quot;55487ecd3c69cbdeba209fb3&quot;), &quot;name&quot; : &quot;ccc&quot;, &quot;age&quot; : 45, &quot;password&quot; : &quot;321&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487eed3c69cbdeba209fb5&quot;), &quot;name&quot; : &quot;garfield&quot;, &quot;age&quot; : 9,&quot;password&quot; : &quot;garfield123&quot; }
+{ &quot;_id&quot; : ObjectId(&quot;55487ede3c69cbdeba209fb4&quot;), &quot;name&quot; : &quot;snoopy&quot;, &quot;age&quot; : 5, &quot;password&quot; : &quot;snoopy123&quot; }
+&gt; db.users.ensureIndex({name:1})
+{
+        &quot;createdCollectionAutomatically&quot; : false,
+        &quot;numIndexesBefore&quot; : 1,
+        &quot;numIndexesAfter&quot; : 2,
+        &quot;ok&quot; : 1
+}
+</code></pre>
+<h3 id="-">離開</h3>
+<pre><code class="lang-javascript">&gt; quit()
+
+D:\db&gt;
+</code></pre>
+<h3 id="-">日期與時間操作</h3>
+<pre><code>&gt; db.filelog.insert({path:&#39;wd.html&#39;, time:new Date()})
+WriteResult({ &quot;nInserted&quot; : 1 })
+&gt; db.filelog.find()
+{ &quot;_id&quot; : ObjectId(&quot;571d78c179eb77457f34a8b5&quot;), &quot;path&quot; : &quot;wd.html&quot;, &quot;time&quot; : ISO
+Date(&quot;2016-04-25T01:54:09.026Z&quot;) }
+&gt;
+</code></pre><h2 id="-mongodb">使用程式存取 MongoDB</h2>
+<p>您若要在 node.js 當中存取 mongoDB 的資料，必須先用 npm 安裝 mongoDB 的套件。</p>
+<pre><code>npm install mongodb
+</code></pre><h3 id="-mongotest-js">程式範例: mongotest.js</h3>
+<p>參考： <a href="https://mongodb.github.io/node-mongodb-native/api-articles/nodekoarticle1.html">https://mongodb.github.io/node-mongodb-native/api-articles/nodekoarticle1.html</a></p>
+<pre><code class="lang-javascript">var MongoClient = require(&#39;mongodb&#39;).MongoClient;
+
+MongoClient.connect(&quot;mongodb://localhost:27017/examdb&quot;, function(err, db) {
+  if(err) { return console.dir(err); }
+
+  var collection = db.collection(&#39;Q&#39;);
+  var docs = [{ type:&quot;word&quot;, q:&quot;he=他&quot;}, { type:&quot;word&quot;, q:&quot;she=她&quot;}, { type:&quot;word&quot;, q:&quot;it=它&quot;} ];
+
+  collection.insert(docs, {w:1}, function(err, result) { // success!
+
+    collection.find().toArray(function(err, items) {
+        console.log(&quot;items=%j&quot;, items);
+        db.close();
+    });
+  });
+});
+</code></pre>
+<p>執行結果：</p>
+<pre><code>nqu-192-168-61-142:KoaExam mac020$ node mongotest
+items=[{&quot;_id&quot;:&quot;5716e82ea6c866eb02ffe700&quot;,&quot;type&quot;:&quot;word&quot;,&quot;q&quot;:&quot;he=他&quot;},{&quot;_id&quot;:&quot;5716e82ea6c866eb02ffe701&quot;,&quot;type&quot;:&quot;word&quot;,&quot;q&quot;:&quot;she=她&quot;},{&quot;_id&quot;:&quot;5716e82ea6c866eb02ffe702&quot;,&quot;type&quot;:&quot;word&quot;,&quot;q&quot;:&quot;it=它&quot;}]
+</code></pre><h3 id="-yield-">採用 yield 的寫法</h3>
+<p>檔案： comongotest.js</p>
+<pre><code>var co = require(&quot;co&quot;);
+
+var MongoClient = require(&#39;mongodb&#39;).MongoClient;
+
+co(function*() {
+  var db = yield MongoClient.connect(&#39;mongodb://localhost:27017/examdb&#39;);
+  var collection = db.collection(&#39;Q&#39;);
+  var result = yield collection.insertMany([{ type:&quot;word&quot;, q:&quot;he=他&quot;}, { type:&quot;word&quot;, q:&quot;she=她&quot;}, { type:&quot;word&quot;, q:&quot;it=它&quot;} ], {w:1});
+  var items = yield collection.find().toArray();
+  console.log(&quot;items=%j&quot;, items);
+  var result = yield db.close();
+});
+</code></pre><p>執行結果</p>
+<pre><code>NQU-192-168-60-101:js csienqu$ node comongotest
+items=[{&quot;_id&quot;:&quot;57201788d3c8212f034d9479&quot;,&quot;type&quot;:&quot;word&quot;,&quot;q&quot;:&quot;he=他&quot;},{&quot;_id&quot;:&quot;57201788d3c8212f034d947a&quot;,&quot;type&quot;:&quot;word&quot;,&quot;q&quot;:&quot;she=她&quot;},{&quot;_id&quot;:&quot;57201788d3c8212f034d947b&quot;,&quot;type&quot;:&quot;word&quot;,&quot;q&quot;:&quot;it=它&quot;}]
+</code></pre><h2 id="-">習題</h2>
+<ol>
+<li>請安裝好 mongodb 資料庫，並用 mongod 啟動伺服器之後，用 mongo 指令開始新增資料，並且玩玩資料庫《新增、修改、刪除、查詢》的動作，直到你能熟練地進行這些操作為止。</li>
+<li>請建立一個自己想要用的資料庫 (像是通訊錄、字典....)等等，然後用編輯器(像是 notepad++) 編寫一堆資料後，寫程式將資料倒進該資料庫中！</li>
+</ol>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

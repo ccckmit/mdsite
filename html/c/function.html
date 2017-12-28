@@ -1,0 +1,136 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 C 語言程式書 >>  C 語言的函數</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 C 語言程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">基礎語法</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">函數</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">陣列</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="parameter.html" class="pure-menu-link">參數傳遞</a></li>
+<li class="pure-menu-item"><a href="include.html" class="pure-menu-link">引用檔</a></li>
+<li class="pure-menu-item"><a href="module.html" class="pure-menu-link">模組化</a></li>
+<li class="pure-menu-item"><a href="callback.html" class="pure-menu-link">回呼</a></li>
+<li class="pure-menu-item"><a href="recursive.html" class="pure-menu-link">遞迴</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">範例：翻譯系統</a></li>
+<li class="pure-menu-item"><a href="advance.html" class="pure-menu-link">進階主題</a></li>
+<li class="pure-menu-item"><a href="exam.html" class="pure-menu-link">習題</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="c-">C 語言的函數</h1>
+<h2 id="-sum-n-">總和函數 sum(n)</h2>
+<p>檔案： fsum.c</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+int sum(int n) {
+  int i, s=0;
+  for (i=1; i&lt;=n; i++) {
+    s = s+i;
+  }
+  return s;
+}
+
+int main() {
+  int sum10 = sum(10);
+  printf(&quot;1+...+10=%d\n&quot;, sum10);
+}
+</code></pre><p>執行結果：</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc fsum.c -o fsum
+D:\Dropbox\cccwd\db\c\code&gt;fsum
+1+...+10=55
+</code></pre><h2 id="-max-a-b-">函數：取大值 max(a,b)</h2>
+<h3 id="-">採用函數的作法</h3>
+<p>檔案： <a href="/code/c/max.c">max.c</a></p>
+<pre><code class="lang-CPP">#include &lt;stdio.h&gt;
+
+int max(int a, int b) {
+  if (a&gt;b)
+    return a;
+  else
+    return b;
+}
+
+int main() {
+  int m = max(9,5);
+  printf(&quot;max(9,5)=%d\n&quot;, m);
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc max.c -o max
+
+D:\Dropbox\cccwd\db\c\code&gt;max
+max(9,5)=9
+</code></pre><h3 id="-">採用巨集的作法</h3>
+<p>C 語言屬於靜態語言，所有變數都要宣告型態，這樣編譯器才能正確進行編譯。</p>
+<p>但是如果你想寫一個《通用的函數》，不想綁訂在某些型態上，在 C 語言裡應該怎麼辦呢？</p>
+<p>一個可能的方法是使用巨集！</p>
+<p>巨集和函數不同，會被事先展開，然後在進行編譯，以下是一個用 C 語言設計通用的 max(a,b) 巨集的範例！</p>
+<p>檔案： <a href="/code/c/maxMacro.c">maxMacro.c</a></p>
+<pre><code class="lang-CPP">#include &lt;stdio.h&gt;
+
+#define max(a,b) ((a&gt;b)?a:b)
+
+int main() {
+  int m = max(9,5);
+  printf(&quot;max(9,5)=%d\n&quot;, m);
+
+  printf(&quot;max(3,8)=%d\n&quot;, max(3,8));
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc maxMacro.c -o maxMacro
+
+D:\Dropbox\cccwd\db\c\code&gt;maxMacro
+max(9,5)=9
+max(3,8)=8
+</code></pre><p>這種巨集會被先展開成沒有巨集的程式，方法是在每次呼叫時都《將整段程式碼貼上並取代參數》。</p>
+<p>我們可以透過 gcc 的 -E 參數，來觀察展開的情況，指令如下：</p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc -E maxMacro.c -o maxMacro.i
+</code></pre><p>以下是展開後的程式碼</p>
+<pre><code>// ... 前面有一大堆註解
+int main() {
+  int m = ((9&gt;5)?9:5);
+  printf(&quot;max(9,5)=%d\n&quot;, m);
+
+  printf(&quot;max(3,8)=%d\n&quot;, ((3&gt;8)?3:8));
+}
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

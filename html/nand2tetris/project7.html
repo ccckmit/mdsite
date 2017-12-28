@@ -1,0 +1,85 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nand2tetris -- 動手設計電腦的軟硬體 >>  第七章習題說明</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">Nand2tetris -- 動手設計電腦的軟硬體</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">課程</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 布林邏輯</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 算術電路</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 記憶電路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 組合語言</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 計算機結構</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 組譯器</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 虛擬機 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">8. 虛擬機 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">9. 高階語言</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">10. 編譯器 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">11. 編譯器 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter12.html" class="pure-menu-link">12. 作業系統</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">補充</a></li>
+<li class="pure-menu-item"><a href="bookSlide.html" class="pure-menu-link">補充投影片</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">第七章習題說明</h1>
+<p>工具中有 VMEmulator (.sh, .bat) 可以用。</p>
+<p>啟動後若選擇開啟 Load Program/xxx.vm 可以一步一步執行，觀察結果！</p>
+<p>若選擇開啟 Load Test/xxxVME.tst ，可以觀察該測試程式的標準輸出結果。</p>
+<p>學習者必須撰寫『xxx.vm =&gt; xxx.asm』的轉換程式，寫好之後開啟 Load Test/xxx.tst ，
+看看這些測試是否成功，若成功就代表你已經正確地完成該習題。</p>
+<p>例如 SimpleAdd.tst 裡面的內容如下，該測試會開啟 SimpleAdd.asm 檔案（你的虛擬機程式必需將 SimpleAdd.vm 轉為 SimpleAdd.asm)，然後才可以用這個測試去測。</p>
+<pre><code>// This file is part of www.nand2tetris.org
+// and the book &quot;The Elements of Computing Systems&quot;
+// by Nisan and Schocken, MIT Press.
+// File name: projects/07/StackArithmetic/SimpleAdd/SimpleAdd.tst
+
+load SimpleAdd.asm,
+output-file SimpleAdd.out,
+compare-to SimpleAdd.cmp,
+output-list RAM[0]%D2.6.2 RAM[256]%D2.6.2;
+
+set RAM[0] 256,  // initializes the stack pointer 
+
+repeat 60 {      // enough cycles to complete the execution
+  ticktock;
+}
+
+output;          // the stack pointer and the stack base
+</code></pre><p>對於每一題，你在完成轉換 xxx.vm =&gt; xxx.asm 的程式後，就可以用 VMEmulator 測試看看是否成功！</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

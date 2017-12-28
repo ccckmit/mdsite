@@ -1,0 +1,186 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  邏輯推論與專家系統</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">邏輯推論與專家系統</h1>
+<h2 id="-">布林邏輯</h2>
+<p>在布林邏輯中，只有用來代表真假值的簡單變數，像是 A, B, C, X, Y, Z .... 等，所以邏輯算式看來通常如下：</p>
+<ul>
+<li>P &amp; (P=&gt;Q) =&gt; Q.</li>
+<li>A &amp; B &amp; C =&gt; D | E.</li>
+<li>-(A &amp; B) &lt;=&gt; -A | -B.</li>
+</ul>
+<p>這種布林命題邏輯裏沒有函數的概念，只有簡單的命題 (Proposition)，因此布林邏輯也稱為命題邏輯 (Propositional Logic)。</p>
+<h2 id="-">謂詞邏輯</h2>
+<p>而在謂詞邏輯裏，則有「布林函數」的概念，因此其表達能力較強，例如以下是一些謂詞邏輯的範例。</p>
+<ul>
+<li>Parent(x,y) &lt;= Father(x,y).</li>
+<li>Parent(John, Johnson).</li>
+<li>Ancestor(x,y) &lt;= Parent(x,y).</li>
+<li>Ancestor(x,y) &lt;= Ancestor(x,z) &amp; Parent(z,y).</li>
+</ul>
+<p>您可以看到在這種邏輯系統裏，有「布林變數」的概念 (像是 x, y, z 等等)，也有函數的概念，像是 Parent(), Father(), Ancestor() 等等。</p>
+<h2 id="-">一階邏輯</h2>
+<p>在上述這種謂詞邏輯系統中，如果我們加上 ∀ (對於所有) 或 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∃</mi></mrow><annotation encoding="application/x-tex">\exists</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathrm">∃</span></span></span></span> (存在) 這兩個變數限定符號，而其中的謂詞不可以是變項，而必須要是常項，這種邏輯就稱為一階邏輯。</p>
+<ul>
+<li>∀ People(x) =&gt; Mortal(x) ; 人都是會死的。</li>
+<li>People(Socrates) ; 蘇格拉底是人。</li>
+<li>Mortal(Socrates) ; 蘇格拉底會死。</li>
+</ul>
+<p>當然、規則可以更複雜，像是以下這個範例，就說明了「存在一些人可以永遠被欺騙」。</p>
+<ul>
+<li>∃ x ( Person(x) &amp; ∀ y (Time(y) =&gt; Canfool(x,y) ) )</li>
+</ul>
+<h2 id="-">二階邏輯</h2>
+<p>如果一階邏輯中的謂詞，放寬成可以是變項的話 (這些變項可以加上 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∀</mi></mrow><annotation encoding="application/x-tex">\forall</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathrm">∀</span></span></span></span> 與 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∃</mi></mrow><annotation encoding="application/x-tex">\exists</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.69444em;"></span><span class="strut bottom" style="height:0.69444em;vertical-align:0em;"></span><span class="base"><span class="mord mathrm">∃</span></span></span></span> 等符號的約束)，那就變成了二階邏輯，以下是一些二階邏輯的規則範例。</p>
+<ul>
+<li>∃ P (P(x) &amp; P(y))</li>
+<li>∀ P \forall x (x \in P | x \notin P)</li>
+<li>∀ P (P(0) &amp; ∀ y( P(y)=&gt;P(succ(y)) ) =&gt; ∀ y P(y) ) ; 數學歸納法。</li>
+</ul>
+<h2 id="-">專家系統</h2>
+<p>透過邏輯推論的方式，我們很容易就可以建構出一種「問題-回答」系統，這種系統會根據邏輯規則進行推論，讓您透過對話的方式得到問題的答案，以下是一個「動物分類專家系統」的範例。</p>
+<p>動物世界規則庫 : animal.kb</p>
+<pre><code>哺乳類 &lt;= 有毛. 
+哺乳類 &lt;= 泌乳. 
+鳥類   &lt;= 有羽毛. 
+鳥類   &lt;= 會飛 &amp; 生蛋. 
+食肉類 &lt;= 哺乳類 &amp; 吃肉.
+食肉類 &lt;= 有爪 &amp; 利齒 &amp; 兩眼前視.
+有蹄類 &lt;= 哺乳類 &amp; 有蹄.
+偶蹄類 &lt;= 哺乳類 &amp; 反芻.
+獵豹   &lt;= 哺乳類 &amp; 吃肉 &amp; 斑點.
+老虎   &lt;= 哺乳類 &amp; 吃肉 &amp; 條紋.
+長頸鹿 &lt;= 有蹄類 &amp; 長腿 &amp; 斑點.
+斑馬   &lt;= 有蹄類 &amp; 條紋.
+鴕鳥   &lt;= 鳥類 &amp; 長腿.
+</code></pre><p>此時如果您在對話中描述某些事實，例如以下的範例：</p>
+<pre><code>問題：請問該動物有毛嗎? (1. 有毛 2. 沒毛)
+請選擇 =&gt; 1
+
+問題：請問該動物吃肉嗎? (1. 吃肉 2. 不吃肉)
+請選擇 =&gt; 1
+
+問題：請問該動物有條紋或斑點嗎? (1. 有條紋 2. 有斑點 3. 兩者皆無)
+請選擇 =&gt; 1
+
+回答：您所描述的動物應該是「老虎」。
+
+## 推理引擎
+
+我們可以用程式撰寫出「布林邏輯、謂詞邏輯、一階邏輯」等系統的推理引擎。
+
+推理引擎的設計方法大致可分為下列三類：
+
+1. 前向推論： 從「已知事實」開始不斷的進行規則比對，推論出所有目前能推論出的「新事實」，然後將這些新事實加入「新知識庫」中，直到推論出終端結果為止。
+
+舉例而言、當我們在「動物規則庫」的世界裏，輸入「有毛」時，則會推論出「哺乳類」這個結論。
+
+此時、如果再輸入「吃肉」這個「新事實」，那麼由於「哺乳類」已經在「新知識庫」中了，所以就會推論出「食肉類」。
+
+接著、如果我們再度輸入「條紋」這個「新事實」，那麼推論系統就會推論出「老虎」這個結論。
+
+2. 後向推論：從問題開始，透過不斷的反向連結，產生新的問題，一但某規則的所有問題都已經被滿足，則可推出該規則的結論。
+
+舉例而言、假如有一個「家族世界」的規則庫如下。
+</code></pre><p>parent(x,y)   &lt;= father(x,y).
+parent(x,y)   &lt;= mother(x,y).
+ancestor(x,y) &lt;= parent(x,y).
+ancestor(x,z) &lt;= ancestor(x,y) &amp; parent(y,z).</p>
+<p>father(John, Johnson).
+mother(Mary, Johnson).
+father(George, John).
+father(John, Jake).</p>
+<pre><code>
+當我們輸入 ancestor(p, Johnson) 時，則後向堆論引擎與 ancestor(x,z) 比對符合後會觸發下列規則：
+</code></pre><p>ancestor(x,y) &lt;= parent(x,y).</p>
+<pre><code>
+然後將 (x=p, y=Johnson) 綁定後，企圖尋找前題 parent(x,Johnson).
+
+接著 parent(x,Johnson) 會再度觸發下列規則：
+</code></pre><p>parent(x,y)   &lt;= father(x,y).</p>
+<pre><code>
+於是再度尋找前題 father(x,Johnson)。
+
+然後 father(x,Johnson) 會比對到 father(John, Johnson) 這個事實，於是將 x 與 John 綁定，得到 father(x=John, Johnson) 的結果。
+
+接著進行回溯，得到 parent(x=John, y=Johnson)，再回溯規則 `ancestor(x,y) &lt;= parent(x,y)` 得到新事實 ancestor(John, Johnson)。
+
+同樣的，系統也能透過類似的程序推論出 ancestor(Mary, Johnson) , ancestor(Mary, Johnson), ancestor(George, John) 等新事實。
+
+更進一步的，後向推論還可以透過下列規則得到更多更深的推論：
+</code></pre><p>ancestor(x,z) &lt;= ancestor(x,y) &amp; parent(y,z).</p>
+<pre><code>
+在上述新事實的基礎上，系統可以進行下列嘗試
+</code></pre><p>ancestor(x=George,z=Johnson) &lt;= ancestor(x=George,y=John) &amp; parent(y=John,z=Johnson).
+```</p>
+<p>然後得到「祖父級」的推論結果，也就是 ancestor(George, Johnson)。</p>
+<ol>
+<li>第三種推論方法是採用 refutation 的方式，這是由羅賓遜 (John Alan Robinson) 於 1965 年所提出來的，可以用在「布林邏輯、謂詞邏輯、甚至是一階邏輯」上，而且這種方法在理論上是可以推論出所有事實的，因此是一種具有「完備性」(Complete) 的推論方法。</li>
+</ol>
+<p>Refutation 推論法是一種反證法，任何一階邏輯的算式 P 只要在系統 S 當中是真的，只要將 -P 加入該系統 S 中，就可以經由反證法導出矛盾。如果 P 在系統 S 當中不是真的，那麼將 P 加入 S 當中就無法導出矛盾。</p>
+<p>Refutation 反證法是依靠一個稱為 resolution 的邏輯規則，該規則如下所示：</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mrow><msub><mi>a</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mi>i</mi></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mi>n</mi></msub><mspace width="0.277778em"></mspace><mspace width="0.277778em"></mspace><mspace width="0.277778em"></mspace><mo separator="true">;</mo><mspace width="0.277778em"></mspace><mspace width="0.277778em"></mspace><msub><mi>b</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><mo>−</mo><msub><mi>a</mi><mi>i</mi></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>b</mi><mi>m</mi></msub></mrow><mrow><msub><mi>a</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mi>n</mi></msub><mi mathvariant="normal">∣</mi><msub><mi>b</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>b</mi><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><msub><mi>b</mi><mrow><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>b</mi><mi>m</mi></msub></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{a_1 | \ldots | a_i | \ldots | a_n \;\;\; ; \;\; b_1 | \ldots | -a_i | \ldots | b_m}{a<em>1 | \ldots | a</em>{i-1} | a_{i+1} | \ldots | a_n  |  b<em>1 | \ldots | b</em>{j-1} | b_{j+1} | \ldots | b_m}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.55232em;vertical-align:-0.5423199999999999em;"></span><span class="base"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="minner mtight">…</span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32808571428571426em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathit mtight">i</span><span class="mbin mtight">−</span><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.20252142857142857em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32808571428571426em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathit mtight">i</span><span class="mbin mtight">+</span><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.20252142857142857em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="minner mtight">…</span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="minner mtight">…</span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.05724em;">j</span><span class="mbin mtight">−</span><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.05724em;">j</span><span class="mbin mtight">+</span><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="minner mtight">…</span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="minner mtight">…</span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="minner mtight">…</span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mpunct mtight"><span class="mspace thickspace mtight"></span><span class="mspace thickspace mtight"></span><span class="mspace thickspace mtight"></span><span class="mpunct mtight">;</span></span><span class="mord mtight"><span class="mspace thickspace mtight"></span><span class="mspace thickspace mtight"></span><span class="mord mathit mtight">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="minner mtight">…</span><span class="mord mathrm mtight">∣</span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mord mathrm mtight">∣</span><span class="minner mtight">…</span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5423199999999999em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>假如我們將上述算式中的 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mrow><mi>i</mi><mo>+</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mi>n</mi></msub></mrow><annotation encoding="application/x-tex">a<em>1 | \ldots | a</em>{i-1} | a_{i+1} | \ldots | a_n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord"><span class="mord mathit">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathrm">∣</span><span class="minner">…</span><span class="mord mathrm">∣</span><span class="mord"><span class="mord mathit">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">i</span><span class="mbin mtight">−</span><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"></span></span></span></span></span><span class="mord mathrm">∣</span><span class="mord"><span class="mord mathit">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">i</span><span class="mbin mtight">+</span><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"></span></span></span></span></span><span class="mord mathrm">∣</span><span class="minner">…</span><span class="mord mathrm">∣</span><span class="mord"><span class="mord mathit">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span> 寫為 A，將 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>b</mi><mn>1</mn></msub><mi mathvariant="normal">∣</mi><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>b</mi><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub><mi mathvariant="normal">∣</mi><msub><mi>b</mi><mrow><mi>j</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>…</mo><mi mathvariant="normal">∣</mi><msub><mi>b</mi><mi>m</mi></msub></mrow><annotation encoding="application/x-tex"> b<em>1 | \ldots | b</em>{j-1} | b_{j+1}  \ldots | b_m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="base"><span class="mord"><span class="mord mathit">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span><span class="mord mathrm">∣</span><span class="minner">…</span><span class="mord mathrm">∣</span><span class="mord"><span class="mord mathit">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.05724em;">j</span><span class="mbin mtight">−</span><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span><span class="mord mathrm">∣</span><span class="mord"><span class="mord mathit">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.05724em;">j</span><span class="mbin mtight">+</span><span class="mord mathrm mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"></span></span></span></span></span><span class="minner">…</span><span class="mord mathrm">∣</span><span class="mord"><span class="mord mathit">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"></span></span></span></span></span></span></span></span> 寫為 B，則上述算式可以改寫如下：</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mrow><mi>A</mi><mi mathvariant="normal">∣</mi><msub><mi>a</mi><mi>i</mi></msub><mspace width="0.277778em"></mspace><mspace width="0.277778em"></mspace><mspace width="0.277778em"></mspace><mo separator="true">;</mo><mspace width="0.277778em"></mspace><mspace width="0.277778em"></mspace><mi>B</mi><mi mathvariant="normal">∣</mi><mo>−</mo><msub><mi>a</mi><mi>i</mi></msub></mrow><mrow><mi>A</mi><mi mathvariant="normal">∣</mi><mi>B</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{A | a_i \;\;\; ; \;\; B | -a_i}{A | B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">A</span><span class="mord mathrm mtight">∣</span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight">A</span><span class="mord mathrm mtight">∣</span><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span><span class="mpunct mtight"><span class="mspace thickspace mtight"></span><span class="mspace thickspace mtight"></span><span class="mspace thickspace mtight"></span><span class="mpunct mtight">;</span></span><span class="mord mathit mtight"><span class="mspace thickspace mtight"></span><span class="mspace thickspace mtight"></span><span class="mord mathit mtight" style="margin-right:0.05017em;">B</span></span><span class="mord mathrm mtight">∣</span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathit mtight">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathit mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>透過這樣的方式，我們可以檢驗任何一個規則 P 是否為真，只要將 -P 加入系統中，看看最後是否會導出空集合 (代表矛盾) 就行了。</p>
+<p>如果 -P 加入後導出了矛盾，那就代表 P 是個真理，於是我們就可以將 P 加入「新的事實庫」當中。</p>
+<p>可惜的是、Refutation 推論法非常耗費時間，而且不一定會停下來，有可能會造成當機的情況，因此採用 Refutation 推論法的引擎真的很少見，至少筆者還沒有見過。</p>
+<p>有了以上的認知之後，我們就可以開始實作推理引擎了。</p>
+<p>接下來我們會用 JavaScript + node.js 來設計「邏輯推論引擎與專家系統」，用程式人的角度來看看上述理論的真正意義吧！</p>
+<p>我們首先會設計一個「布林邏輯推論引擎」，然後用這個引擎建構一個「動物世界的專家系統」。</p>
+<p>接著我們會擴充到「謂詞邏輯」上，設計一個「謂詞邏輯推論引擎」，然後再用這個引擎建構出一個「家族關係的專家系統」。</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

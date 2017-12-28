@@ -1,0 +1,90 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人造語 >>  《人造語》的語法</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人造語</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="syntax.html" class="pure-menu-link">1. 語法</a></li>
+<li class="pure-menu-item"><a href="semantics.html" class="pure-menu-link">2. 語義</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">3. 程式</a></li>
+<li class="pure-menu-item"><a href="dictionary.html" class="pure-menu-link">4. 字典</a></li>
+<li class="pure-menu-item"><a href="application.html" class="pure-menu-link">5. 應用</a></li>
+<li class="pure-menu-item"><a href="research.html" class="pure-menu-link">6. 研究</a></li>
+<li class="pure-menu-item"><a href="ArtiEnglish.html" class="pure-menu-link">人造英語</a></li>
+<li class="pure-menu-item"><a href="ArtiChinese.html" class="pure-menu-link">人造漢語</a></li>
+<li class="pure-menu-item"><a href="TokiPona.html" class="pure-menu-link">道本語</a></li>
+<li class="pure-menu-item"><a href="CPona.html" class="pure-menu-link">簡化漢語</a></li>
+<li class="pure-menu-item"><a href="future.html" class="pure-menu-link">未來展望</a></li>
+<li class="pure-menu-item"><a href="foundation.html" class="pure-menu-link">人造語協會</a></li>
+<li class="pure-menu-item"><a href="community.html" class="pure-menu-link">社群</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">《人造語》的語法</h1>
+<h2 id="-">第二版</h2>
+<p>第二版的 ASL (Artificial Spoken Language) 的語法只有兩條規則。</p>
+<pre><code>S = P* .+             // 句子 = 短語* 符號+
+P = a* (N+|V+)?          // 短語 = 修飾* (名詞+|動詞+)
+</code></pre><p>修飾語 a 可以修飾動詞或名詞，形成短語 P。</p>
+<p>在這版我們不去區分到底是《名詞修飾語》 (也就是形容詞) 或《動詞修飾語》(也就是副詞)。而是讓《形容詞+副詞》全都納入在修飾語 a 的類別之下，這樣語法會比較有包容力，建立辭典時也會比較簡單。</p>
+<p>第二版的語法非常有包容立，基本上只要每個字屬於 《a、N、V、.》等四種詞性之一，就一定可以通過剖析。(如果忽略掉沒有詞性的字詞，那麼所有語句都一定可以通過剖析)。</p>
+<p>既然所有語句都可以通過剖析，那麼就可能出現一些無意義的語句，例如：</p>
+<pre><code>蘋果 了 了 香蕉 吃 。   =&gt; 蘋果:N (了:a 了:a 香蕉:N)P 吃:V 。 
+吃 紫色 獎品 壞 打擊 。 =&gt; 吃:V (紫色:a 獎品:N)P (壞:a 打擊:V)P 。
+</code></pre><p>雖然這些語句沒有意義，但是短語結構卻是很清楚的，因此沒有《結構歧異性》的問題。</p>
+<p>註：事實上，就算規定更嚴格的語法，還是會出現無意義語句的，近代語言學開山始祖 Chomsky 在生成語法理論中，就曾經舉了幾個《無意義語句》的範例，如下：</p>
+<pre><code>Colorless green ideas sleep furiously
+無色的    綠    觀念  睡着  熱烈地。
+(adj       N    N)    (V     adv)
+       NP              VP
+</code></pre><h2 id="-">第一版</h2>
+<p>第一版的 ASL (Artificial Spoken Language) 的語法有三條規則。</p>
+<pre><code>S = Q? NP? VP* T* .+      // 語句 = 疑問詞? 名詞短語 動詞短語* 句尾詞* 句尾符號+
+VP = (v* V+ v*)+ NP*      // 動詞短語 = (動詞修飾* 動詞+ 動詞修飾*)+ 名詞短語*
+NP = (n* N+) (c NP)*      // 名詞短語 = (名詞修飾* 名詞+) (連接詞 名詞短語)*
+</code></pre><p>修飾語永遠都是修飾該短語中的主詞，更精確的說：</p>
+<ul>
+<li>動詞修飾語修飾動詞，也就是 v 修飾 V。</li>
+<li>名詞修飾語修飾名詞，也就是 n 修飾 N。</li>
+</ul>
+<p>由於修飾語採用小寫，主詞採用大寫，因此這個原則可以稱為《小修飾大》原則！</p>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Colorless_green_ideas_sleep_furiously">https://en.wikipedia.org/wiki/Colorless_green_ideas_sleep_furiously</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

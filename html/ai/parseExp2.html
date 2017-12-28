@@ -1,0 +1,147 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  編譯數學運算式為中間碼</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">編譯數學運算式為中間碼</h1>
+<p>檔案： parseExp2.js</p>
+<pre><code>/* 語法
+E = T ([+-/*] E)*
+T = N | (E)
+
+範例：3+(5*4)-2
+*/
+
+var c = console;
+
+var tagMap={
+  N : [&quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;],
+  OP: [&quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;-&quot;]
+};
+
+var wi = 0;
+
+function isNext(tag) {
+    if (words[wi] === tag) return true;
+    var tagWords=tagMap[tag];
+    if (typeof tagWords === &quot;undefined&quot;) 
+        return false;
+    else
+        return (tagWords.indexOf(words[wi])&gt;=0);
+}
+
+function next(tag) {
+     c.log(&quot;tag=&quot;+tag+&quot; word=&quot;+words[wi]);
+    if (isNext(tag)) {
+      return words[wi++];
+    }
+    throw Error(&quot;Error !&quot;);
+}
+
+var tempIdx = 0;
+var getTemp=function() {
+    return tempIdx++;
+}
+// E = T ([+-/*] E)*
+function E() {
+    var t = T();
+    while (isNext(&quot;OP&quot;)) {
+        var op = next(&quot;OP&quot;);
+        var e = E();
+        var result = getTemp();
+        console.log(&quot; T%d=T%d%sT%d&quot;, result, t, op, e);
+        t = result;
+    }
+    return t;
+}
+
+// T = N | (E)
+function T() {
+    if (isNext(&quot;N&quot;)) {
+        var t = getTemp();
+        var number = next(&quot;N&quot;);
+        console.log(&quot; T%d=%d&quot;, t, number);
+        return t;
+    } else {
+        next(&quot;(&quot;);
+        var e = E();
+        next(&quot;)&quot;);
+        return e;
+    }
+}
+
+var words=&quot;3+(5*4)-2&quot;;
+c.log(&quot;%j&quot;, words);
+E(words);
+</code></pre><p>執行</p>
+<pre><code>NQU-192-168-60-101:js csienqu$ node parseExp2
+&quot;3+(5*4)-2&quot;
+tag=N word=3
+ T0=3
+tag=OP word=+
+tag=( word=(
+tag=N word=5
+ T1=5
+tag=OP word=*
+tag=N word=4
+ T2=4
+ T3=T1*T2
+tag=) word=)
+tag=OP word=-
+tag=N word=2
+ T4=2
+ T5=T3-T4
+ T6=T0+T5
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

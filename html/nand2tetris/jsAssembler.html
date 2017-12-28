@@ -1,0 +1,329 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nand2tetris -- 動手設計電腦的軟硬體 >>  完整組譯器程式 (JavaScript)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">Nand2tetris -- 動手設計電腦的軟硬體</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">課程</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 布林邏輯</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 算術電路</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 記憶電路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 組合語言</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 計算機結構</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 組譯器</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 虛擬機 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">8. 虛擬機 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">9. 高階語言</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">10. 編譯器 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">11. 編譯器 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter12.html" class="pure-menu-link">12. 作業系統</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">補充</a></li>
+<li class="pure-menu-item"><a href="bookSlide.html" class="pure-menu-link">補充投影片</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-javascript-">完整組譯器程式 (JavaScript)</h1>
+<p>專案： <a href="https://github.com/ccckmit/nand2tetris_projects/tree/master/06">https://github.com/ccckmit/nand2tetris_projects/tree/master/06</a></p>
+<p>檔案： ash.js</p>
+<pre><code class="lang-javascript">var fs = require(&quot;fs&quot;);
+var c  = console;
+var file = process.argv[2];
+
+var dtable = {
+  &quot;&quot;   :0b000,
+  &quot;M&quot;  :0b001,
+  &quot;D&quot;  :0b010,
+  &quot;MD&quot; :0b011,
+  &quot;A&quot;  :0b100,
+  &quot;AM&quot; :0b101,
+  &quot;AD&quot; :0b110,
+  &quot;AMD&quot;:0b111
+}
+
+var jtable = {
+  &quot;&quot;   :0b000,
+  &quot;JGT&quot;:0b001,
+  &quot;JEQ&quot;:0b010,
+  &quot;JGE&quot;:0b011,
+  &quot;JLT&quot;:0b100,
+  &quot;JNE&quot;:0b101,
+  &quot;JLE&quot;:0b110,
+  &quot;JMP&quot;:0b111
+}
+
+var ctable = {
+  &quot;0&quot;   :0b0101010,
+  &quot;1&quot;   :0b0111111,
+  &quot;-1&quot;  :0b0111010,
+  &quot;D&quot;   :0b0001100,
+  &quot;A&quot;   :0b0110000, 
+  &quot;M&quot;   :0b1110000,
+  &quot;!D&quot;  :0b0001101,
+  &quot;!A&quot;  :0b0110001, 
+  &quot;!M&quot;  :0b1110001,
+  &quot;-D&quot;  :0b0001111,
+  &quot;-A&quot;  :0b0110011,
+  &quot;-M&quot;  :0b1110011,
+  &quot;D+1&quot; :0b0011111,
+  &quot;A+1&quot; :0b0110111,
+  &quot;M+1&quot; :0b1110111,
+  &quot;D-1&quot; :0b0001110,
+  &quot;A-1&quot; :0b0110010,
+  &quot;M-1&quot; :0b1110010,
+  &quot;D+A&quot; :0b0000010,
+  &quot;D+M&quot; :0b1000010,
+  &quot;D-A&quot; :0b0010011,
+  &quot;D-M&quot; :0b1010011,
+  &quot;A-D&quot; :0b0000111,
+  &quot;M-D&quot; :0b1000111,
+  &quot;D&amp;A&quot; :0b0000000,
+  &quot;D&amp;M&quot; :0b1000000,
+  &quot;D|A&quot; :0b0010101,
+  &quot;D|M&quot; :0b1010101
+}
+
+var symTable = {
+  &quot;R0&quot;  :0,
+  &quot;R1&quot;  :1,
+  &quot;R2&quot;  :2,
+  &quot;R3&quot;  :3,
+  &quot;R4&quot;  :4,
+  &quot;R5&quot;  :5,
+  &quot;R6&quot;  :6,
+  &quot;R7&quot;  :7,
+  &quot;R8&quot;  :8,
+  &quot;R9&quot;  :9,
+  &quot;R10&quot; :10,
+  &quot;R11&quot; :11,
+  &quot;R12&quot; :12,
+  &quot;R13&quot; :13,
+  &quot;R14&quot; :14,
+  &quot;R15&quot; :15,
+  &quot;SP&quot;  :0,
+  &quot;LCL&quot; :1,
+  &quot;ARG&quot; :2,
+  &quot;THIS&quot;:3, 
+  &quot;THAT&quot;:4,
+  &quot;KBD&quot; :24576,
+  &quot;SCREEN&quot;:16384
+};
+
+var symTop = 16;
+
+function addSymbol(symbol) {
+  symTable[symbol] = symTop;
+  return symTop ++;
+}
+
+assemble(file+&#39;.asm&#39;, file+&#39;.hack&#39;);
+
+function assemble(asmFile, objFile) {
+  var asmText = fs.readFileSync(asmFile, &quot;utf8&quot;); // 讀取檔案到 text 字串中
+  var lines   = asmText.split(/\r?\n/); // 將組合語言分割成一行一行
+  c.log(JSON.stringify(lines, null, 2));
+  pass1(lines);
+  pass2(lines, objFile);
+} 
+
+function parse(line, i) {
+  line.match(/^([^\/]*)(\/.*)?$/);
+  line = RegExp.$1.trim();
+  if (line.length===0)
+    return null;
+  if (line.startsWith(&quot;@&quot;)) {
+    return { type:&quot;A&quot;, arg:line.substring(1).trim() }
+  } else if (line.match(/^\(([^\)]+)\)$/)) {
+    return { type:&quot;S&quot;, symbol:RegExp.$1 }
+  } else if (line.match(/^((([AMD]*)=)?([AMD01\+\-\&amp;\|\!]*))(;(\w*))?$/)) {
+    return { type:&quot;C&quot;, c:RegExp.$4, d:RegExp.$3, j:RegExp.$6 }
+  } else {
+    throw &quot;Error: line &quot;+(i+1);
+  }
+}
+
+function pass1(lines) {
+  c.log(&quot;============== pass1 ================&quot;);
+  var address = 0;
+  for (var i=0; i&lt;lines.length; i++) {
+    var p = parse(lines[i], i);
+    if (p===null) continue;
+    if (p.type === &quot;S&quot;) {
+      c.log(&quot; symbol: %s %s&quot;, p.symbol, intToStr(address, 4, 10));
+      symTable[p.symbol] = address;
+      continue;
+    } else {
+      c.log(&quot; p: %j&quot;, p);
+    }
+    c.log(&quot;%s:%s %s&quot;, intToStr(i+1, 3, 10), intToStr(address, 4, 10),  lines[i]);
+    address++;
+  }
+}
+
+function pass2(lines, objFile) {
+  c.log(&quot;============== pass2 ================&quot;);
+  var ws = fs.createWriteStream(objFile);
+  ws.once(&#39;open&#39;, function(fd) {
+    var address = 0;
+    for (var i=0; i&lt;lines.length; i++) {
+      var p = parse(lines[i], i);
+      if (p===null || p.type === &quot;S&quot;) continue;
+      var code = toCode(p);
+      c.log(&quot;%s:%s %s&quot;, intToStr(i+1, 3, 10), intToStr(code, 16, 2),  lines[i]);
+      ws.write(intToStr(code, 16, 2)+&quot;\n&quot;);
+      address++;
+    }
+    ws.end();
+  });
+}
+
+function intToStr(num, size, radix) {
+//  c.log(&quot; num=&quot;+num);
+  var s = num.toString(radix)+&quot;&quot;;
+  while (s.length &lt; size) s = &quot;0&quot; + s;
+  return s;
+}
+
+function toCode(p) {
+  var address; 
+  if (p.type === &quot;A&quot;) {
+    if (p.arg.match(/^\d+$/)) {
+      address = parseInt(p.arg);
+    } else {
+      address = symTable[p.arg]; 
+      if (typeof address === &#39;undefined&#39;) {      
+        address = addSymbol(p.arg);        
+      }
+    }
+    return address; 
+  } else { // if (p.type === &quot;C&quot;)
+    var d = dtable[p.d];
+    var cx = ctable[p.c];
+    var j = jtable[p.j];
+    return 0b111&lt;&lt;13|cx&lt;&lt;6|d&lt;&lt;3|j;
+  }
+}
+</code></pre>
+<p>執行：</p>
+<pre><code>git clone https://github.com/ccckmit/nand2tetris_projects.git
+cd nand2tetris_projects/
+cd 06
+
+NQU-192-168-60-101:06 csienqu$ node ash Max
+[
+  &quot;// This file is part of www.nand2tetris.org&quot;,
+  &quot;// and the book \&quot;The Elements of Computing Systems\&quot;&quot;,
+  &quot;// by Nisan and Schocken, MIT Press.&quot;,
+  &quot;// File name: projects/06/max/Max.asm&quot;,
+  &quot;&quot;,
+  &quot;// Computes R2 = max(R0, R1)  (R0,R1,R2 refer to  RAM[0],RAM[1],RAM[2])&quot;,
+  &quot;&quot;,
+  &quot;   @R0&quot;,
+  &quot;   D=M              // D = first number&quot;,
+  &quot;   @R1&quot;,
+  &quot;   D=D-M            // D = first number - second number&quot;,
+  &quot;   @OUTPUT_FIRST&quot;,
+  &quot;   D;JGT            // if D&gt;0 (first is greater) goto output_first&quot;,
+  &quot;   @R1&quot;,
+  &quot;   D=M              // D = second number&quot;,
+  &quot;   @OUTPUT_D&quot;,
+  &quot;   0;JMP            // goto output_d&quot;,
+  &quot;(OUTPUT_FIRST)&quot;,
+  &quot;   @R0             &quot;,
+  &quot;   D=M              // D = first number&quot;,
+  &quot;(OUTPUT_D)&quot;,
+  &quot;   @R2&quot;,
+  &quot;   M=D              // M[2] = D (greatest number)&quot;,
+  &quot;(INFINITE_LOOP)&quot;,
+  &quot;   @INFINITE_LOOP&quot;,
+  &quot;   0;JMP            // infinite loop&quot;,
+  &quot;&quot;
+]
+============== pass1 ================
+ p: {&quot;type&quot;:&quot;A&quot;,&quot;arg&quot;:&quot;R0&quot;}
+008:0000    @R0
+ p: {&quot;type&quot;:&quot;C&quot;,&quot;c&quot;:&quot;M&quot;,&quot;d&quot;:&quot;D&quot;,&quot;j&quot;:&quot;&quot;}
+009:0001    D=M              // D = first number
+ p: {&quot;type&quot;:&quot;A&quot;,&quot;arg&quot;:&quot;R1&quot;}
+010:0002    @R1
+ p: {&quot;type&quot;:&quot;C&quot;,&quot;c&quot;:&quot;D-M&quot;,&quot;d&quot;:&quot;D&quot;,&quot;j&quot;:&quot;&quot;}
+011:0003    D=D-M            // D = first number - second number
+ p: {&quot;type&quot;:&quot;A&quot;,&quot;arg&quot;:&quot;OUTPUT_FIRST&quot;}
+012:0004    @OUTPUT_FIRST
+ p: {&quot;type&quot;:&quot;C&quot;,&quot;c&quot;:&quot;D&quot;,&quot;d&quot;:&quot;&quot;,&quot;j&quot;:&quot;JGT&quot;}
+013:0005    D;JGT            // if D&gt;0 (first is greater) goto output_first
+ p: {&quot;type&quot;:&quot;A&quot;,&quot;arg&quot;:&quot;R1&quot;}
+014:0006    @R1
+ p: {&quot;type&quot;:&quot;C&quot;,&quot;c&quot;:&quot;M&quot;,&quot;d&quot;:&quot;D&quot;,&quot;j&quot;:&quot;&quot;}
+015:0007    D=M              // D = second number
+ p: {&quot;type&quot;:&quot;A&quot;,&quot;arg&quot;:&quot;OUTPUT_D&quot;}
+016:0008    @OUTPUT_D
+ p: {&quot;type&quot;:&quot;C&quot;,&quot;c&quot;:&quot;0&quot;,&quot;d&quot;:&quot;&quot;,&quot;j&quot;:&quot;JMP&quot;}
+017:0009    0;JMP            // goto output_d
+ symbol: OUTPUT_FIRST 0010
+ p: {&quot;type&quot;:&quot;A&quot;,&quot;arg&quot;:&quot;R0&quot;}
+019:0010    @R0             
+ p: {&quot;type&quot;:&quot;C&quot;,&quot;c&quot;:&quot;M&quot;,&quot;d&quot;:&quot;D&quot;,&quot;j&quot;:&quot;&quot;}
+020:0011    D=M              // D = first number
+ symbol: OUTPUT_D 0012
+ p: {&quot;type&quot;:&quot;A&quot;,&quot;arg&quot;:&quot;R2&quot;}
+022:0012    @R2
+ p: {&quot;type&quot;:&quot;C&quot;,&quot;c&quot;:&quot;D&quot;,&quot;d&quot;:&quot;M&quot;,&quot;j&quot;:&quot;&quot;}
+023:0013    M=D              // M[2] = D (greatest number)
+ symbol: INFINITE_LOOP 0014
+ p: {&quot;type&quot;:&quot;A&quot;,&quot;arg&quot;:&quot;INFINITE_LOOP&quot;}
+025:0014    @INFINITE_LOOP
+ p: {&quot;type&quot;:&quot;C&quot;,&quot;c&quot;:&quot;0&quot;,&quot;d&quot;:&quot;&quot;,&quot;j&quot;:&quot;JMP&quot;}
+026:0015    0;JMP            // infinite loop
+============== pass2 ================
+008:0000000000000000    @R0
+009:1111110000010000    D=M              // D = first number
+010:0000000000000001    @R1
+011:1111010011010000    D=D-M            // D = first number - second number
+012:0000000000001010    @OUTPUT_FIRST
+013:1110001100000001    D;JGT            // if D&gt;0 (first is greater) goto output_first
+014:0000000000000001    @R1
+015:1111110000010000    D=M              // D = second number
+016:0000000000001100    @OUTPUT_D
+017:1110101010000111    0;JMP            // goto output_d
+019:0000000000000000    @R0             
+020:1111110000010000    D=M              // D = first number
+022:0000000000000010    @R2
+023:1110001100001000    M=D              // M[2] = D (greatest number)
+025:0000000000001110    @INFINITE_LOOP
+026:1110101010000111    0;JMP            // infinite loop
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 JavaScript 設計網站 >>  第 4 章 - 網頁中的 JavaScript </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">用 JavaScript 設計網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="html.html" class="pure-menu-link">2. HTML</a></li>
+<li class="pure-menu-item"><a href="css.html" class="pure-menu-link">3. CSS</a></li>
+<li class="pure-menu-item"><a href="javascript.html" class="pure-menu-link">4. JavaScript</a></li>
+<li class="pure-menu-item"><a href="frontend.html" class="pure-menu-link">5. 前端網頁</a></li>
+<li class="pure-menu-item"><a href="template.html" class="pure-menu-link">6. 樣版引擎</a></li>
+<li class="pure-menu-item"><a href="backend.html" class="pure-menu-link">7. 後端 Server</a></li>
+<li class="pure-menu-item"><a href="communication.html" class="pure-menu-link">8. 前後端通訊</a></li>
+<li class="pure-menu-item"><a href="project.html" class="pure-menu-link">9. 完整專案</a></li>
+<li class="pure-menu-item"><a href="online.html" class="pure-menu-link">10. 上線營運</a></li>
+<li class="pure-menu-item"><a href="running.html" class="pure-menu-link">11. 網站維護</a></li>
+<li class="pure-menu-item"><a href="framework.html" class="pure-menu-link">12. 進階框架</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">附錄</a></li>
+<li class="pure-menu-item"><a href="nginx.html" class="pure-menu-link">a. Nginx 的用途</a></li>
+<li class="pure-menu-item"><a href="digitalocean.html" class="pure-menu-link">b. Digital Ocean</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-4-javascript">第 4 章 - 網頁中的 JavaScript</h1>
+<h2 id="javascript-browser-dom">JavaScript、Browser 與 DOM</h2>
+<p>JavaScript 之所以重要，是因為 JavaScript 是瀏覽器當中規定的標準語言。這是因為網站技術早期最重要的Netscape 瀏覽器將 JavaScript 內建於其中，
+以便能夠進行一些互動程式的效果，因此才讓 JavaScript 成為瀏覽器的的標準語言。</p>
+<p>在瀏覽器中，要用 JavaScript 設計出互動效果，畢需借助 DOM (Document Object Model) 這個 HTML 的抽象化物件模型，這個模型將
+整個 HTML 文件視為一個樹狀結構的物件，於是 JavaScript 可以透過操控物件屬性的方式，達成某些互動性的顯示效果。這種互動性的
+顯示效果形成了瀏覽器特有的視覺化互動模式，可以說是近 15 年來 Web 的發展重點之所在。</p>
+<p>接著、就讓我們透過一些簡單的程式範例，看看如何用 JavaScript 操控 DOM 物件模型，以便完成這種互動效果。</p>
+<h3 id="-innertext-innerhtml">取得內容：innerText 與 innerHTML</h3>
+<p>以下範例會取得 hi 節點的 innerText 與 innerHTML 顯示出來，請觀察其不同點。</p>
+<pre><code class="lang-html">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;節點存取示範&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id =&quot;hi&quot;&gt;&lt;b&gt;你好!&lt;/b&gt;&lt;/div&gt;
+    &lt;input type=&quot;button&quot; value=&quot;hi.innerText&quot; 
+             onclick=&quot;alert(document.getElementById(&#39;hi&#39;).innerText)&quot;/&gt;
+    &lt;input type=&quot;button&quot; value=&quot;hi.innerHTML&quot; 
+             onclick=&quot;alert(document.getElementById(&#39;hi&#39;).innerHTML)&quot;/&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="-show-and-hide-">顯示與隱藏 (Show and hide)</h3>
+<pre><code class="lang-html">&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;範例 -- 顯示隱藏&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id =&quot;hi&quot;&gt;&lt;b&gt;你好!&lt;/b&gt;&lt;/div&gt;
+    &lt;input type=&quot;button&quot; value=&quot;hi.show()&quot; onclick=&quot;document.getElementById(&#39;hi&#39;).style.visibility=&#39;visible&#39;&quot;/&gt;
+    &lt;input type=&quot;button&quot; value=&quot;hi.hide()&quot; onclick=&quot;document.getElementById(&#39;hi&#39;).style.visibility=&#39;hidden&#39;&quot;/&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="-">功能表程式</h2>
+<p>JavaScript 是唯一被各家瀏覽器所共同支援的程式語言，因此在設計網站的時候，我們如果不採用像 Flash 或 Silverlight 這樣的外掛技術，就必須採用 JavaScript 來設計互動式網頁。</p>
+<p>在 node.js 這樣的伺服端 JavaScript 開發平台推出之後，我們就能夠採用 JavaScript 同時設計 Client 端與 Server 端的程式，這樣的模式相當的吸引人，我們會在後續的文章中介紹這樣的網站設計方法。</p>
+<p>在本節當中，我們將透過 JavaScript 設計一個互動網頁的功能表，以便展示瀏覽器中的 JavaScript 程式是如何運作的。</p>
+<p>以下是一個功能表的程式的執行結果，當我們的滑鼠移到功能項上時，就會浮現子功能表，而當我們點下子功能表中的項目時，就會出現一個 alert 視窗，顯示該功能子項被點選的訊息。</p>
+<p><img src="JavaScriptMenuRun.jpg" alt=""></p>
+<p>以下是這個網頁的原始 HTML 程式碼，其中 <code>&lt;style&gt;...&lt;/style&gt;</code> 部分是 CSS 原始碼，而 <code>&lt;script ...&lt;/script&gt;</code> 部分則是 JavaScript 程式碼。</p>
+<pre><code class="lang-html">&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;範例 -- 功能表實作&lt;/title&gt;
+&lt;style&gt;
+.menu   { background-color:black; color:white; padding:10px; 
+          vertical-align:top; width:100px; list-style-type:none; }
+.menu a { color:white; text-decoration:none; }
+&lt;/style&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+function show(id) {
+  document.getElementById(id).style.visibility=&#39;visible&#39;;
+}
+
+function hide(id) {
+  document.getElementById(id).style.visibility=&#39;hidden&#39;;
+}
+&lt;/script&gt;    
+  &lt;/head&gt;
+  &lt;body onload=&quot;JavaScript:hide(&#39;popup1&#39;);hide(&#39;popup2&#39;);&quot;&gt;
+      &lt;ul onmouseover=&quot;show(&#39;popup1&#39;);&quot;  onmouseout=&quot;hide(&#39;popup1&#39;)&quot; 
+          style=&quot;position:absolute; left:100px; top:20px&quot;&gt;
+        &lt;li id=&quot;menu1&quot; class=&quot;menu&quot;&gt;menu1&lt;/li&gt;
+        &lt;ul id=&quot;popup1&quot; class=&quot;menu&quot;&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;1.1&#39;);&quot;&gt;menu 1.1&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;1.2&#39;);&quot;&gt;menu 1.2&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt; 
+      &lt;/ul&gt;
+      &lt;ul onmouseover=&quot;show(&#39;popup2&#39;);&quot; onmouseout=&quot;hide(&#39;popup2&#39;)&quot; 
+          style=&quot;position:absolute; left:220px; top:20px&quot;&gt;
+        &lt;li id=&quot;menu2&quot; class=&quot;menu&quot;&gt;menu2&lt;/li&gt;
+        &lt;ul id=&quot;popup2&quot; class=&quot;menu&quot;&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;2.1&#39;);&quot;&gt;menu 2.1&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;2.2&#39;);&quot;&gt;menu 2.2&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;2.3&#39;);&quot;&gt;menu 2.3&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>雖然以上程式只是一個小小的功能表程式碼，但是要能夠讀懂，而且寫得出來，卻要懂相當多的技術才行，這些技術包含 HTML, CSS , JavaScript 與 Document Object Model (DOM)。</p>
+<h3 id="-">程式解析</h3>
+<p>在 HTML 的一開始，我們用以下語法描述了功能表所需要的 CSS 樣式，當我們套用在像 <code>&lt;li id=&quot;menu2&quot; class=&quot;menu&quot;&gt;menu2&lt;/li&gt;</code> 這樣的 HTML 項目上時，就會呈現比較好看的功能表排版格式，而這正是 CSS 樣式的功用。</p>
+<pre><code class="lang-html">&lt;style&gt;
+.menu   { background-color:black; color:white; padding:10px; 
+          vertical-align:top; width:100px; list-style-type:none; }
+.menu a { color:white; text-decoration:none; }
+&lt;/style&gt;
+</code></pre>
+<p>以上的 CSS 語法中，要求功能表要以黑底白字的方式 (<code>background-color:black; color:white;</code>) 顯示，邊緣補上 10 點的空白(<code>padding:10px;</code>)，而且是以向上靠攏 (<code>vertical-align:top;</code>) 的方式，每個功能表的寬度都是 100 點 (<code>width:100px;</code>)，然後不要顯示項目前面的點符號 (<code>list-style-type:none;</code>)。</p>
+<p>接著是一段 JavaScript 程式碼的語法，定義了 show(id) 與 hide(id) 這兩個函數，我們可以用這兩個函數在適當的時候讓功能表顯示出來或者是隱藏掉，這樣才能做到「浮現」的功能。</p>
+<pre><code class="lang-html">&lt;script type=&quot;text/javascript&quot;&gt;
+function show(id) {
+  document.getElementById(id).style.visibility=&#39;visible&#39;;
+}
+
+function hide(id) {
+  document.getElementById(id).style.visibility=&#39;hidden&#39;;
+}
+&lt;/script&gt;
+</code></pre>
+<p>然後，開始進入 HTML 的 body 區塊，其中定義了兩組功能表，第一組的內容如下：</p>
+<pre><code class="lang-html">      &lt;ul onmouseover=&quot;show(&#39;popup1&#39;);&quot;  onmouseout=&quot;hide(&#39;popup1&#39;)&quot; 
+          style=&quot;position:absolute; left:100px; top:20px&quot;&gt;
+        &lt;li id=&quot;menu1&quot; class=&quot;menu&quot;&gt;menu1&lt;/li&gt;
+        &lt;ul id=&quot;popup1&quot; class=&quot;menu&quot;&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;1.1&#39;);&quot;&gt;menu 1.1&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;1.2&#39;);&quot;&gt;menu 1.2&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt; 
+      &lt;/ul&gt;
+</code></pre>
+<p>上述區塊最外層的 <code>&lt;ul&gt;...&lt;/ul&gt;</code> 定義了整個功能表的結構，是由功能母項 <code>&lt;li id=&quot;menu1&quot; class=&quot;menu&quot;&gt;menu1&lt;/li&gt;</code> 與子功能表 <code>&lt;ul id=&quot;popup1&quot; class=&quot;menu&quot;&gt;...&lt;/ul&gt;</code> 所組合而成的，而 <code>&lt;ul onmouseover=&quot;show(&#39;popup1&#39;);&quot;  onmouseout=&quot;hide(&#39;popup1&#39;)&quot; style=&quot;position:absolute; left:100px; top:20px&quot;&gt;</code> 這一段除了定義了該功能表要顯示在絕對位置 (100,20) 的地方之外，還定義了 onmouseover 與 onmouseout 的事件，這兩個事件讓功能表可以在滑鼠移入時顯示出來，然後在滑鼠移出時隱藏起來，因而做到了浮現式功能表所要求的條件。</p>
+<p>由於我們在 <code>&lt;li&gt;...&lt;/li&gt;</code> 內的超連結 <code>&lt;a href=&quot;JavaScript:alert(&#39;2.1&#39;);&quot;&gt;menu 2.1&lt;/a&gt;</code> 使用了 JavaScript 語法，因此在該超連結被點選時，就會有警告視窗顯示 2.1 的訊息，這個訊息僅僅是讓我們知道該功能項被點選了而已，沒有真實的功能。</p>
+<p>同樣的、第二個功能表的程式碼也是非常類似的，請讀者看看是否能夠讀者其內容。</p>
+<pre><code class="lang-html">      &lt;ul onmouseover=&quot;show(&#39;popup2&#39;);&quot; onmouseout=&quot;hide(&#39;popup2&#39;)&quot; 
+          style=&quot;position:absolute; left:220px; top:20px&quot;&gt;
+        &lt;li id=&quot;menu2&quot; class=&quot;menu&quot;&gt;menu2&lt;/li&gt;
+        &lt;ul id=&quot;popup2&quot; class=&quot;menu&quot;&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;2.1&#39;);&quot;&gt;menu 2.1&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;2.2&#39;);&quot;&gt;menu 2.2&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;JavaScript:alert(&#39;2.3&#39;);&quot;&gt;menu 2.3&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/ul&gt;
+</code></pre>
+<p>看到這裡，讀者應該大致理解了上述功能表網頁的運作原理，但事實上、我們還漏掉了一行重要的程式碼，那就是 <code>&lt;body onload=&quot;JavaScript:hide(&#39;popup1&#39;);hide(&#39;popup2&#39;);&quot;&gt;</code> 這一行，這一行讓浮現功能表能在一開始就處於隱藏狀態，才不會一進來就看到兩個功能表都浮現出來的錯誤情況。</p>
+<p>從上述範例中，您可以看到瀏覽器中的 JavaScript ，通常是透過調整網頁某些項目的 CSS 屬性，以達成互動性的功能，這種互動網頁技術，事實上是結合了 HTML+CSS+JavaScript 等技術才能達成的功能，因此這三項技術在瀏覽器當中幾乎是合為一體、可以說是缺一不可的。</p>
+<h2 id="html-">HTML 編輯器</h2>
+<p>在本節當中，我們將透過 JavaScript 設計一個 HTML 編輯器，讓您可以直接在瀏覽器當中看到 HTML 網頁的呈現結果，
+筆者認為這個範例對學習動態網頁設計是一個非常簡單、卻又很有啟發性的程式。因為他很明顯的展現了動態網頁的原理。</p>
+<p>以下是該 HTML 編輯器的執行結果，當我們在 CSS 與 HTML 區塊輸入對應的原始碼之後，就可以按下「→」按鈕，然後在
+呈現的 <code>&lt;div id=&quot;showbox&quot; ...&lt;/div&gt;</code> 區塊看到兩者搭配時的呈現結果。</p>
+<p><img src="HtmlEditorRun.jpg" alt=""></p>
+<p>您也可以點選下列連結以實際檢視該網頁：</p>
+<ul>
+<li>HTML 編輯器：<a href="HtmlEditor.htm">HtmlEditor.htm</a></li>
+</ul>
+<p>以下是這個網頁的原始 HTML 程式碼，其中有兩大段是我們預設填入的 CSS 與 HTML 原始碼，這兩段原則上可以去掉，但是
+為了測試方便起見，我們就留在檔案中，請讀者閱讀的時候仔細區分之。</p>
+<p>```html</p>
+<p><html></p>
+<p><style>
+textarea, #showbox { border: 1px solid #9f9f9f; }
+</style></p>
+<p><style id="showboxstyle">
+</style></p>
+<p><script type="text/javascript">
+function convert() {
+  var cssbox  = document.getElementById(&quot;cssbox&quot;);
+  var editbox = document.getElementById(&quot;editbox&quot;);
+  var showbox = document.getElementById(&quot;showbox&quot;);
+  var showboxstyle = document.getElementById(&quot;showboxstyle&quot;);
+  showbox.innerHTML = editbox.value;
+  showboxstyle.innerHTML = cssbox.value;
+}
+</script>    </p>
+<p><body></p>
+<p><form></p>
+<p><table width="95%" style="border-collapse: collapse; border: 0px;"><tr></p>
+<p><tr><td colspan="2" style="text-align:center">HTML 原始碼　　<input type="button" value=" → " onclick="JavaScript:convert()"/>　　　顯示結果</td></tr></p>
+<p><td width="50%"></p>
+<p><textarea id="cssbox" style="width:100%; height:100px;" >
+<!-- 預設貼入的CSS：開始 -->
+td, th { padding:10px; }
+th { background-color:black; color:white; }
+table { border-collapse: collapse; border: 1px solid #373737; }
+<!---預設貼入的CSS：結束 --></p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

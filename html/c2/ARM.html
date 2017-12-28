@@ -1,0 +1,308 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >>  ARM 處理器的架構</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="arm-">ARM 處理器的架構</h2>
+<p>ARM處理器是一顆在手機上常用的處理器，其特色為相當省電，本書中的CPU0也是從ARM處理器簡化而來的。圖一顯示了ARM的處理器架構，這個架構與 CPU0 的架構相當類似。但在ALU與暫存器上有少許不同點。</p>
+<p>ARM是精簡指令集 (Reduced Instruction Set Computer : RISC) 的處理器，RISC 的特色是使用管線 (Pipeline) 的方式增進速度，但是在不屬於指令載入期間，進行記憶體存取會破壞管線的可重疊性。因此，在RISC處理器通常會禁止運算指令直接存取記憶體，只允許載入儲存指令存取記憶體。在這點上，CPU0 的指令集也可說是一種精簡指令集。因為在 CPU0 中也只有載入儲存指令可以存取記憶體。</p>
+<p><img src="ARM_architecture.jpg" alt="[圖一、ARM 處理器的架構]"></p>
+<p>圖一的 ALU 右上方，還有一個滾筒移位器 (Barrel Shifter)，該移位器可在指令進入 ALU 前先作移位的動作，這使得 ARM 不需要特別的移位指令，每個運算指令都可以附加移位功能。例如，ADD R1, R2, R3 LSL #3 指令，就在加法運算之前先進行移位，這樣就節省了一個指令，增快了程式的執行速度。</p>
+<h3 id="arm-">ARM 的暫存器</h3>
+<p>ARM 的可存取暫存器為 R0-R15，其中 R13為堆疊指標 SP (Stack Pointer)，R14 為連結暫存器 LR (Link Register)，R15 為程式計數器 PC (Program Counter)。</p>
+<p>ARM的狀態暫存器有 CPSR (Current Processor Status Register) 與 SPSR (Saved Processor Status Register)。其中 SPSR 乃是在中斷時用來自動儲存CPSR的暫存器。</p>
+<p>在 ARM 處理器當中，共有七種模式，包含 1. 使用者模式 (User Mode)  2. 系統模式 (System Mode)、3. 快速中斷模式 (Fast Interrupt Request:FIQ)、4. 特權呼叫模式(Superviser Call:SVC)、5. 中止模式(Abort:ABT)、6. 中斷請求模式 (Interrupt Request:IRQ)、7. 未定義模式(Undefine:Undef) 等。</p>
+<p>不同的模式會有獨立的堆疊暫存器 SP (R13) 與連結暫存器 LR (R14)，這使得 ARM 的模式切換更快，因為不需要以額外的指令儲存這些暫存器。圖二顯示了 ARM 當中的所有暫存器，在每個模式當中，R0-R15 及 CPSR 都是可以存取的，但在後五種模式中，會使用獨立的 R13, R14、以及 SPSR，取代使用者模式的暫存器。</p>
+<p><img src="ARM_register.jpg" alt="[圖二、ARM 各種模式下的暫存器]"></p>
+<p>當快速中斷發生時，ARM 處理器會自動將狀態暫存器 CPSR 放入 SPSR_fiq，並將R15(PC) 放入 R14_fiq(LR) 中，這有點像副程式呼叫時的作法。另外，由於快速中斷模式中，R8_fiq-R14_fiq 被用來取代 R8-R14，這使得 R8_fiq-R14_fiq這七個暫存器可以直接被寫入，而不需要特別保存，有利於縮短快速中斷的時間。圖三顯示了 ARM 的快速中斷機制之原理。</p>
+<p><img src="ARM_fiq.jpg" alt="[圖三、ARM 的快速中斷機制]"></p>
+<h3 id="arm-cpsr-spsr-">ARM 的狀態暫存器 (CPSR, SPSR)</h3>
+<p>狀態暫存器 CPSR 與 SPSR的結構如圖四所示，除了用來儲存條件旗標之外，還有中斷控制位元 I、F，可用來允許或禁止中斷，狀態位元 T 用來記錄處理器是位於正常 (ARM:指令為32位元) 或精簡 (Thumb:指令為16位元) 狀態，處理器模式 Mode 是用來記錄處理器的模式，像是 (User / System / FIQ / SVC / ABT / IRQ / Undef) 等。</p>
+<p><img src="ARM_CPSR.jpg" alt="[圖四、ARM 的狀態暫存器結構]"></p>
+<h3 id="arm-">ARM 的指令格式</h3>
+<p>ARM的指令格式如圖五所示，其中，位於31-28 位元的 Cond 欄位，是指令前置條件欄，因此每個 ARM 指令都是條件式執行的，這使得 ARM 不需要有像 CPU0 一樣多的條件跳躍指令 (像是 JEQ、JNE、JGT、JGE、JLT、JLE 等)。因此，ARM 的跳躍類指令只有 B、BL、BX 等三個，其中 BL 是會儲存程式計數器 PC到 LR 當中的跳躍，通常用來進行副程式的呼叫，而 BX 則是會儲存狀態暫存器的跳躍。</p>
+<p><img src="ARM_format.jpg" alt="[圖五、ARM 指令的一般格式]"></p>
+<h3 id="arm-">ARM的指令集</h3>
+<p>表格一顯示了ARM處理器的指令表，包含運算、記憶體、分支與其他等四類，另外，若有協同處理器時，會有第五類指令可用。由於本書篇幅的關係，在此不對指令進行詳細介紹，有興趣的讀者請進一步參考 ARM 的相關書籍 。</p>
+<p>表格一、ARM 的指令集</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>說明</th>
+<th>意義</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MOV {cond}{S} Rd,operand2</td>
+<td>資料傳送</td>
+<td>Rd&lt;=operand2</td>
+</tr>
+<tr>
+<td>MVN{cond}{S} Rd,operand2</td>
+<td>負資料傳送</td>
+<td>Rd&lt;=(~operand2)</td>
+</tr>
+<tr>
+<td>ADD{cond}{S} Rd,Rn,operand2</td>
+<td>加法運算</td>
+<td>Rd&lt;=Rn+operand2</td>
+</tr>
+<tr>
+<td>SUB{cond}{S} Rd,Rn,operand2</td>
+<td>減法運算</td>
+<td>Rd&lt;=Rn-operand2</td>
+</tr>
+<tr>
+<td>RSB{cond}{S} Rd,Rn,operand2</td>
+<td>逆向減法</td>
+<td>Rd&lt;=operand2-Rn</td>
+</tr>
+<tr>
+<td>ADC{cond}{S} Rd,Rn,operand2</td>
+<td>帶進位加法</td>
+<td>Rd&lt;=Rn+operand2+Carry</td>
+</tr>
+<tr>
+<td>SBC{cond}{S} Rd,Rn,operand2</td>
+<td>帶進位減法</td>
+<td>Rd&lt;=Rn-operand2-(NOT)Carry</td>
+</tr>
+<tr>
+<td>RSC{cond}{S} Rc,Rn,operand2</td>
+<td>帶進位逆向減法</td>
+<td>Rd&lt;=operand2-Rn-(NOT)Carry</td>
+</tr>
+<tr>
+<td>AND{cond}{S} Rd,Rn,operand2</td>
+<td>邏輯“與”操作</td>
+<td>Rd&lt;=Rn&amp;operand2</td>
+</tr>
+<tr>
+<td>ORR{cond}{S} Rd,Rn,operand2</td>
+<td>邏輯“或”操作</td>
+<td>Rd&lt;=Rn｜operand2</td>
+</tr>
+<tr>
+<td>EOR{cond}{S} Rd,Rn,operand2</td>
+<td>邏輯“互斥或”</td>
+<td>Rd&lt;=Rn^operand2</td>
+</tr>
+<tr>
+<td>BIC{cond}{S} Rd,Rn,operand2</td>
+<td>位元清除</td>
+<td>Rd&lt;=Rn&amp;(~operand2)</td>
+</tr>
+<tr>
+<td>CMP{cond} Rn,operand2</td>
+<td>比較指令</td>
+<td>標誌 N、Z、C、V&lt;=Rn-operand2</td>
+</tr>
+<tr>
+<td>CMN{cond} Rn,operand2</td>
+<td>負數比較指令</td>
+<td>標誌 N、Z、C、V&lt;=Rn+operand2</td>
+</tr>
+<tr>
+<td>TST{cond} Rn,operand2</td>
+<td>位元測試指令</td>
+<td>標誌 N、Z、C、V&lt;=Rn&amp;operand2</td>
+</tr>
+<tr>
+<td>TEQ{cond} Rn,operand2</td>
+<td>相等測試指令</td>
+<td>標誌 N、Z、C、V&lt;=Rn^operand2</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>記憶體相關指令</td>
+</tr>
+<tr>
+<td>LDR{cond} Rd,addressing</td>
+<td>載入 Word</td>
+<td>Rd&lt;=[addressing]</td>
+</tr>
+<tr>
+<td>LDR{cond}B Rd,addressing</td>
+<td>載入 Byte</td>
+<td>Rd&lt;=[addressing]</td>
+</tr>
+<tr>
+<td>LDR{cond}T Rd,addressing</td>
+<td>載入Word (以使用者模式)</td>
+<td>Rd&lt;=[addressing]</td>
+</tr>
+<tr>
+<td>LDR{cond}BT Rd,addressing</td>
+<td>載入Byte  (以使用者模式)</td>
+<td>Rd&lt;=[addressing]</td>
+</tr>
+<tr>
+<td>LDR{cond}H Rd,addressing</td>
+<td>載入半字組</td>
+<td>Rd&lt;=[addressing]</td>
+</tr>
+<tr>
+<td>LDR{cond}SB Rd,addressing</td>
+<td>載入 byte (有正負號)</td>
+<td>Rd&lt;=[addressing]</td>
+</tr>
+<tr>
+<td>LDR{cond}SH Rd,addressing</td>
+<td>載入半字組 (有正負號)</td>
+<td>Rd&lt;=[addressing]</td>
+</tr>
+<tr>
+<td>STR{cond} Rd,addressing</td>
+<td>儲存Word</td>
+<td>[addressing]&lt;=Rd</td>
+</tr>
+<tr>
+<td>STRB{cond} Rd,addressing</td>
+<td>儲存Byte</td>
+<td>[addressing]&lt;=Rd</td>
+</tr>
+<tr>
+<td>STR{cond}T Rd,addressing</td>
+<td>儲存Word (以使用者模式)</td>
+<td>[addressing]&lt;=Rd</td>
+</tr>
+<tr>
+<td>STR{cond}BT Rd,addressing</td>
+<td>儲存byte (以使用者模式)</td>
+<td>[addressing]&lt;=Rd</td>
+</tr>
+<tr>
+<td>STR{cond}H Rd,addressing</td>
+<td>儲存半字組</td>
+<td>[addressing]&lt;=Rd</td>
+</tr>
+<tr>
+<td>LDM{cond}{mode} Rn{!},reglist</td>
+<td>多暫存器載入</td>
+<td>reglist&lt;=[Rn…],Rn 寫回</td>
+</tr>
+<tr>
+<td>STM{cond}{mode} Rn{!},reglist</td>
+<td>多暫存器儲存</td>
+<td>[Rn…]&lt;=reglist, Rn 寫回</td>
+</tr>
+<tr>
+<td>SWP{cond} Rd,Rm,Rn</td>
+<td>暫存器和記憶體字資料交換指令</td>
+<td>Rd&lt;=[Rn],[Rn]&lt;=Rm (Rn≠Rd或Rm)</td>
+</tr>
+<tr>
+<td>SWP{cond}B Rd,Rm,Rn</td>
+<td>暫存器和記憶體位元組資料交換指令</td>
+<td>Rd&lt;=[Rn],[Rn]&lt;=Rm (Rn≠Rd或Rm)</td>
+</tr>
+<tr>
+<td>B{cond} label</td>
+<td>分支指令</td>
+<td>PC&lt;=label</td>
+</tr>
+<tr>
+<td>BL{cond} label</td>
+<td>帶連接的分支</td>
+<td>LR&lt;=PC-4,PClabel</td>
+</tr>
+<tr>
+<td>BX{cond} label</td>
+<td>帶狀態的分支</td>
+<td>PC&lt;=label, 切換處理器狀態</td>
+</tr>
+<tr>
+<td>SWI{cond} immed_24</td>
+<td>軟中斷指令</td>
+<td>產生軟中斷，處理器進入管理模式</td>
+</tr>
+<tr>
+<td>MRS{cond} Rd,psr</td>
+<td>讀狀態暫存器指令</td>
+<td>Rd&lt;=psr,psr為 CPSR 或 SPSR</td>
+</tr>
+<tr>
+<td><code>MSR{cond} psr_fields,Rd/#immend_8r</code></td>
+<td>寫狀態暫存器指令</td>
+<td><code>psr_fields&lt;=Rd/#immed_8r,p</code> 為 CPSR 或 SPSR</td>
+</tr>
+<tr>
+<td>CDP{cond} coproc,opcode1,CRd,CRn,CRm(,opcode2)</td>
+<td>協同處理器資料操作指令</td>
+<td>取決於協同處理器</td>
+</tr>
+<tr>
+<td>LDC{cond}{L} coproc,CRd,&lt;地址&gt;</td>
+<td>協同處理器資料讀取指令</td>
+<td>取決於協同處理器</td>
+</tr>
+<tr>
+<td>STC{cond}{L} coproc,CRd,&lt;地址&gt;</td>
+<td>協同處理器資料寫入指令</td>
+<td>取決於協同處理器</td>
+</tr>
+<tr>
+<td>MCR{cond} coproc,opcodel,Rd,CRn,CRm{,opcode2}</td>
+<td>ARM暫存器到協同處理器暫存器的資料傳送指令</td>
+<td>取決於協同處理器</td>
+</tr>
+<tr>
+<td>MRC{cond} coproc,opcodel,Rd,CRn,CRm{,opcode2}</td>
+<td>協同處理器暫存器到ARM暫存器的資料傳送指令</td>
+<td>取決於協同處理器</td>
+</tr>
+</tbody>
+</table>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

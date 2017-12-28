@@ -1,0 +1,240 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# 程式設計 -- 基礎、視窗與網路 >>  C# 程式基礎：檔案處理</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">C# 程式設計 -- 基礎、視窗與網路</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">目錄</a></li>
+<li class="pure-menu-item"><a href="csharp.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="varexp.html" class="pure-menu-link">2. 運算式</a></li>
+<li class="pure-menu-item"><a href="ifloop.html" class="pure-menu-link">3. 流程控制</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="object.html" class="pure-menu-link">6. 物件導向</a></li>
+<li class="pure-menu-item"><a href="exception.html" class="pure-menu-link">7. 例外處理</a></li>
+<li class="pure-menu-item"><a href="file.html" class="pure-menu-link">8. 檔案處理</a></li>
+<li class="pure-menu-item"><a href="datastructure.html" class="pure-menu-link">9. 資料結構</a></li>
+<li class="pure-menu-item"><a href="regexp.html" class="pure-menu-link">10. 正規表達式</a></li>
+<li class="pure-menu-item"><a href="thread.html" class="pure-menu-link">11. 作業系統</a></li>
+<li class="pure-menu-item"><a href="window.html" class="pure-menu-link">12. 視窗程式</a></li>
+<li class="pure-menu-item"><a href="timer.html" class="pure-menu-link">13. 時間驅動</a></li>
+<li class="pure-menu-item"><a href="editor.html" class="pure-menu-link">14. 文字編輯器</a></li>
+<li class="pure-menu-item"><a href="graphics.html" class="pure-menu-link">15. 畫圖功能</a></li>
+<li class="pure-menu-item"><a href="gridview.html" class="pure-menu-link">16. 表格元件</a></li>
+<li class="pure-menu-item"><a href="net.html" class="pure-menu-link">17. 網路程式</a></li>
+<li class="pure-menu-item"><a href="udp.html" class="pure-menu-link">18. UDP 程式</a></li>
+<li class="pure-menu-item"><a href="tcp.html" class="pure-menu-link">19. TCP 程式</a></li>
+<li class="pure-menu-item"><a href="http.html" class="pure-menu-link">20. HTTP Server</a></li>
+<li class="pure-menu-item"><a href="web.html" class="pure-menu-link">21. HTTP Client</a></li>
+<li class="pure-menu-item"><a href="end.html" class="pure-menu-link">結語</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="c-">C# 程式基礎：檔案處理</h1>
+<p>C# 當中的檔案主要以串流 (Stream) 的形式呈現，串流讀取器 (StreamReader) 與串流寫入器 (StreamWriter) 是兩個主要的檔案處理類別。另外像 File，FileInfo, DirectoryInfo 等，則是用來存取檔案屬性與資料夾的類別。而BufferedStream、FileStream、MemoryStream、NetworkStream 則是分別對應到緩衝、檔案、記憶體、網路等類型的串流物件。因此串流可以說是檔案與網路的共同介面。</p>
+<h2 id="-">讀取檔案</h2>
+<p>以下範例中的 fileToText() 函數，會將一個文字檔讀入放到字串中傳回，其方法是利用 StreamReader 物件，指定所要讀取的檔案，然後利用 readToEnd() 函數讀取整個文字檔，再用 Close() 函數關閉該檔案。</p>
+<pre><code class="lang-CS">using System;
+using System.IO;
+
+class FileTest 
+{
+    public static void Main(String[] args)
+    {
+        String text = fileToText(args[0]);
+        Console.WriteLine(text);
+    }
+
+    public static String fileToText(String filePath)
+    {
+        StreamReader file = new StreamReader(filePath);
+        String text = file.ReadToEnd();
+        file.Close();
+        return text;
+    }
+}
+</code></pre>
+<p>上述範例的執行結果如下所示，必須注意的是，Hello.txt 檔案必須存在，而且儲存成 Unicode 的 UTF8 格式，這是因為 C# 內部預設使用 Unicode 的編碼格式。如果希望讀取 Big5 (或 GB2312) 格式的檔案，必須在 StreamReader() 建構函數當中，指定StreamReader file = new StreamReader(filePath, System.Text.Encoding.GetEncoding(&quot;Big5&quot;)) ，如此 StreamReader 才會以 Big5 的編碼方式對檔案進行讀取，結果才不會變成亂碼。</p>
+<pre><code>D:\&gt;csc FileTest.cs
+Microsoft (R) Visual C# 2008 Compiler version 3.5.30729.1
+for Microsoft (R) .NET Framework version 3.5
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+D:\&gt;FileTest Hello.txt
+Hello !
+你好 !
+</code></pre><h2 id="-">寫入檔案</h2>
+<pre><code class="lang-CS">using System;
+using System.IO;
+
+class FileTest
+{
+    public static void Main(String[] args)
+    {
+        String text1 = &quot;Hello, C#!&quot;;
+        String file = &quot;Hello.txt&quot;;
+        textToFile(file, text1);
+        String text2 = fileToText(file);
+        Console.WriteLine(text2);
+    }
+
+    public static String fileToText(String filePath)
+    {
+        StreamReader file = new StreamReader(filePath);
+        String text = file.ReadToEnd();
+        file.Close();
+        return text;
+    }
+
+    public static void textToFile(String filePath, String text)
+    {
+        StreamWriter file = new StreamWriter(filePath);
+        file.Write(text);
+        file.Close();
+    }
+}
+</code></pre>
+<p>執行結果</p>
+<pre><code>C:\ccc&gt;csc File.cs
+Microsoft (R) Visual C# 2005 Compiler version 8.00.50727.3053
+for Microsoft (R) Windows (R) 2005 Framework version 2.0.50727
+Copyright (C) Microsoft Corporation 2001-2005. All rights reserved.
+
+
+C:\ccc&gt;File Hello.txt
+Hello, C#!
+</code></pre><h2 id="-">物件導向的寫法</h2>
+<pre><code class="lang-CS">using System;
+using System.IO;
+
+class File
+{
+    String path;
+
+    public static void Main(String[] args)
+    {
+        File file = new File(&quot;Hello.txt&quot;);
+        file.save(&quot;Hello, C#!&quot;);
+        String text2 = file.load();
+        Console.WriteLine(text2);
+    }
+
+    public File(String path)
+    {
+        this.path = path;
+    }
+
+    public String load()
+    {
+        StreamReader file = new StreamReader(path);
+        String text = file.ReadToEnd();
+        file.Close();
+        return text;
+    }
+
+    public void save(String text)
+    {
+        StreamWriter file = new StreamWriter(path);
+        file.Write(text);
+        file.Close();
+    }
+}
+</code></pre>
+<p>執行結果</p>
+<pre><code>C:\ccc&gt;csc FileTest.cs
+Microsoft (R) Visual C# 2005 Compiler version 8.00.50727.3053
+for Microsoft (R) Windows (R) 2005 Framework version 2.0.50727
+Copyright (C) Microsoft Corporation 2001-2005. All rights reserved.
+
+
+C:\ccc&gt;FileTest Hello.txt
+Hello, C#!
+</code></pre><h2 id="-">更物件導向的寫法</h2>
+<pre><code class="lang-CS">using System;
+using System.IO;
+
+class TextFile
+{
+    String path;
+    String text;
+
+    public static void Main(String[] args)
+    {
+        TextFile file = new TextFile();
+        file.load(args[0]).print();
+    }
+
+    public TextFile() {}
+
+    public TextFile load(String path)
+    {
+        this.path = path;
+        StreamReader file = new StreamReader(path);
+        text = file.ReadToEnd();
+        file.Close();
+        return this;
+    }
+
+    public TextFile save()
+    {
+        StreamWriter file = new StreamWriter(path);
+        file.Write(text);
+        file.Close();
+        return this;
+    }
+
+    public TextFile print()
+    {
+        Console.WriteLine(&quot;file: path=&quot;+path);
+        Console.WriteLine(text);
+        return this;
+    }
+}
+</code></pre>
+<p>執行結果</p>
+<pre><code>C:\ccc&gt;csc TextFile.cs
+Microsoft (R) Visual C# 2005 Compiler version 8.00.50727.3053
+for Microsoft (R) Windows (R) 2005 Framework version 2.0.50727
+Copyright (C) Microsoft Corporation 2001-2005. All rights reserved.
+
+
+C:\ccc&gt;TextFile Hello.txt
+file: path=Hello.txt
+Hello, C#!
+C# 真有趣!
+I love C#.
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

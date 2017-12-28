@@ -1,0 +1,192 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 JavaScript 程式書 >>  字串</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 JavaScript 程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 程式入門</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 基本語法</a></li>
+<li class="pure-menu-item"><a href="chapterString.html" class="pure-menu-link">3. 字串</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">6. 字典與 JSON</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">7. 物件導向與原型</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">8. 函式庫</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">9. 模組</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">10. 檔案與輸出入</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">11. 資料庫</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">12. 網路</a></li>
+<li class="pure-menu-item"><a href="answer.html" class="pure-menu-link">習題解答</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">字串</h1>
+<h2 id="-">簡介</h2>
+<p>javascript 語言中的字串，基本上您可以想像為一個《字元陣列》，但必須注意的是，字串和陣列還是有少許不同的，例如字串裏就沒有 push 這個函數，但是卻有 substr 這樣的字串函數。</p>
+<p>接著、還是讓我們用交談的方式，先練習一下字串的操作方式！</p>
+<h3 id="-">字串操作</h3>
+<pre><code>$ node
+&gt; x = &quot;hello&quot;
+&#39;hello&#39;
+&gt; x.length
+5
+&gt; x[3]
+&#39;l&#39;
+&gt; x[2]
+&#39;l&#39;
+&gt; x[1]
+&#39;e&#39;
+&gt; x[0]
+&#39;h&#39;
+&gt; x[5]
+undefined
+&gt; x[4]
+&#39;o&#39;
+&gt; x=x+&quot; world&quot; // 字串可以用 + 號進行連接 (請注意 + 號對字串和數值有不同的意義，如果您將 &quot;3&quot;+&quot;4&quot; 會得到 &quot;34&quot;，而不是 7)。
+&#39;hello world&#39;
+&gt; x
+&#39;hello world&#39;
+&gt;
+</code></pre><h3 id="-">字串函數</h3>
+<p>javascript 的字串有兩個函數可以用來取出子字串，一個是 substr, 另一個是 substring, 這兩個函數的第二個參數意義不同，其函數規格如下所示：</p>
+<pre><code>str.substr(start[, length]) : 第二個參數是長度
+str.substring(indexStart[, indexEnd]) : 第二個參數是結尾的位置
+</code></pre><p>字串操作：</p>
+<pre><code>&gt; x = &quot;0123456789&quot;
+&#39;0123456789&#39;
+&gt; x.substr(3,2) // 從第 3 個開始取出長度為 2 的子字串。
+&#39;34&#39;
+&gt; x.substr(4,5) // 從第 4 個開始取出長度為 5 的子字串。
+&#39;45678&#39;
+&gt; x.substring(3,7) // 取出從第 3 個開始到第 7 個之前的子字串。(不包含第 7 個)
+&#39;3456&#39;
+&gt; x.substring(3,9)) // 取出從第 3 個開始到第 9 個之前的子字串。(不包含第 9 個)
+&#39;345678&#39;
+&gt; x.length  // 取出字串 x 的長度
+10
+&gt; s = &quot;abCDEfg&quot; // 設定 s 字串
+&#39;abCDEfg&#39;
+&gt; s.toUpperCase() // 把 s 轉大寫後傳回
+&#39;ABCDEFG&#39;
+&gt; s.toLowerCase() // 把 s 轉小寫後傳回
+&#39;abcdefg&#39;
+&gt; y = &quot;     abc      &quot; // y 是一個有前後空白的字串
+&#39;     abc      &#39;
+&gt; y.trim() // trim() 會把前後的空白去掉
+&#39;abc&#39;
+&gt; s            // 雖然做了轉大小寫的動作，但是不會改變 s 的值。
+&#39;abCDEfg&#39;
+&gt; s.concat(y) // 將 s 和 y 進行連接
+&#39;abCDEfg     abc      &#39;
+&gt; s.charAt(5) // 取出第 5 個字元
+&#39;f&#39;
+&gt; s.charCodeAt(5) // 取出第 5 個字元的 unicode 代碼
+102
+&gt; s.charCodeAt(0) // 取出第 0 個字元的 unicode 代碼
+97
+&gt; s.charAt(0) // 取出第 0 個字元
+&#39;a&#39;
+&gt; s.slice(3) // 切出第 3 個之後的內容
+&#39;DEfg&#39;
+</code></pre><h2 id="-">模板字符串</h2>
+<p>檔案：Es6ReplyHtml.js</p>
+<pre><code class="lang-javascript">var reply = {_id: &#39;111reply1&#39;, user: &#39;ccc&#39;, msg: &#39;aaaaaaa&#39;, date: &#39;20170305&#39;}
+var postId = &#39;111&#39;
+var user = &#39;ccc&#39;
+
+var replyHtml = function (user, poseId, reply) {
+  var replyOp = (reply.user === user) ? `&lt;i class=&quot;fa fa-times&quot; title=&quot;delete&quot; onclick=&quot;SMS.deleteReply(&#39;${postId}&#39;,&#39;${reply._id}&#39;)&quot;&gt;&lt;/i&gt;` : ``
+
+  return `
+&lt;div id=&quot;reply${reply._id}&quot; class=&quot;reply&quot;&gt;
+  &lt;div contenteditable=&quot;true&quot; class=&quot;replyMsg&quot; onkeyup=&quot;SMS.replyEditKeyup(&#39;${postId}&#39;, &#39;${reply._id}&#39;, this.innerText)&quot;&gt;${reply.msg}&lt;/div&gt;
+  &lt;div style=&quot;float:right&quot;&gt;
+    &lt;i class=&quot;fa fa-user&quot; title=&quot;Author&quot;&gt;&lt;/i&gt;
+    &lt;a href=&quot;/view/${reply.user}&quot;&gt;${reply.user}&lt;/a&gt;
+    ${replyOp}
+    &lt;i class=&quot;fa fa-clock-o&quot; title=&quot;${reply.date}&quot;&gt;&lt;/i&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+`
+}
+
+console.log(replyHtml(user, postId, reply))
+</code></pre>
+<p>執行結果：</p>
+<pre><code>D:\Dropbox\DigitalOcean\mdbook\test&gt;node Es6ReplyHtml.js
+
+&lt;div id=&quot;reply111reply1&quot; class=&quot;reply&quot;&gt;
+  &lt;div contenteditable=&quot;true&quot; class=&quot;replyMsg&quot; onkeyup=&quot;SMS.replyEditKeyup(&#39;111&#39;, &#39;111reply1&#39;, t
+his.innerText)&quot;&gt;aaaaaaa&lt;/div&gt;
+  &lt;div style=&quot;float:right&quot;&gt;
+    &lt;i class=&quot;fa fa-user&quot; title=&quot;Author&quot;&gt;&lt;/i&gt;
+    &lt;a href=&quot;/view/ccc&quot;&gt;ccc&lt;/a&gt;
+    &lt;i class=&quot;fa fa-times&quot; title=&quot;delete&quot; onclick=&quot;SMS.deleteReply(&#39;111&#39;,&#39;111reply1&#39;)&quot;&gt;&lt;/i&gt;
+    &lt;i class=&quot;fa fa-clock-o&quot; title=&quot;20170305&quot;&gt;&lt;/i&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre><ul>
+<li>參考 -- <a href="http://es6.ruanyifeng.com/#docs/string#模板字符串">http://es6.ruanyifeng.com/#docs/string#模板字符串</a></li>
+</ul>
+<p>領悟到ES6 的模板字符串的妙用之後，開始可以理解為何所有的 node.js 樣板引擎都可以丟掉了。
+關鍵是，要改用 javascript 的角度寫程式，不要再用 HTML + &lt;%=... %&gt; 或 {{ ... }} 的想法寫程式了。</p>
+<p>甚至、我有點懷疑，ES6 的模板字符串出現之後，那個原本 React.js 常用的 JSX 應該也可以不要了，關鍵是要採用 javascript 程式的角度去思考模板的用法，而不是用 HTML 的角度！</p>
+<h2 id="-">字串處理習題</h2>
+<ol>
+<li>請判斷一個字串是否是一個迴文？ <ul>
+<li>範例： palindrome(&quot;abcba&quot;) =&gt; true</li>
+</ul>
+</li>
+<li>請將輸入的字串翻轉？ <ul>
+<li>範例 reverse(&quot;abcde&quot;) =&gt; &quot;edcba&quot;</li>
+</ul>
+</li>
+<li>請輸出某二進位字串的偶校驗位元 (parity bit) <ul>
+<li>範例： evenParity(&quot;1010001&quot;) =&gt; 1</li>
+</ul>
+</li>
+<li>請輸出某二進位字串的1補數<ul>
+<li>範例： complement1(&quot;10101010&quot;) =&gt; &quot;01010101&quot;</li>
+</ul>
+</li>
+<li>請寫一個程式檢查數學是中的括號是否合法？ <ul>
+<li>範例： <code>isPaired(&quot;(a+3)*5/7)))*8&quot;) =&gt; false</code></li>
+</ul>
+</li>
+</ol>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

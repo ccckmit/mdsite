@@ -1,0 +1,72 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux 使用筆記 >>  Linux 的編輯器</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">Linux 使用筆記</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="editor.html" class="pure-menu-link">編輯器</a></li>
+<li class="pure-menu-item"><a href="c.html" class="pure-menu-link">C語言開發</a></li>
+<li class="pure-menu-item"><a href="nodejs.html" class="pure-menu-link">node.js 開發</a></li>
+<li class="pure-menu-item"><a href="ubuntu.html" class="pure-menu-link">ubuntu 視窗</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="linux-">Linux 的編輯器</h1>
+<p>nano 最簡單，vim 較強大</p>
+<h2 id="vim-">vim 編輯器</h2>
+<p>轉貼來源: <a href="https://www.facebook.com/fred.chien.9/posts/1032633070083367">https://www.facebook.com/fred.chien.9/posts/1032633070083367</a></p>
+<pre><code>im 其實沒這麼難呀，新手只要學會幾招，就基本上可以丟掉其他 IDE 了。一開始就把 Vim 講太難，根本只是高手耍帥而已，初學者可以不用鳥呀。
+
+1. 只要沒事就按 Esc，讓他離開編輯模式，就可以輸入指令。若想進入編輯模式就按一下 i ，就可以開始編輯及插入文字。
+
+2. 然後只要學會在非編輯模式下輸入 :w 與 :q 再加上 Enter，就會存檔和離開程式。
+
+3. yy 和 p 超好用，講明白了就是複製一行與貼上，剪下一行則是用 cc。
+
+4. 像要插入一行空白行，並直接進入編輯模式在新的一行開始編輯，就用 o。
+
+5. 刪除一行用 dd。
+
+6. 跳到指定第幾行就這樣用 :100 （到第一百行）
+
+7. 尋找字串用 / ，如： /fred。取代所有字串用 :%s/fred/pig/g 。
+
+基本上，這樣就夠了，等用熟了再來學更多吧。（什麼 Shift+V 之類的東西）
+
+喔，對了，注意指令的大小寫。請確定 Caps Lock 的燈是滅的再來按指令。
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

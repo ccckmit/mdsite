@@ -1,0 +1,117 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人造語 >>  人造語程式專案</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人造語</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="syntax.html" class="pure-menu-link">1. 語法</a></li>
+<li class="pure-menu-item"><a href="semantics.html" class="pure-menu-link">2. 語義</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">3. 程式</a></li>
+<li class="pure-menu-item"><a href="dictionary.html" class="pure-menu-link">4. 字典</a></li>
+<li class="pure-menu-item"><a href="application.html" class="pure-menu-link">5. 應用</a></li>
+<li class="pure-menu-item"><a href="research.html" class="pure-menu-link">6. 研究</a></li>
+<li class="pure-menu-item"><a href="ArtiEnglish.html" class="pure-menu-link">人造英語</a></li>
+<li class="pure-menu-item"><a href="ArtiChinese.html" class="pure-menu-link">人造漢語</a></li>
+<li class="pure-menu-item"><a href="TokiPona.html" class="pure-menu-link">道本語</a></li>
+<li class="pure-menu-item"><a href="CPona.html" class="pure-menu-link">簡化漢語</a></li>
+<li class="pure-menu-item"><a href="future.html" class="pure-menu-link">未來展望</a></li>
+<li class="pure-menu-item"><a href="foundation.html" class="pure-menu-link">人造語協會</a></li>
+<li class="pure-menu-item"><a href="community.html" class="pure-menu-link">社群</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">人造語程式專案</h1>
+<p>專案： <a href="https://github.com/ArtificialSpokenFoundation/artificialspoken">https://github.com/ArtificialSpokenFoundation/artificialspoken</a></p>
+<h2 id="-">範例</h2>
+<p>File: mtTest.js</p>
+<pre><code>var MT = require(&#39;aslt&#39;)
+
+MT.analysis(&#39;小明 和 小英:N 一起吃蘋果。\n&#39;)
+MT.analysis(&#39;小明有5個蘋果，給了小華3個蘋果，請問他還剩幾個蘋果？\n&#39;)
+MT.analysis(&#39;黑黑的天，大大的風，爸爸去捕魚，為甚麼 還 不 回 家？\n&#39;)
+MT.analysis(&#39;John:N 與 瑪莉:N 是 一 對 戀人。\n&#39;)
+MT.analysis(&#39;風與日。風日爭，旅人至，脫者勝，風狂吹，人緊衣，風敗，日暖照，人脫衣，日勝。\n&#39;)
+MT.analysis(&#39;蘋果和牛奶很好吃。蘋果牛奶很好喝。很好喝的蘋果牛奶。&#39;)
+MT.analysis(&#39;好大的蘋果。&#39;)
+</code></pre><p>執行結果</p>
+<pre><code>$ node mtTest.js
+[&quot;小明&quot;,&quot;和&quot;,&quot;小英:N&quot;,&quot;一起&quot;,&quot;吃&quot;,&quot;蘋果&quot;,&quot;。&quot;,&quot;↓&quot;]
+ 小明:N/ 和:V/ 小英:N:N/ 一起:a 吃:V/ 蘋果:N/ 。:. ↓:.
+[&quot;_xiǎo_míng&quot;,&quot;and&quot;,&quot;_xiǎo_yīng&quot;,&quot;together&quot;,&quot;eat&quot;,&quot;apple&quot;,&quot;。&quot;,&quot;↓&quot;]
+=========================
+[&quot;小明&quot;,&quot;有&quot;,&quot;5&quot;,&quot;個&quot;,&quot;蘋果&quot;,&quot;，&quot;,&quot;給&quot;,&quot;了&quot;,&quot;小華&quot;,&quot;3&quot;,&quot;個&quot;,&quot;蘋果&quot;,&quot;，&quot;,&quot;請問&quot;,&quot;他&quot;,&quot;還&quot;,&quot;剩&quot;,&quot;幾個&quot;,&quot;蘋果&quot;,&quot;？&quot;,&quot;↓&quot;]
+ 小明:N/ 有:V/ 5:a 個:a 蘋果:N/ ，:.
+ 給:V/ 了:a 小華:N/ 3:a 個:a 蘋果:N/ ，:.
+ 請問:V/ 他:N/ 還:a 剩:V/ 幾個:a 蘋果:N/ ？:. ↓:.
+[&quot;_xiǎo_míng&quot;,&quot;have&quot;,&quot;5&quot;,&quot;_gè&quot;,&quot;apple&quot;,&quot;，&quot;,&quot;give&quot;,&quot;_le&quot;,&quot;_xiǎo_huá&quot;,&quot;3&quot;,&quot;_gè&quot;,&quot;apple&quot;,&quot;，&quot;,&quot;Q&quot;,&quot;he&quot;,&quot;still&quot;,&quot;remain&quot;,&quot;several&quot;,&quot;apple&quot;,&quot;？&quot;,&quot;↓&quot;]
+=========================
+[&quot;黑&quot;,&quot;黑&quot;,&quot;的&quot;,&quot;天&quot;,&quot;，&quot;,&quot;大大的&quot;,&quot;風&quot;,&quot;，&quot;,&quot;爸爸&quot;,&quot;去&quot;,&quot;捕&quot;,&quot;魚&quot;,&quot;，&quot;,&quot;為甚麼&quot;,&quot;還&quot;,&quot;不&quot;,&quot;回&quot;,&quot;家&quot;,&quot;？&quot;,&quot;↓&quot;]
+ 黑:a 黑:a 的:a 天:N/ ，:.
+ 大大的:N 風:N/ ，:.
+ 爸爸:N/ 去:V 捕:V/ 魚:N/ ，:.
+ 為甚麼:V/ 還:a 不:a 回:V/ 家:N/ ？:. ↓:.
+[&quot;black&quot;,&quot;black&quot;,&quot;_de&quot;,&quot;sky&quot;,&quot;，&quot;,&quot;big&quot;,&quot;wind&quot;,&quot;，&quot;,&quot;papa&quot;,&quot;go&quot;,&quot;hunt&quot;,&quot;fish&quot;,&quot;，&quot;,&quot;why&quot;,&quot;still&quot;,&quot;no&quot;,&quot;back&quot;,&quot;home&quot;,&quot;？&quot;,&quot;↓&quot;]
+=========================
+[&quot;John:N&quot;,&quot;與&quot;,&quot;瑪莉:N&quot;,&quot;是&quot;,&quot;一&quot;,&quot;對&quot;,&quot;戀人&quot;,&quot;。&quot;,&quot;↓&quot;]
+ John:N:N/ 與:V/ 瑪莉:N:N/ 是:V/ 一:a 對:a 戀人:N/ 。:. ↓:.
+[&quot;John&quot;,&quot;and3&quot;,&quot;_mǎ_lì&quot;,&quot;is&quot;,&quot;one&quot;,&quot;correct&quot;,&quot;lover&quot;,&quot;。&quot;,&quot;↓&quot;]
+=========================
+[&quot;風&quot;,&quot;與&quot;,&quot;日&quot;,&quot;。&quot;,&quot;風&quot;,&quot;日&quot;,&quot;爭&quot;,&quot;，&quot;,&quot;旅人&quot;,&quot;至&quot;,&quot;，&quot;,&quot;脫&quot;,&quot;者&quot;,&quot;勝&quot;,&quot;，&quot;,&quot;風&quot;,&quot;狂&quot;,&quot;吹&quot;,&quot;，&quot;,&quot;人&quot;,&quot;緊&quot;,&quot;衣&quot;,&quot;，&quot;,&quot;風&quot;,&quot;敗&quot;,&quot;，&quot;,&quot;日&quot;,&quot;暖&quot;,&quot;照&quot;,&quot;，&quot;,&quot;人&quot;,&quot;脫&quot;,&quot;衣&quot;,&quot;，&quot;,&quot;日&quot;,&quot;勝&quot;,&quot;。&quot;,&quot;↓&quot;]
+ 風:N/ 與:V/ 日:N/ 。:.
+ 風:N 日:N/ 爭:V/ ，:.
+ 旅人:N/ 至:V/ ，:.
+ 脫:V/ 者:N/ 勝:V/ ，:.
+ 風:N/ 狂:V 吹:V/ ，:.
+ 人:N/ 緊:V/ 衣:N/ ，:.
+ 風:N/ 敗:V/ ，:.
+ 日:N/ 暖:V 照:V/ ，:.
+ 人:N/ 脫:V/ 衣:N/ ，:.
+ 日:N/ 勝:V/ 。:. ↓:.
+[&quot;wind&quot;,&quot;and3&quot;,&quot;sun&quot;,&quot;。&quot;,&quot;wind&quot;,&quot;sun&quot;,&quot;compete&quot;,&quot;，&quot;,&quot;traveler&quot;,&quot;come&quot;,&quot;，&quot;,&quot;takeOff&quot;,&quot;guy&quot;,&quot;win&quot;,&quot;，&quot;,&quot;wind&quot;,&quot;wild&quot;,&quot;blow&quot;,&quot;，&quot;,&quot;people&quot;,&quot;tight&quot;,&quot;cloth&quot;,&quot;，&quot;,&quot;wind&quot;,&quot;lose&quot;,&quot;，&quot;,&quot;sun&quot;,&quot;warm&quot;,&quot;shine&quot;,&quot;，&quot;,&quot;people&quot;,&quot;takeOff&quot;,&quot;cloth&quot;,&quot;，&quot;,&quot;sun&quot;,&quot;win&quot;,&quot;。&quot;,&quot;↓&quot;]
+=========================
+[&quot;蘋果&quot;,&quot;和&quot;,&quot;牛奶&quot;,&quot;很&quot;,&quot;好吃&quot;,&quot;。&quot;,&quot;蘋果&quot;,&quot;牛奶&quot;,&quot;很&quot;,&quot;好&quot;,&quot;喝&quot;,&quot;。&quot;,&quot;很&quot;,&quot;好&quot;,&quot;喝&quot;,&quot;的&quot;,&quot;蘋果&quot;,&quot;牛奶&quot;,&quot;。&quot;]
+ 蘋果:N/ 和:V/ 牛奶:N/ 很:a 好吃:V/ 。:.
+ 蘋果:N 牛奶:N/ 很:a 好:a 喝:V/ 。:.
+ 很:a 好:a 喝:V/ 的:a 蘋果:N 牛奶:N/ 。:.
+[&quot;apple&quot;,&quot;and&quot;,&quot;milk&quot;,&quot;very&quot;,&quot;good to eat&quot;,&quot;。&quot;,&quot;apple&quot;,&quot;milk&quot;,&quot;very&quot;,&quot;good&quot;,&quot;drink&quot;,&quot;。&quot;,&quot;very&quot;,&quot;good&quot;,&quot;drink&quot;,&quot;_de&quot;,&quot;apple&quot;,&quot;milk&quot;,&quot;。&quot;]
+=========================
+[&quot;好&quot;,&quot;大&quot;,&quot;的&quot;,&quot;蘋果&quot;,&quot;。&quot;]
+ 好:a 大:a 的:a 蘋果:N/ 。:.
+[&quot;good&quot;,&quot;big&quot;,&quot;_de&quot;,&quot;apple&quot;,&quot;。&quot;]
+=========================
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

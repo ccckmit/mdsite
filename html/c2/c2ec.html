@@ -1,0 +1,107 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >> 中翻英系統</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><p>#中翻英系統</p>
+<p><strong>程式： c2e.c</strong></p>
+<pre><code class="lang-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+char *e[] = {&quot;dog&quot;, &quot;cat&quot;, &quot;a&quot;,    &quot;chase&quot;,  &quot;eat&quot;, NULL};
+char *c[] = {&quot;狗&quot;,  &quot;貓&quot;,  &quot;一隻&quot;, &quot;追&quot;,     &quot;吃&quot; , NULL};
+
+int find(char *nameArray[], char *name) {
+  int i;
+  for (i=0; nameArray[i] != NULL; i++) {
+    if (strcmp(nameArray[i], name)==0) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+// 注意，一個中文字佔兩個 byte，也就是兩個 char
+void mt(char *s) {
+  int i, len;
+  for (i=0; i&lt;strlen(s); ) {  
+    for (len=8; len&gt;0; len-=2) {
+      char word[9];
+      strncpy(word, &amp;s[i], 9);
+      word[len] = &#39;\0&#39;;
+      int ci = find(c, word);
+      if (ci &gt;= 0) {
+        printf(&quot; %s &quot;, e[ci]);
+        i+=len;
+        break;
+      }
+    }
+    if (len &lt;=0) {
+      printf(&quot; _ &quot;);
+      i+=2; // 跳過一個中文字
+    }
+  }
+}
+
+int main(int argc, char *argv[]) {
+  mt(argv[1]); // 從 argv (例如：mt 一隻狗追一隻貓) 中取出參數一 (例如：一隻狗追一隻貓)
+}
+</code></pre>
+<p><strong>執行結果：</strong></p>
+<pre><code>D:\Dropbox\cccwd\db\c\code&gt;gcc c2e.c -o c2e
+
+D:\Dropbox\cccwd\db\c\code&gt;c2e 一隻狗
+ a  dog
+
+D:\Dropbox\cccwd\db\c\code&gt;c2e 一隻狗追一隻貓
+ a  dog  chase  a  cat
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

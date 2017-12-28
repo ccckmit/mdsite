@@ -1,0 +1,414 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  實作：謂詞邏輯的推論引擎</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="-">實作：謂詞邏輯的推論引擎</h2>
+<p>接著、讓我們將上述的「布林推論引擎」擴充，成為一個可以包含「布林函數」的「謂詞邏輯」推論引擎。</p>
+<h3 id="-">程式碼：謂詞推理引擎</h3>
+<p>檔案：pkb.js (Predicate Knowledge Base 的簡寫)</p>
+<pre><code class="lang-javascript">var util = require(&#39;util&#39;)
+
+var isEmpty = function (map) {
+  return Object.keys(map).length === 0
+}
+var format = function () {
+  return util.format.apply(null, arguments)
+}
+
+var Predicate = function () {}
+
+Predicate.prototype.load = function (str) {
+  var m = str.match(/^([^(]*)\(([^)]*)\)$/)
+  this.name = (m[1] == null) ? &#39;&#39; : m[1].trim()
+  this.params = (m[2] == null) ? &#39;&#39; : m[2].trim().split(/[,]/)
+  return this
+}
+
+Predicate.prototype.toString = function () {
+  return format(&#39;%s%j&#39;, this.name, this.params).replace(/&#39;/gi, &#39;&#39;).replace(/\[/gi, &#39;(&#39;).replace(/\]/gi, &#39;)&#39;)
+}
+
+Predicate.prototype.unify = function (fact) {
+  var map = {}
+  if (this.name !== fact.name || this.params.length !== fact.params.length) return null
+  for (var i = 0; i &lt; this.params.length; i++) {
+    var p = this.params[i]
+    var fp = fact.params[i]
+    if (map[p] == null) { // 參數 p 沒有 bind，所以就 bind 上去
+      if (p.match(/^[a-z]+$/) != null &amp;&amp; fp.match(/^[A-Z].*$/) != null) map[p] = fp
+    } else { // 參數 p 已 bind，檢查是否有衝突。
+      if (map[p] === fp) map[p] = fp // 沒衝突，加入。
+      else return null // 有衝突，傳回 null
+    }
+  }
+  return map
+}
+
+// 若每個變數都填入了，那麼就是滿足了 (satisfy)
+Predicate.prototype.satisfy = function (map) {
+  for (var i in this.params) {
+    var p = this.params[i]
+    if (map[p] == null) return false
+  }
+  return true
+}
+
+Predicate.prototype.mapping = function (map) {
+  var term = new Predicate()
+  term.name = this.name
+  term.params = []
+  for (var i in this.params) {
+    var p = this.params[i]
+    term.params.push(map[p])
+  }
+  return term
+}
+
+var Rule = function () {}
+
+Rule.prototype.clone = function () {
+  var r = new Rule()
+  r.head = this.head
+  r.terms = this.terms
+  r.map = this.map
+  return r
+}
+
+Rule.prototype.load = function (line) {
+  var m = line.match(/^([^&lt;=]*)(&lt;=([^{$]*))$/)
+  var head = (m[1] == null) ? &#39;&#39; : m[1].trim()
+  var terms = (m[3] == null) ? &#39;&#39; : m[3].trim().split(/[&amp;]+/)
+  this.head = new Predicate().load(head)
+  this.terms = []
+  for (var i = 0; i &lt; terms.length; i++) {
+    this.terms.push(new Predicate().load(terms[i]))
+  }
+  this.map = {}
+  return this
+}
+
+Rule.prototype.toString = function () {
+  return format(&#39;%s&lt;=%s%j&#39;, this.head, this.terms.join(&#39;&amp;&#39;), this.map)
+}
+
+Rule.prototype.resolve = function (fact) {
+  var rmap = this.map
+  for (var i in this.terms) {
+    var term = this.terms[i]
+    var tmap = term.unify(fact)
+    if (tmap == null) continue
+    var isConflict = false
+    for (var mi in tmap) {
+      if (rmap[mi] != null &amp;&amp; rmap[mi] !== tmap[mi]) isConflict = true
+    }
+    if (!isConflict) {
+      return tmap
+    }
+  }
+  return null
+}
+
+var KB = function () {
+  this.rules = []
+  this.facts = []
+  this.ruleMap = {}
+  this.factMap = {}
+  this.resolveMap = {}
+}
+
+KB.prototype.load = function (code) {
+  code = code.replace(/\s/gi, &#39;&#39;)
+  var lines = code.split(/[.]+ ?/)
+  console.log(&#39;%j&#39;, lines)
+  for (var i in lines) {
+    var line = lines[i].trim()
+    if (line.length === 0) continue
+    if (line.indexOf(&#39;&lt;=&#39;) &gt;= 0) {
+      this.addRule(new Rule().load(line))
+    } else {
+      this.addFact(new Predicate().load(line))
+    }
+  }
+  this.dump()
+}
+
+KB.prototype.dump = function () {
+  console.log(&#39;=====facts========&#39;)
+  console.log(this.facts.join(&#39;\n&#39;))
+  console.log(&#39;========rules=======&#39;)
+  console.log(this.rules.join(&#39;\n&#39;))
+// console.log(&#39;========resolveMap=======\n&#39;)
+// console.log(Object.keys(this.resolveMap).join(&#39;|&#39;))
+}
+
+KB.prototype.addFact = function (fact) {
+  if (this.factMap[fact.toString()] == null) {
+    console.log(&#39;addFact:%s&#39;, fact)
+    this.facts.push(fact)
+    this.factMap[fact.toString()] = fact
+    return true
+  } else {
+    return false
+  }
+}
+
+KB.prototype.addRule = function (rule) {
+  if (this.ruleMap[rule.toString()] == null) {
+    console.log(&#39;addRule:%s&#39;, rule.toString())
+    this.rules.push(rule)
+    this.ruleMap[rule.toString()] = rule
+    return true
+  } else {
+    return false
+  }
+}
+
+KB.prototype.genNew = function (rule, fact) {
+  var fmap = rule.resolve(fact)
+  if (fmap == null) return null
+  var rmap = Object.assign({}, rule.map, fmap) // ml.merge(rule.map, fmap)
+  if (rule.head.satisfy(rmap)) {
+    var newFact = rule.head.mapping(rmap)
+    if (this.addFact(newFact)) return newFact
+  } else {
+    if (!isEmpty(fmap)) {
+      var newRule = rule.clone()
+      newRule.map = rmap
+      if (this.addRule(newRule)) return newRule
+    }
+  }
+  return null
+}
+
+KB.prototype.forwardChaining = function () {
+  do {
+    console.log(&#39;======forwardChaining============&#39;)
+    var anyNew = false
+    for (var fi = 0; fi &lt; this.facts.length; fi++) {
+      var fact = this.facts[fi]
+      for (var ri in this.rules) {
+        var rule = this.rules[ri]
+        if (this.resolveMap[fi + &#39;,&#39; + ri] == null) {
+          var newObj = this.genNew(rule, fact)
+          if (newObj != null) {
+            console.log(&#39;  %s;%s\n&#39;, rule, fact)
+            anyNew = true
+          }
+        } else {
+          this.resolveMap[fi + &#39;,&#39; + ri] = true
+        }
+      }
+    }
+  } while (anyNew)
+  this.dump()
+}
+
+KB.prototype.test = function () {
+//  var fxy = new Predicate().load(&#39;father(x,y)&#39;)
+//  var fjj = new Predicate().load(&#39;father(John,Johnson)&#39;)
+//  var rp = new Rule().load(&#39;parent(x,y)&lt;=father(x,y)&#39;)
+  var ra = new Rule().load(&#39;ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z)&#39;)
+  var pgj = new Predicate().load(&#39;ancestor(George,John)&#39;)
+  var pjj = new Predicate().load(&#39;parent(John,Johnson)&#39;)
+  ra.map = ra.resolve(pgj)
+  ra.map = Object.assign({}, ra.map, ra.resolve(pjj)) // ml.merge(ra.map, ra.resolve(pjj))
+  console.log(&#39;ra=%s&#39;, ra)
+  console.log(&#39; satisfy=%d&#39;, ra.head.satisfy(ra.map))
+}
+
+module.exports = KB
+</code></pre>
+<h3 id="-pkbreason-js">前向推論主程式：pkbReason.js</h3>
+<p>檔案：pkbReason.js</p>
+<pre><code class="lang-javascript">var fs = require(&#39;fs&#39;); // 引用檔案物件
+var kb = require(&#39;./pkb&#39;);
+
+var kb1 = new kb();
+var code = fs.readFileSync(process.argv[2], &quot;utf8&quot;).replace(/\n/gi, &quot;&quot;); // 讀取檔案
+kb1.load(code);
+kb1.forwardChaining();
+</code></pre>
+<h3 id="-">推論規則範例</h3>
+<p>規則檔：family.pkb</p>
+<pre><code>parent(x,y)   &lt;= father(x,y).
+parent(x,y)   &lt;= mother(x,y).
+ancestor(x,y) &lt;= parent(x,y).
+ancestor(x,z) &lt;= ancestor(x,y) &amp; parent(y,z).
+
+father(John, Johnson).
+mother(Mary, Johnson).
+father(George, John).
+father(John, Jake).
+</code></pre><h3 id="-">執行結果</h3>
+<pre><code>C:\Dropbox\Public\web\ai\code\PKB&gt;node pkbReason family.pkb
+[&quot;parent(x,y)&lt;=father(x,y)&quot;,&quot;parent(x,y)&lt;=mother(x,y)&quot;,&quot;ancestor(x,y)&lt;=parent(x,
+y)&quot;,&quot;ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z)&quot;,&quot;father(John,Johnson)&quot;,&quot;mother(Ma
+ry,Johnson)&quot;,&quot;father(George,John)&quot;,&quot;father(John,Jake)&quot;,&quot;&quot;]
+addRule:parent(x,y)&lt;=father(x,y){}
+addRule:parent(x,y)&lt;=mother(x,y){}
+addRule:ancestor(x,y)&lt;=parent(x,y){}
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){}
+addFact:father(John,Johnson)
+addFact:mother(Mary,Johnson)
+addFact:father(George,John)
+addFact:father(John,Jake)
+=====facts========
+father(John,Johnson)
+mother(Mary,Johnson)
+father(George,John)
+father(John,Jake)
+========rules=======
+parent(x,y)&lt;=father(x,y){}
+parent(x,y)&lt;=mother(x,y){}
+ancestor(x,y)&lt;=parent(x,y){}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){}
+======forwardChaining============
+addFact:parent(John,Johnson)
+  parent(x,y)&lt;=father(x,y){};father(John,Johnson)
+
+addFact:parent(Mary,Johnson)
+  parent(x,y)&lt;=mother(x,y){};mother(Mary,Johnson)
+
+addFact:parent(George,John)
+  parent(x,y)&lt;=father(x,y){};father(George,John)
+
+addFact:parent(John,Jake)
+  parent(x,y)&lt;=father(x,y){};father(John,Jake)
+
+addFact:ancestor(John,Johnson)
+  ancestor(x,y)&lt;=parent(x,y){};parent(John,Johnson)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;John&quot;,&quot;z&quot;:&quot;Johnson&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};parent(John,Johnson)
+
+addFact:ancestor(Mary,Johnson)
+  ancestor(x,y)&lt;=parent(x,y){};parent(Mary,Johnson)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;Mary&quot;,&quot;z&quot;:&quot;Johnson&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};parent(Mary,Johnson)
+
+addFact:ancestor(George,John)
+  ancestor(x,y)&lt;=parent(x,y){};parent(George,John)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;George&quot;,&quot;z&quot;:&quot;John&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};parent(George,John)
+
+addFact:ancestor(John,Jake)
+  ancestor(x,y)&lt;=parent(x,y){};parent(John,Jake)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;John&quot;,&quot;z&quot;:&quot;Jake&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};parent(John,Jake)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;John&quot;,&quot;y&quot;:&quot;Johnson&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};ancestor(John,Johnson)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;Mary&quot;,&quot;y&quot;:&quot;Johnson&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};ancestor(Mary,Johnson)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;George&quot;,&quot;y&quot;:&quot;John&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};ancestor(George,John)
+
+addFact:ancestor(George,Johnson)
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;John&quot;,&quot;z&quot;:&quot;Johnson&quot;};ancestor(Ge
+orge,John)
+
+addFact:ancestor(George,Jake)
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;John&quot;,&quot;z&quot;:&quot;Jake&quot;};ancestor(Georg
+e,John)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;John&quot;,&quot;y&quot;:&quot;Jake&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};ancestor(John,Jake)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;George&quot;,&quot;y&quot;:&quot;Johnson&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};ancestor(George,Johnson)
+
+addRule:ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;George&quot;,&quot;y&quot;:&quot;Jake&quot;}
+  ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){};ancestor(George,Jake)
+
+======forwardChaining============
+=====facts========
+father(John,Johnson)
+mother(Mary,Johnson)
+father(George,John)
+father(John,Jake)
+parent(John,Johnson)
+parent(Mary,Johnson)
+parent(George,John)
+parent(John,Jake)
+ancestor(John,Johnson)
+ancestor(Mary,Johnson)
+ancestor(George,John)
+ancestor(John,Jake)
+ancestor(George,Johnson)
+ancestor(George,Jake)
+========rules=======
+parent(x,y)&lt;=father(x,y){}
+parent(x,y)&lt;=mother(x,y){}
+ancestor(x,y)&lt;=parent(x,y){}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;John&quot;,&quot;z&quot;:&quot;Johnson&quot;}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;Mary&quot;,&quot;z&quot;:&quot;Johnson&quot;}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;George&quot;,&quot;z&quot;:&quot;John&quot;}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;y&quot;:&quot;John&quot;,&quot;z&quot;:&quot;Jake&quot;}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;John&quot;,&quot;y&quot;:&quot;Johnson&quot;}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;Mary&quot;,&quot;y&quot;:&quot;Johnson&quot;}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;George&quot;,&quot;y&quot;:&quot;John&quot;}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;John&quot;,&quot;y&quot;:&quot;Jake&quot;}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;George&quot;,&quot;y&quot;:&quot;Johnson&quot;}
+ancestor(x,z)&lt;=ancestor(x,y)&amp;parent(y,z){&quot;x&quot;:&quot;George&quot;,&quot;y&quot;:&quot;Jake&quot;}
+</code></pre><h3 id="-">結語</h3>
+<p>以上我們用 JavaScript 實作了一個簡易的謂詞邏輯推論引擎，採用洪氏邏輯的語法，以及前向推論 (forwardChaining) 的方式。</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

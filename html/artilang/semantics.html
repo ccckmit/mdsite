@@ -1,0 +1,173 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人造語 >>  《人造語》的語義</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人造語</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="syntax.html" class="pure-menu-link">1. 語法</a></li>
+<li class="pure-menu-item"><a href="semantics.html" class="pure-menu-link">2. 語義</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">3. 程式</a></li>
+<li class="pure-menu-item"><a href="dictionary.html" class="pure-menu-link">4. 字典</a></li>
+<li class="pure-menu-item"><a href="application.html" class="pure-menu-link">5. 應用</a></li>
+<li class="pure-menu-item"><a href="research.html" class="pure-menu-link">6. 研究</a></li>
+<li class="pure-menu-item"><a href="ArtiEnglish.html" class="pure-menu-link">人造英語</a></li>
+<li class="pure-menu-item"><a href="ArtiChinese.html" class="pure-menu-link">人造漢語</a></li>
+<li class="pure-menu-item"><a href="TokiPona.html" class="pure-menu-link">道本語</a></li>
+<li class="pure-menu-item"><a href="CPona.html" class="pure-menu-link">簡化漢語</a></li>
+<li class="pure-menu-item"><a href="future.html" class="pure-menu-link">未來展望</a></li>
+<li class="pure-menu-item"><a href="foundation.html" class="pure-menu-link">人造語協會</a></li>
+<li class="pure-menu-item"><a href="community.html" class="pure-menu-link">社群</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">《人造語》的語義</h1>
+<h2 id="-">語法回顧</h2>
+<p>人造語 ASL 的語法如下</p>
+<pre><code>S = Q? P* T* .+   // 語句 = 疑問詞? 短語* 句尾詞* 符號+
+P = a* (N+|V+)    // 短語 = 修飾* (名詞+|動詞+)
+</code></pre><p>我們將用下列語句來說明人造語中語法和語義是如何連結上的！</p>
+<pre><code>為甚麼 that=那:a girl=女孩:N 有一顆小 apple=蘋果:N 呢？ 
+
+=&gt; (為甚麼:Q) (那:a 女孩:N)P (有:V)P (一:a 顆:a 小:a 蘋果:N)P (呢:T) ？:.
+</code></pre><h2 id="-">短語的語義</h2>
+<p>根據《人造語》的語法，我們可以從短語 P 知道哪些修飾語修飾那個名詞或動詞。</p>
+<p>因為在 <code>P = a* (N+|V+)</code> 這個規則裡， a* 是修飾 V+ 或 N+ 的。舉例而言，下列語句有三個短語：</p>
+<pre><code>那個女孩有一顆小蘋果 =&gt; (那 : a 女孩 : N)P (有:V)P (一 : a 顆 : a 小 : a 蘋果:N)P
+</code></pre><p>我們可以從其中  (一 : a 顆 : a 小 : a 蘋果 : N)P 這個短語看出，《一 : a 顆 : a 小 : a》都是《蘋果:N》的修飾語，因此我們知道《蘋果的數量為 1》、《體積為小》、《單位是顆》。</p>
+<p>同樣的，(那 : a 女孩 : N)P 是一個短語，《那 : a》是《女孩 : N》的修飾語。</p>
+<p>透過短語 P 的結構，我們可以很清楚的知道修飾語所修飾的對象是誰，因此在短語內的語義是清楚的。</p>
+<h2 id="-">句子的語義</h2>
+<p>在人造語的語句規則中，除了最前面的疑問詞與最後面的句尾之外，就只剩一串短語 P* 了，因此人造語的語法很寬鬆，具有很大的包容力。</p>
+<pre><code>S = Q? P* T* .+
+</code></pre><p>但是語法太寬鬆，就容易有語義不精確的問題，因此要怎樣才能知道《短語之間》具有甚麼關係呢？</p>
+<p>還好，語言學上有個簡易的《主S 動V 賓O》句法結構，可以大致解決我們的問題。</p>
+<p>根據《主詞 Subject、動詞 Verb 、 賓詞 Object》的結構，語言可以分為 SOV, SVO, VSO, VOS, OVS, OSV 等六種類型，《人造語 ASL》目前採用的是 SVO 的語序結構，也就是《主動賓》結構。</p>
+<p><img src="SVO.png" alt="本圖來自維基百科：主賓動語序"></p>
+<p>漢語、英語都屬於 SVO 結構，因此《人造語 ASL》對英漢語的語法大致可以相容！</p>
+<p>德語、荷蘭語、法語、奧克語和北部義大利語也是屬於 SVO 結構，因此 SVO 結構在目前世界上算是很強勢的，因為懂得使用《英法中俄德》這些語言的人口加起來，應該就超過全球人口的一半了。</p>
+<p>但是對於《日語、韓語、拉丁語系》等語文而言，閱讀者必須想辦法適應 SVO 結構，以便能理解採用 SVO 結構的《人造語句》。</p>
+<p>根據 SVO 結構，我們就可以對上述的範例語句進行解析，於是知道《那個女孩》是《主詞 S》、《有》是《動詞 V》，《一顆小蘋果》是《賓詞 O》。</p>
+<pre><code>那個女孩有一顆小蘋果
+
+=&gt; (那:a個:a 女孩:N)P (有:V)P (一:a 顆:a 小:a 蘋果:N)P
+        主詞 S        動詞 V         賓詞 O
+</code></pre><h2 id="svovo-">SVOVO 結構</h2>
+<p>但是、只用 SVO 結構描述，還是會有不足之處，舉例而言，以下語句有兩個動詞短語，那麼如何套用 SVO 結構呢？</p>
+<pre><code>他用榔頭敲釘子 =&gt; 他:N 用:V 榔頭:N 敲:V 釘子:N
+</code></pre><p>在人造語 ASL 裏，我們會將短語分為《動詞短語 VP》和《名詞短語 NP》，上述語句在短語層次標示如下：</p>
+<pre><code>他用榔頭敲釘子 =&gt; 他:NP 用:VP 榔頭:NP 敲:VP 釘子:NP
+</code></pre><p>以動詞為核心，動詞之前為《主語 S》，動詞之後為《賓語 O》，第一個動詞前的名詞是《預設的主語》。</p>
+<p>因此上述的語句 SVO 結構如下：</p>
+<pre><code>他用榔頭敲釘子 =&gt; (他:NP)S (用:VP)V (榔頭:NP)O (敲:VP)V (釘子:NP)O
+</code></pre><p>也就是《人造語 ASL》預設採用了 《S VO VO VO ...》 的結構。</p>
+<h2 id="-">動詞後有多個名詞的情況</h2>
+<p>但是、有時在動詞之後有好幾個名詞，像是下述情況：</p>
+<pre><code>他給我五塊錢 =&gt; 他:S 給:V 我:O 五塊錢:N
+</code></pre><p>此時《五塊錢》並不算《賓語 O》，那麼人造語 ASL 的閱讀者應該怎麼理解這句話的語義呢？</p>
+<p>對於這種狀況，我們必須根據《動詞》的《格》來理解語句。</p>
+<p>上述的《給》這個動詞，擁有的《格》如下：</p>
+<pre><code>給：主N:S 給V:V 賓N:O 物:N
+</code></pre><p>因此我們可以對上述語句進行下列理解</p>
+<pre><code>他:S 給:V 我:O 五塊錢:物
+</code></pre><p>於是只要套入《動詞》的《格》，就能確定每個語句的意義了。</p>
+<h2 id="-case-grammar-">格語法 (Case Grammar)</h2>
+<p>這種《格語法》(case grammar) 是美國語言學家查爾斯·菲爾墨（Charles J. Fillmore）於 1968 年提出的，以下是一些《格》的範例：</p>
+<pre><code>施事格 (Agent)：
+感受格 (Experiencer) ：
+對象格 (Object)：
+工具格 (Instrument)：
+來源格 (Source)：
+目的格 (Goal)：
+場所格 (Location)：
+時間格 (Time)：
+路徑格 (Path)：
+</code></pre><p>不同的《動詞》會有不同的《格》，但是人類的腦袋裡通常會具有這些格位的天然理解力，所以我們不需要在《人造語 ASL》裏規定這些格的順序，而是由人腦來進行《自然理解》。</p>
+<p>不過這樣還是會有誤解的可能，但是情況不會很嚴重，一旦撰寫者發現有誤解可能時，就可以用《格位指示語》來釐清每個格的角色，例如以下語句。</p>
+<pre><code>他搭飛機從紐約到台北 =&gt; (他:NP)S (搭:VP)V (飛機:NP)O (從:VP)V (紐約:NP)O (到:VP)V (台北:N)O
+</code></pre><p>其中的《搭:V》是主要動詞，但是搭配個格位指示語有《從：V》和《到：V》，這樣我們就不會把《來源格》和《目的格》的順序給搞混了。</p>
+<table>
+<thead>
+<tr>
+<th>格 (Case)</th>
+<th>指示語</th>
+<th>範例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工具格 (Instrument)</td>
+<td>用 (with)</td>
+<td>他《用》榔頭敲釘子</td>
+</tr>
+<tr>
+<td>來源格 (Source)</td>
+<td>從 (from)</td>
+<td>他《從》紐約到台北</td>
+</tr>
+<tr>
+<td>目的格 (Goal)</td>
+<td>到 (to)</td>
+<td>他從紐約《到》台北</td>
+</tr>
+<tr>
+<td>場所格 (Location)</td>
+<td>在 (at)</td>
+<td>他《在》巴黎學畫畫</td>
+</tr>
+<tr>
+<td>時間格 (Time)</td>
+<td>當 (when)</td>
+<td>《當》鐘聲響起</td>
+</tr>
+<tr>
+<td>路徑格 (Path)</td>
+<td>沿 (by)</td>
+<td>他《沿》河道往上走</td>
+</tr>
+</tbody>
+</table>
+<p>透過 S VO VO ... 結構，搭配《格》的指示詞，語句的意義在人造語 ASL 當中，應該會是相當明確的。</p>
+<p>但是這一切理論，還有待我們《人造語 IDE 翻譯》系統上線被使用者實際檢驗之後，才能知道是否可在現實世界裡有效的運作。</p>
+<p>接著就是關於程式的實踐問題了。</p>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E4%B8%BB%E8%B3%93%E5%8B%95%E8%AA%9E%E5%BA%8F">維基百科:主賓動語序</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Grammatical_case">https://en.wikipedia.org/wiki/Grammatical_case</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E6%A0%BC%E8%AF%AD%E6%B3%95">維基百科:格語法</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

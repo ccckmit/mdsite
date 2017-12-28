@@ -1,0 +1,241 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 JavaScript 程式書 >>  第 11 章 - 網路</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 JavaScript 程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 程式入門</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 基本語法</a></li>
+<li class="pure-menu-item"><a href="chapterString.html" class="pure-menu-link">3. 字串</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">4. 陣列</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">5. 函數</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">6. 字典與 JSON</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">7. 物件導向與原型</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">8. 函式庫</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">9. 模組</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">10. 檔案與輸出入</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">11. 資料庫</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">12. 網路</a></li>
+<li class="pure-menu-item"><a href="answer.html" class="pure-menu-link">習題解答</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-11-">第 11 章 - 網路</h1>
+<h2 id="-">下載一個網頁</h2>
+<p>程式： pageget.js</p>
+<pre><code class="lang-javascript">var http = require(&#39;http&#39;);
+
+http.get(&quot;http://www.nqu.edu.tw/cht/index.php?&quot;, function(res) {
+  console.log(&quot;Got response: &quot; + res.statusCode);
+  res.on(&#39;data&#39;, function (chunk) {
+    console.log(&#39;BODY: &#39; + chunk);
+  });
+}).on(&#39;error&#39;, function(e) {
+  console.log(&quot;Got error: &quot; + e.message);
+});
+</code></pre>
+<p>執行結果</p>
+<pre><code>NQU-192-168-60-101:crawler csienqu$ node pageget.js
+Got response: 200
+BODY: &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html lang=&quot;zh-TW&quot;&gt;
+
+&lt;head&gt;
+  &lt;title&gt;國立金門大學-&gt;&lt;/title&gt;
+...
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="-">抽取出網頁中的超連結</h2>
+<p>檔案： listurl.js</p>
+<pre><code class="lang-javascript">var fs = require(&#39;fs&#39;);
+var html = fs.readFileSync(process.argv[2]).toString();
+var r = /href\s*=\s*&quot;(.+?)&quot;/gi;
+while (true) {
+  var m = r.exec(html);
+  if (!m) break;
+  console.log(m[1]);
+}
+</code></pre>
+<p>執行結果：</p>
+<pre><code>NQU-192-168-60-101:regexp csienqu$ ls
+copyfile.js  listurl.js   nqu.html     nqu.html.bak readfile.js  readline.js
+NQU-192-168-60-101:regexp csienqu$ node listurl nqu.html
+../cache/css194.css
+../js/calendar/calendar-mos.css
+index.php
+index.php?act=sitemap
+index.php
+...
+</code></pre><h2 id="-">網頁爬蟲</h2>
+<p>以下程式可以《下載全世界的網頁》，只要你記憶體和硬碟夠大就行了！</p>
+<p>專案下載： @<a href="crawler.zip">[crawler.zip]</a></p>
+<p>程式： crawler.js</p>
+<pre><code class="lang-javascript">// 安裝套件： npm install URIjs
+// 執行方法： node crawler http://tw.msn.com/
+var fs = require(&#39;fs&#39;);
+var http = require(&#39;http&#39;);
+var URI = require(&#39;URIjs&#39;);
+var c = console;
+
+var urlMap  = { };
+var urlList = [ ];
+var urlIdx  = 0;
+
+urlList.push(process.argv[2]); // 新增第一個網址
+
+crawNext(); // 開始抓
+
+function crawNext() { // 下載下一個網頁
+  if (urlIdx &gt;= urlList.length) 
+    return;
+  var url = urlList[urlIdx];
+  if (url.indexOf(&#39;http://&#39;)!==0) {
+    urlIdx ++;
+    crawNext();
+    return;
+  }
+  c.log(&#39;url[%d]=%s&#39;, urlIdx, url);
+  urlMap[url] = { downlioad:false };
+  pageDownload(url, function (data) {
+    var page = data.toString();
+    urlMap[url].download = true;
+    var filename = urlToFileName(url);
+    fs.writeFile(&#39;data/&#39;+filename, page, function(err) {
+    });
+    var refs = getMatches(page, /\shref\s*=\s*[&quot;&#39;#]([^&quot;&#39;#]*)[#&quot;&#39;]/gi, 1);
+    for (i in refs) {
+      try {
+      var refUri = URI(refs[i]).absoluteTo(url).toString();
+      c.log(&#39;ref=%s&#39;, refUri);
+      if (refUri !== undefined &amp;&amp; urlMap[refUri] === undefined)
+        urlList.push(refUri);
+      } catch (e) {}
+    }
+    urlIdx ++;
+    crawNext();
+  });
+}
+// 下載一個網頁
+function pageDownload(url, callback) {
+  http.get(url, function(res) {
+    res.on(&#39;data&#39;, callback);
+  }).on(&#39;error&#39;, function(e) {
+    console.log(&quot;Got error: &quot; + e.message);
+  });
+}
+// 取得正規表達式比對到的結果成為一個陣列
+function getMatches(string, regex, index) {
+    index || (index = 1); // default to the first capturing group
+    var matches = [];
+    var match;
+    while (match = regex.exec(string)) {
+        matches.push(match[index]);
+    }
+    return matches;
+}
+// 將網址改寫為合法的檔案名稱
+function urlToFileName(url) {
+  return url.replace(/[^\w]/gi, &#39;_&#39;);
+}
+</code></pre>
+<p>執行方法</p>
+<pre><code>NQU-192-168-60-101:crawler csienqu$ npm install URIjs
+NQU-192-168-60-101:crawler csienqu$ node crawler http://tw.msn.com/
+....
+</code></pre><h2 id="-">一對一聊天</h2>
+<ul>
+<li>一對一聊天下載： @<a href="chat11.zip">[chat11.zip]</a></li>
+<li>多人聊天室下載： @<a href="chatroom.zip">[chatroom.zip]</a></li>
+</ul>
+<p>執行畫面</p>
+<p><img src="chat11.png" alt=""></p>
+<p>Server 端</p>
+<p>檔案: ChatServer.js</p>
+<pre><code class="lang-javascript">var net = require(&#39;net&#39;);
+var readline = require(&#39;readline&#39;).createInterface(process.stdin, process.stdout);
+
+var server = net.createServer();
+
+server.on(&#39;connection&#39;, function(sock) {
+  console.log(sock.remoteAddress +&#39;:&#39;+ sock.remotePort+&#39; 連進來了&#39;);
+
+  readline.setPrompt(&#39;&#39;);
+  readline.prompt();
+
+  readline.on(&#39;line&#39;, function(line) {
+    sock.write(line);
+    readline.prompt();
+  });
+
+  sock.on(&#39;data&#39;, function(data) {
+    console.log(&#39;收到:&#39; + sock.remoteAddress + &#39;: &#39; + data);
+  });
+});
+
+server.listen(5757);
+console.log(&#39;server 啟動&#39;);
+</code></pre>
+<p>關於 readline 的用法請參考：  <a href="https://nodejs.org/apieadline.html">https://nodejs.org/apieadline.html</a></p>
+<p>Client 端</p>
+<p>檔案: ChatClient.js</p>
+<pre><code class="lang-javascript">var net = require(&#39;net&#39;);
+var readline = require(&#39;readline&#39;).createInterface(process.stdin, process.stdout);
+
+var client = new net.Socket();
+
+readline.on(&#39;line&#39;, function(line) {
+  client.write(line);
+  readline.prompt();
+});
+
+client.connect(5757, &#39;127.0.0.1&#39;, function() {
+  console.log(&#39;連接 &#39; + client.remoteAddress + &#39;:&#39; + client.remotePort);
+  readline.setPrompt(&#39;&#39;);
+  readline.prompt();
+});
+
+client.on(&#39;data&#39;, function(data) {
+    console.log(&#39;收到:&#39; + data);
+});
+</code></pre>
+<h2 id="-">習題</h2>
+<ol>
+<li>請寫一對程式，包含 server 與 client，其中 client 可以向 server 查詢系統時間。</li>
+<li>請改良本章的 Crawler 程式，讓網址與抓回來的內容都改存在 mongodb 資料庫中，而不是放在《記憶體》和《檔案系統》當中</li>
+</ol>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

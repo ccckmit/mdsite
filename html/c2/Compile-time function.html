@@ -1,0 +1,92 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >>  編譯時期函數 -- #define, #undef, defined(), #error, #line, …</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="-define-undef-defined-error-line-">編譯時期函數 -- #define, #undef, defined(), #error, #line, …</h2>
+<p>在 C 語言的巨集處理器當中，常用的編譯時期函數有 defined(), #error, #warning, #pragma，以下我們將介紹這些編譯時期函數的用法。</p>
+<p>defined() : 檢查某的巨集定義是否被定義了，通常與 #if 合用，像是 #if defined(OS) ...</p>
+<pre><code>    #error : 在編譯時，輸出錯誤訊息，警告使用者某些錯誤，並且不會真的進行編譯，在巨集處理階段就會停止。
+
+    #warning:在編譯時，輸出警告訊息，警告使用者某些注意事項，但是不會中止編譯，仍然會繼續編譯出目的檔。
+
+    #pragma: 用來告知編譯器某些特殊指示，例如不要輸出錯誤訊息，抑制警告訊息，或者加上記憶體漏洞檢查機制等。
+</code></pre><p>雖然 #error 與 #warning 後的訊息並不需要加上字串式的引號，但是建議最好還是加上，以避免特殊符號所產生的一些問題，導致巨集處理器的誤解。以下是這兩種狀況。</p>
+<p>不好：#warning Do not use ABC, which is deprecated. Use XYZ instead.</p>
+<p>較好：#warning &quot;Do not use ABC, which is deprecated. Use XYZ instead.&quot;</p>
+<p><strong>程式範例</strong></p>
+<p>檔案：macroFunc.c</p>
+<pre><code class="lang-C">    #include &lt;stdio.h&gt;
+
+    #if !defined( HELLO_MESSAGE )
+       # error &quot;You have forgotten to define the header file name.&quot;
+    #endif
+
+    char *format = &quot;%s&quot;,
+         *hello = HELLO_MESSAGE;
+
+    int main() {
+
+      printf ( format, hello );
+
+    }
+</code></pre>
+<p><strong>執行結果</strong></p>
+<pre><code>    D:\cp&gt;gcc macroFunc.c -o macroFunc
+    macroFunc.c:4:6: #error &quot;You have forgotten to define the header file name.&quot;
+    macroFunc.c:8: error: `HELLO_MESSAGE&#39; undeclared here (not in a function)
+
+    D:\cp&gt;gcc -DHELLO_MESSAGE=\&quot;Hello!\&quot; macroFunc.c -o macroFunc
+
+    D:\cp&gt;macroFunc
+    Hello!
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

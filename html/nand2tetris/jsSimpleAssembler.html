@@ -1,0 +1,139 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nand2tetris -- 動手設計電腦的軟硬體 >>  簡易組繹程式 (JavaScript)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">Nand2tetris -- 動手設計電腦的軟硬體</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">課程</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 布林邏輯</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 算術電路</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 記憶電路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 組合語言</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 計算機結構</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 組譯器</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 虛擬機 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter8.html" class="pure-menu-link">8. 虛擬機 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter9.html" class="pure-menu-link">9. 高階語言</a></li>
+<li class="pure-menu-item"><a href="chapter10.html" class="pure-menu-link">10. 編譯器 (1)</a></li>
+<li class="pure-menu-item"><a href="chapter11.html" class="pure-menu-link">11. 編譯器 (2)</a></li>
+<li class="pure-menu-item"><a href="chapter12.html" class="pure-menu-link">12. 作業系統</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">補充</a></li>
+<li class="pure-menu-item"><a href="bookSlide.html" class="pure-menu-link">補充投影片</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-javascript-">簡易組繹程式 (JavaScript)</h1>
+<p>檔案： as1.js</p>
+<pre><code class="lang-javascript">var c = console;
+
+var dtable = {
+  &quot;&quot;   :&quot;000&quot;,
+  &quot;M&quot;  :&quot;001&quot;,
+  &quot;D&quot;  :&quot;010&quot;,
+  &quot;MD&quot; :&quot;011&quot;,
+  &quot;A&quot;  :&quot;100&quot;,
+  &quot;AM&quot; :&quot;101&quot;,
+  &quot;AD&quot; :&quot;110&quot;,
+  &quot;AMD&quot;:&quot;111&quot;
+}
+
+var jtable = {
+  &quot;&quot;   :&quot;000&quot;,
+  &quot;JGT&quot;:&quot;001&quot;,
+  &quot;JEQ&quot;:&quot;010&quot;,
+  &quot;JGE&quot;:&quot;011&quot;,
+  &quot;JLT&quot;:&quot;100&quot;,
+  &quot;JNE&quot;:&quot;101&quot;,
+  &quot;JLE&quot;:&quot;110&quot;,
+  &quot;JMP&quot;:&quot;111&quot;
+}
+
+var ctable = {
+  &quot;0&quot;   :&quot;0101010&quot;,
+  &quot;1&quot;   :&quot;0111111&quot;,
+  &quot;-1&quot;  :&quot;0111010&quot;,
+  &quot;D&quot;   :&quot;0001100&quot;,
+  &quot;A&quot;   :&quot;0110000&quot;, 
+  &quot;M&quot;   :&quot;1110000&quot;,
+  &quot;!D&quot;  :&quot;0001101&quot;,
+  &quot;!A&quot;  :&quot;0110001&quot;, 
+  &quot;!M&quot;  :&quot;1110001&quot;,
+  &quot;-D&quot;  :&quot;0001111&quot;,
+  &quot;-A&quot;  :&quot;0110011&quot;,
+  &quot;-M&quot;  :&quot;1110011&quot;,
+  &quot;D+1&quot; :&quot;0011111&quot;,
+  &quot;A+1&quot; :&quot;0110111&quot;,
+  &quot;M+1&quot; :&quot;1110111&quot;,
+  &quot;D-1&quot; :&quot;0001110&quot;,
+  &quot;A-1&quot; :&quot;0110010&quot;,
+  &quot;M-1&quot; :&quot;1110010&quot;,
+  &quot;D+A&quot; :&quot;0000010&quot;,
+  &quot;D+M&quot; :&quot;1000010&quot;,
+  &quot;D-A&quot; :&quot;0010011&quot;,
+  &quot;D-M&quot; :&quot;1010011&quot;,
+  &quot;A-D&quot; :&quot;0000111&quot;,
+  &quot;M-D&quot; :&quot;1000111&quot;,
+  &quot;D&amp;A&quot; :&quot;0000000&quot;,
+  &quot;D&amp;M&quot; :&quot;1000000&quot;,
+  &quot;D|A&quot; :&quot;0010101&quot;,
+  &quot;D|M&quot; :&quot;1010101&quot;
+}
+
+function toCode(line) {
+    var parts=line.split(&quot;=&quot;);
+    var d = parts[0], comp = parts[1];
+    c.log(&quot;d=&quot;, d, &quot; comp=&quot;,  comp);
+    var dcode = dtable[d];
+    var ccode = ctable[comp];
+    c.log(&quot;dcode=&quot;, dcode, &quot; ccode=&quot;,  ccode);
+    return &quot;111&quot;+ccode+dcode+&quot;000&quot;;
+}
+
+var dcode = dtable[&#39;AMD&#39;];
+c.log(&quot;dcode:&quot;, dcode, &quot; bin:&quot;, dcode.toString(2));
+
+var code = toCode(&quot;D=A&quot;);
+c.log(&quot;code=&quot;, code);
+</code></pre>
+<p>執行</p>
+<pre><code>NQU-192-168-60-101:js csienqu$ node as1
+dcode: 111  bin: 111
+d= D  comp= A
+dcode= 010  ccode= 0110000
+code= 1110110000010000
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

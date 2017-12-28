@@ -1,0 +1,119 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 JavaScript 設計網站 >>  第 6 章 - Koa 伺服端框架</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">用 JavaScript 設計網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="html.html" class="pure-menu-link">2. HTML</a></li>
+<li class="pure-menu-item"><a href="css.html" class="pure-menu-link">3. CSS</a></li>
+<li class="pure-menu-item"><a href="javascript.html" class="pure-menu-link">4. JavaScript</a></li>
+<li class="pure-menu-item"><a href="frontend.html" class="pure-menu-link">5. 前端網頁</a></li>
+<li class="pure-menu-item"><a href="template.html" class="pure-menu-link">6. 樣版引擎</a></li>
+<li class="pure-menu-item"><a href="backend.html" class="pure-menu-link">7. 後端 Server</a></li>
+<li class="pure-menu-item"><a href="communication.html" class="pure-menu-link">8. 前後端通訊</a></li>
+<li class="pure-menu-item"><a href="project.html" class="pure-menu-link">9. 完整專案</a></li>
+<li class="pure-menu-item"><a href="online.html" class="pure-menu-link">10. 上線營運</a></li>
+<li class="pure-menu-item"><a href="running.html" class="pure-menu-link">11. 網站維護</a></li>
+<li class="pure-menu-item"><a href="framework.html" class="pure-menu-link">12. 進階框架</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">附錄</a></li>
+<li class="pure-menu-item"><a href="nginx.html" class="pure-menu-link">a. Nginx 的用途</a></li>
+<li class="pure-menu-item"><a href="digitalocean.html" class="pure-menu-link">b. Digital Ocean</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-6-koa-">第 6 章 - Koa 伺服端框架</h1>
+<h2 id="static-server">static server</h2>
+<p>檔案： koaStatic.js</p>
+<pre><code class="lang-js">const serve = require(&#39;koa-static&#39;);
+const Koa = require(&#39;koa&#39;);
+const app = new Koa();
+
+app.use(serve(&#39;.&#39;));
+
+app.listen(3000);
+
+console.log(&#39;listening on port 3000&#39;);
+</code></pre>
+<p>在該檔案的資料夾下放入 hello.html 如下</p>
+<pre><code>&lt;html&gt;
+&lt;body&gt;
+hello, 妳好！
+&lt;a href=&quot;http://tw.yahoo.com&quot;&gt;yahoo!&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>執行： </p>
+<pre><code>$ node koaStatic.js
+listening on port 3000
+</code></pre><p>然後在瀏覽器中檢視 <a href="http://localhost:3000/hello.html">http://localhost:3000/hello.html</a> 你會看到該檔案。</p>
+<h2 id="introduction">introduction</h2>
+<p>在 Node.js 當中，目前最常被使用的 server 端框架應該是 Express.js ，但是我最喜歡的是 Koa.js 。</p>
+<p>Express.js 是比較早出來的 Node.js 伺服端框架，因此使用者比較多，但是自從 JavaScript 新標準 ECMAScript 6.0 出來之後，提出了新的 yield/Generator 語法，於是 Express.js 的創建者決定運用這種語法創造一個新的框架替代 Express.js ，這個新框架就是 Koa.js 。</p>
+<p>所以、Koa 基本上就是支援 yield/Generator/async/await 語法的 Express.js ，但是由於 Koa 是 2015 年才出現的框架，因此還是有很多人持續使用著 Express.js 。</p>
+<p>要學習 Koa 框架，最好的辦法就是直接去看 Koa 官方專案的範例，透過範例來學習 Koa 框架我認為是最快的方式。</p>
+<p>Koa 的官方網站上有十幾個經典範例，您可以從下列網址查看這些範例。</p>
+<ul>
+<li><a href="https://github.com/koajs/examples/">https://github.com/koajs/examples/</a></li>
+</ul>
+<p>如果想了解 koa2 的 async/await 到底是怎麼實做出來的，可以參考下列文章：</p>
+<ul>
+<li><a href="https://noootown.wordpress.com/2016/11/13/callback-promise-fetch-yield-async-await/">callback, promise, fetch, yield, async/await 發展簡易介紹</a></li>
+<li><a href="https://www.zhihu.com/question/39571954">ES next中async/await proposal实现原理是什么？</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/05/async.html">async 函数的含义和用法</a></li>
+<li><a href="http://3dobe.com/archives/252/">理解 Javascript 的 async await</a></li>
+<li>標準： <a href="https://tc39.github.io/ecmascript-asyncawait/">Async Functions</a></li>
+</ul>
+<h2 id="koa-2">Koa@2</h2>
+<p>Koa@2 支援了 async/await 的 ES2017 語法，現在應該也有不少人開始採用了，想使用請參考下列文章：</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/6b816c609669">「新手向」koa2从起步到填坑</a></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/001471087582981d6c0ea265bf241b59a04fa6f61d767f6000">创建koa2工程</a></li>
+</ul>
+<p>Learn Koa2 from examples of f6 prject. </p>
+<ul>
+<li><a href="https://github.com/ccckmit/f6">Koa2 f6 project</a></li>
+</ul>
+<h2 id="-">習題</h2>
+<ol>
+<li>請用 koa 寫一個靜態檔案伺服器 (參考 koaStream.js 範例)</li>
+<li>Koa 官網中 koa-blog 範例的資料由於儲存在記憶體中，因此電腦一旦關機之後，資料就會消失。因此請您修改該專案，改將資料儲存在 mongodb 當中，這樣資料就可以永久儲存了！</li>
+</ol>
+<h2 id="reference">reference</h2>
+<ul>
+<li><a href="koa1.html">Koa 1 舊版</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

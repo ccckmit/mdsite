@@ -1,0 +1,76 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Bookdown 使用手冊 >>  MarkDown Object (MDO)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link"> Bookdown 使用手冊</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="markdown.html" class="pure-menu-link">語法</a></li>
+<li class="pure-menu-item"><a href="table.html" class="pure-menu-link">表格</a></li>
+<li class="pure-menu-item"><a href="math.html" class="pure-menu-link">數學</a></li>
+<li class="pure-menu-item"><a href="mdo.html" class="pure-menu-link">物件</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="markdown-object-mdo-">MarkDown Object (MDO)</h1>
+<p>Markdown has no object like JSON, so we extend it with an Markdown Object Format (MDO).</p>
+<p>Chinese:</p>
+<h1 id="-markdown-object-mdo-">物件 (MarkDown Object, MDO)</h1>
+<p>Markdown 當中沒有表達像 JSON 一樣的物件機制，因此不能表達階層性的東西。</p>
+<p>雖然 Bookdown 裏允許大家直接撰寫 JSON 檔案，但是 JSON 檔案表達《表格類》物件時，每筆紀錄都要寫欄位名稱，會變得很囉唆！</p>
+<p>因此我們對 Markdown 語法進行延伸，加入了 mdo (MarkDown Object) 這種結構，這個結構有點類似 JSON，但是簡化了不少，而且可以加入 markdown 表格在欄位當中，讓您能用精簡的語法輕易地表達物件。</p>
+<p>以下是一個 Markdown Object (mdo) 的範例：</p>
+<pre><code class="lang-mdo">type:book
+title:Markdown 寫作手冊
+editor:ccc
+coeditor: [&quot;snoopy&quot;, &quot;garfield&quot;]
+keywords: [
+  &quot;markdown&quot;,
+  &quot;bookdown&quot;,
+  &quot;電子出版&quot;
+]
+table_of_contents:
+title    | link
+---------|---------
+前言     | README.md
+基本語法 | markdown.md
+表格     | table.md
+數學式   | math.md
+物件     | object.md
+</code></pre>
+<p>基本上 mdo 物件都採用《欄位：內容》的方式撰寫，欄位一定是在行首，欄位後面跟的值可以有多行，這些值可以是《JSON 物件、表格或字串》，若不是物件或表格，就會被認為是單純的字串。</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

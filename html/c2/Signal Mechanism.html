@@ -1,0 +1,102 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >>  訊號機制 -- (signal) 攔截中斷訊號的處理機制</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="-signal-">訊號機制 -- (signal) 攔截中斷訊號的處理機制</h2>
+<p><strong>程式範例</strong></p>
+<pre><code class="lang-C">    #include &lt;signal.h&gt;
+    #include &lt;stdio.h&gt;
+    #include &lt;windows.h&gt;
+
+    void sigdump(int sig) {
+        printf(&quot;catch a signal:%d\n&quot;, sig);
+    }
+
+    int main(int argc, void *argv[]) {
+        signal(SIGABRT, &amp;sigdump);    // Process abort signal.
+        signal(SIGFPE, &amp;sigdump);    // Erroneous arithmetic operation.
+        signal(SIGILL, &amp;sigdump);    // Illegal instruction.
+        signal(SIGINT, &amp;sigdump);    // Terminal interrupt signal. Ctrl-C
+        signal(SIGSEGV, &amp;sigdump);    // Invalid memory reference.
+        signal(SIGTERM, &amp;sigdump);    // Termination signal.
+        int a=7, b=0, result;
+        if (strcmp(argv[1], &quot;FPE&quot;)==0)
+          result = a/b;
+        else if (strcmp(argv[1], &quot;SEGV&quot;)==0) {
+          * (int*) (10000) = 1;
+        }
+        Sleep(1000*10);
+        return 0;
+    }
+</code></pre>
+<p><strong>執行結果</strong></p>
+<pre><code>    D:\cp&gt;gcc signal.c -o signal
+
+    D:\cp&gt;signal FPE
+    catch a signal:8
+
+    D:\cp&gt;signal SEGV
+    catch a signal:11
+
+    D:\cp&gt;signal
+    catch a signal:11
+
+    D:\cp&gt;signal X     // 執行後請在 10 秒鐘內按下 Ctrl-C，就會出現 catch a signal:2 的訊息
+    catch a signal:2
+</code></pre><p><strong>來自 jserv 的建議</strong></p>
+<pre><code>    =&gt; 這個案例不好，第一個因為 &lt;windows.h&gt;，另外沒有闡述 UNIX signal 和 Windows 對於 POSIX 的支援狀況
+</code></pre><p><strong>參考文獻</strong></p>
+<ul>
+<li>C语言编程技巧-signal(信号), 2008-12-08 来源：网络 -- <a href="http://www.uml.org.cn/c++/200812083.asp">http://www.uml.org.cn/c++/200812083.asp</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

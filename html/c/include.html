@@ -1,0 +1,120 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專為中學生寫的 C 語言程式書 >>  引用檔</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">專為中學生寫的 C 語言程式書</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">基礎語法</a></li>
+<li class="pure-menu-item"><a href="function.html" class="pure-menu-link">函數</a></li>
+<li class="pure-menu-item"><a href="array.html" class="pure-menu-link">陣列</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="parameter.html" class="pure-menu-link">參數傳遞</a></li>
+<li class="pure-menu-item"><a href="include.html" class="pure-menu-link">引用檔</a></li>
+<li class="pure-menu-item"><a href="module.html" class="pure-menu-link">模組化</a></li>
+<li class="pure-menu-item"><a href="callback.html" class="pure-menu-link">回呼</a></li>
+<li class="pure-menu-item"><a href="recursive.html" class="pure-menu-link">遞迴</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">範例：翻譯系統</a></li>
+<li class="pure-menu-item"><a href="advance.html" class="pure-menu-link">進階主題</a></li>
+<li class="pure-menu-item"><a href="exam.html" class="pure-menu-link">習題</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">引用檔</h1>
+<p>檔案：matrix.h</p>
+<pre><code class="lang-CPP">#define matrixAdd(A, B, M, rows, cols) add(A, B, M, rows*cols)
+
+void matrixPrint(char *name, double *M, int rows, int cols);
+void add(double *A, double *B, double *M, int size);
+</code></pre>
+<p>檔案：matrix.c</p>
+<pre><code class="lang-CPP">#include &lt;stdio.h&gt;
+#include &quot;matrix.h&quot;
+
+void matrixPrint(char *name, double *M, int rows, int cols) {
+    int i, j;
+    if (name != NULL)
+        printf(&quot;================= %s ====================\n&quot;, name);
+    for(i = 0; i &lt; rows; i++) {
+        for(j = 0; j &lt; cols; j++) {
+            printf(&quot;%4.1f &quot;, M[i*cols+j]);
+        }
+        printf(&quot;\n&quot;);        
+    }
+}
+
+void add(double *A, double *B, double *M, int size) {
+    int i;
+    for(i = 0 ; i &lt; size ; i++)
+        M[i] = A[i] + B[i];
+}
+</code></pre>
+<p>檔案：main.c</p>
+<pre><code class="lang-CPP">#include &lt;stdio.h&gt;
+#include &quot;matrix.h&quot;
+
+int main() {
+    double X[4][3] = { {1, 2, 3}, {1, 2, 3}, {1, 2, 3}, {1, 2, 3} };
+    double Y[4][3] = { {1, 1, 1}, {1, 1, 1}, {1, 1, 1}, {1, 1, 1} };
+    double Z[4][3];
+    double *x = X[0], *y = Y[0], *z = Z[0];
+
+    matrixAdd(x, y, z, 4, 3);
+    matrixPrint(&quot;X&quot;, x, 4, 3);
+    matrixPrint(&quot;Y&quot;, y, 4, 3);
+    matrixPrint(&quot;Z&quot;, z, 4, 3);
+
+    double A[2][2] = { {1, 2}, {3, 4} };
+    double B[2][2] = { {1, 1}, {1, 1} };
+    double C[2][2];
+    double *a = A[0], *b = B[0], *c = C[0];
+
+    matrixAdd(a, b, c, 2, 2);
+    matrixPrint(&quot;A&quot;, a, 2, 2);
+    matrixPrint(&quot;B&quot;, b, 2, 2);
+    matrixPrint(&quot;C&quot;, c, 2, 2);
+}
+</code></pre>
+<p>然後用下列指令編譯並執行 (其中的 -c 參數用來告訴編譯器只要編譯成目的檔就好，不需要進一步連結成執行檔)。</p>
+<pre><code>$ gcc -c matrix.c -o matrix.o
+
+$ gcc main.c matrix.o -o main
+
+$ main
+</code></pre></div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

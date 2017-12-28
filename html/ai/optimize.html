@@ -1,0 +1,80 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  優化的方法</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-">優化的方法</h1>
+<h2 id="-">簡介</h2>
+<p>在人工智慧領域，很多問題最後都可以化為「優化」(最佳化, optimize) 問題。</p>
+<p>舉例而言，假如我們想寫個程式計算 a 的平方根，那麼可以寫程式找到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∣</mi><mo>(</mo><msup><mi>x</mi><mn>2</mn></msup><mo>−</mo><mi>a</mi><mo>)</mo><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">|(x^2-a)|</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8141079999999999em;"></span><span class="strut bottom" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathrm">∣</span><span class="mopen">(</span><span class="mord"><span class="mord mathit">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathrm mtight">2</span></span></span></span></span></span></span></span><span class="mbin">−</span><span class="mord mathit">a</span><span class="mclose">)</span><span class="mord mathrm">∣</span></span></span></span> 最小值所在的 x，即可找到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>=</mo><msqrt><mrow><mi>a</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">x=\sqrt{a}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.8002800000000001em;"></span><span class="strut bottom" style="height:1.04em;vertical-align:-0.23972em;"></span><span class="base"><span class="mord mathit">x</span><span class="mrel">=</span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist svg-align" style="height:0.8002800000000001em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathit">a</span></span></span><span style="top:-2.76028em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1em;"><svg width='400em' height='1em' viewBox='0 0 400000 1000' preserveAspectRatio='xMinYMin slice'><path d='M95 622c-2.667 0-7.167-2.667-13.5
+-8S72 604 72 600c0-2 .333-3.333 1-4 1.333-2.667 23.833-20.667 67.5-54s
+65.833-50.333 66.5-51c1.333-1.333 3-2 5-2 4.667 0 8.667 3.333 12 10l173
+378c.667 0 35.333-71 104-213s137.5-285 206.5-429S812 17.333 812 14c5.333
+-9.333 12-14 20-14h399166v40H845.272L620 507 385 993c-2.667 4.667-9 7-19
+7-6 0-10-1-12-3L160 575l-65 47zM834 0h399166v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.23972em;"></span></span></span></span></span></span></span> 的解答。</p>
+<p>同樣的，開三次、四次方根，也可以如法泡製，而如果我們要求解聯立方程式的解答，也就是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi><mover accent="true"><mrow><mi>x</mi></mrow><mo>⃗</mo></mover><mo>=</mo><mover accent="true"><mrow><mi>b</mi></mrow><mo>⃗</mo></mover></mrow><annotation encoding="application/x-tex">A \vec{x}=\vec{b}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.9778799999999999em;"></span><span class="strut bottom" style="height:0.9778799999999999em;vertical-align:0em;"></span><span class="base"><span class="mord mathit">A</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit">x</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.05556em;"><span>⃗</span></span></span></span></span></span></span><span class="mrel">=</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9778799999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit">b</span></span></span><span style="top:-3.26344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0em;"><span>⃗</span></span></span></span></span></span></span></span></span></span> 當中的 x 值，也同樣可以用優化的方式尋找，只要寫程式尋找 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi><mover accent="true"><mrow><mi>b</mi></mrow><mo>⃗</mo></mover><mo>−</mo><mi>A</mi><mover accent="true"><mrow><mi>x</mi></mrow><mo>⃗</mo></mover><mi mathvariant="normal">∣</mi><mi mathvariant="normal">∣</mi></mrow><annotation encoding="application/x-tex">||\vec{b}-A \vec{x}||</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.9778799999999999em;"></span><span class="strut bottom" style="height:1.2278799999999999em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathrm">∣</span><span class="mord mathrm">∣</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9778799999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit">b</span></span></span><span style="top:-3.26344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0em;"><span>⃗</span></span></span></span></span></span></span><span class="mbin">−</span><span class="mord mathit">A</span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.71444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathit">x</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body accent-vec" style="margin-left:0.05556em;"><span>⃗</span></span></span></span></span></span></span><span class="mord mathrm">∣</span><span class="mord mathrm">∣</span></span></span></span> 的最小值，當這個最小值是零的時候，我們就找到該聯立方程式的解答了。</p>
+<p>另外、對於一些看來不像優化問題的領域，最後經常也可以化為優化問題。舉例而言，假如我們要寫一個下五子棋的程式，其實是在尋找一個對局論上的優化解答，而破解密碼也可以視為在尋找讓「祕文」還原成「人類可讀懂」文字的一個優化過程。</p>
+<p>「影像辨識」可以視為「影像與現實世界比對結果」的一個優化過程，「語音辨識」則是將「語音解碼為文字」的一個優化過程。而機器人的控制則是尋找一個分數最高的動作來執行，這也是個優化過程。</p>
+<p>在優化問題上，目前常見的演算法大致可分為兩類，一類屬於單粒子型的演算法，像是『爬山演算法』與『模擬退火法』等，另一類屬於多粒子型的演算法，像是『遺傳演算法』、『粒子群演算法』與『蟻群演算法』等。</p>
+<p>單粒子型的演算法通常較為簡單快速，但是對於具有多個山谷的的最小化問題，或多個山峰的最大化問題而言，很容易落入較差的區域，而多粒子型的演算法，由於粒子分散，相對而言較容易找到好的區域，但是其計算時間通常較長，實作也較為複雜。</p>
+<h2 id="-">單粒子優化算法</h2>
+<p>爬山演算法 (Hill-Climbing，HC) 是廣為人知的一種基礎性演算法，具有簡單且快速的優點，但此方法落入區域最佳解後，就無法跳出，因而難以找到更好的解。</p>
+<p>這是因為爬山演算法只尋找鄰近的點進行比較，而且不允許向較差的方向行走，這使得爬山演算法會落入山谷區(在最小化問題上)或山峰區 (在最大化問題上) 而無法跳出。這使得爬山演算法在較為複雜非線性規劃問題上，很容易陷落到較差的區域，難以找到全域最佳解。</p>
+<p>模擬退火法 (Simulated annealing)  改進了爬山演算法的部分缺點，採用以溫度調控的機率特性，讓爬山演算法有機會跳脫較差的區域，因而找到更好的解。但是，當較好的區域距離目前所在地區較遠時，模擬退火演算法通常難以逆向爬升脫離較大的山谷。</p>
+<h3 id="-">多粒子的隨機演算法</h3>
+<p>為了克服單粒子隨機演算法的缺點，許多論文嘗試使用多粒子的隨機演算法，這些演算法後來被統稱為群體演算法 (Swarm Optimization Method) 像是進化演算法(Evolutionary algorithm)、粒子群優化(Particle Swarm Optimization) 等演算法，以解決複雜型的非線性規畫問題。</p>
+<h2 id="-">輔助策略</h2>
+<p>對於某些較複雜的非線性規畫問題而言，直接對問題進行最佳化可能會遇到某些困境，此時可以進一步採用『增廣式拉格朗日算法』 (Augmented Lagrangian Method，ALM)，將非線性規畫問題轉化為對偶性的最大化-最小化 (Min-Max) 問題，以幫助這些方法能找到較好的解，像是 Co-PSO 與 Co-Evolutionary 等方法，就使用了ALM 的轉化方式。</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人工智慧 -- 使用 JavaScript 實作 >>  MCMC 蒙地卡羅馬可夫演算法</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">人工智慧 -- 使用 JavaScript 實作</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">序言</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="chapter1.html" class="pure-menu-link">1. 基礎</a></li>
+<li class="pure-menu-item"><a href="chapter2.html" class="pure-menu-link">2. 爬山算法</a></li>
+<li class="pure-menu-item"><a href="chapter3.html" class="pure-menu-link">3. 神經網路</a></li>
+<li class="pure-menu-item"><a href="chapter4.html" class="pure-menu-link">4. 圖形搜尋</a></li>
+<li class="pure-menu-item"><a href="chapter5.html" class="pure-menu-link">5. 電腦下棋</a></li>
+<li class="pure-menu-item"><a href="chapter6.html" class="pure-menu-link">6. 邏輯推論</a></li>
+<li class="pure-menu-item"><a href="chapter7.html" class="pure-menu-link">7. 機器學習</a></li>
+<li class="pure-menu-item"><a href="linguistics.html" class="pure-menu-link">8. 語言處理</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">9. 影像處理</a></li>
+<li class="pure-menu-item"><a href="conclusion.html" class="pure-menu-link">結語</a></li>
+<li class="pure-menu-item"><a href="../ccc/license.html" class="pure-menu-link">授權聲明</a></li>
+<li class="pure-menu-item"><a href="reference.html" class="pure-menu-link">參考文獻</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="mcmc-">MCMC 蒙地卡羅馬可夫演算法</h1>
+<h2 id="-">馬可夫系統</h2>
+<h3 id="-">馬可夫系統的範例</h3>
+<p>對於一個具有「馬可夫特性」的「機率式有限狀態機」，我們可以用「機率轉移矩陣」進行描述，舉例而言：下圖顯示了一個只有兩個狀態的「馬可夫隨機系統」。</p>
+<p><img src="../img/markov2state.jpg" alt="圖、一個只有兩個狀態的馬可夫隨機系統"></p>
+<p>在這樣的系統當中，我們若想要尋找他的穩定狀態，也就是 P(s0)=?, P(s1)=? 才能讓整個系統達到平衡的問題，我們可以採用「蒙地卡羅」 (Monte Carlo) 演算法，而採用「蒙地卡羅」型態的演算法解決馬可夫鏈問題，就稱為 MCMC (Monte Carlo Markov Chain)。</p>
+<p>對於上述有「馬可夫隨機系統」，我們可以用「二元一次聯立方程式」求解 P(s0) 與 P(s1)，假如我們將 P(s0) 寫為 P0，P(s1) 寫為 P1，那麼整個系統達到平衡時，應該會有下列狀況。</p>
+<pre><code>P0*0.3 = P1*0.5 ; P0 的流出量 = P0 的流入量
+P0+P1 = 1       ; 狀態不是 s0 就是 s1
+</code></pre><p>如果我們求解上述方程式，就可以得到 (P0=5/8, P1=3/8)，此時整個系統會達到平衡。</p>
+<h3 id="-">馬可夫系統的平衡</h3>
+<p>假如我們模擬機率性粒子在馬可夫鏈中的移動行為，最後這些移動將達到一個平衡。在達到平衡後，從 x 狀態流出去的粒子數，將會等於流回該狀態的粒子數，也就是必須滿足下列『平衡條件』的要求。</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mo>∑</mo><mi>y</mi></msub><mi>P</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>x</mi><mo>=</mo><mo>&gt;</mo><mi>y</mi><mo>)</mo><mo>=</mo><msub><mo>∑</mo><mi>y</mi></msub><mi>P</mi><mo>(</mo><mi>y</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>y</mi><mo>=</mo><mo>&gt;</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\sum_y P(x) P(x =&gt; y)  = \sum_y P(y) P(y =&gt; x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.185818em;vertical-align:-0.43581800000000004em;"></span><span class="base"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.0016819999999999613em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"></span></span></span></span></span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mrel">=</span><span class="mrel">&gt;</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mrel">=</span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.0016819999999999613em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"></span></span></span></span></span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mrel">=</span><span class="mrel">&gt;</span><span class="mord mathit">x</span><span class="mclose">)</span></span></span></span></p>
+<p>當隨機的粒子移動時，如果從 x 流出的粒子較多，自然會讓 P(x) 下降，最後仍然達到平衡，如果流入 x 的粒子比流出的多，那麼 P(x) 自然就會上升，只要我們能模擬流出流入的程序，最後整個馬可夫系統將會達到平衡。</p>
+<h2 id="gibbs-">Gibbs 演算法</h2>
+<h3 id="gibbs-">Gibbs 演算法的程式範例</h3>
+<p>現在、我們希望用 Gibbs 演算法來尋找上述問題的穩態，一開始我們可以隨意設定一個初始的隨機分布，例如 (P0, P1) = (0.5, 0.5)。</p>
+<p>接著我們就可以用疊代的方法，計算該系統的穩態，以下的 JavaScript 程式就模擬了這種過程。</p>
+<p>檔案： gibbs.js</p>
+<pre><code class="lang-javascript">// Gibbs Algorithm 的範例
+// 問題：機率式有限狀態機，P(s0=&gt;s1)=0.3, P(s1=&gt;s0)=0.5 ; P(s0=&gt;s0)=0.7, P(s1=&gt;s1)=0.5
+// 目標：尋找該「機率式有限狀態機」的穩態，也就是 P(s0) = ?, P(s1)=? 時系統會達到平衡。
+
+function rand(a, b) {
+  return (b-a)*Math.random() + a;
+}
+
+function gibbs() {
+  var p = [ 0.5, 0.5 ]; // 初始機率分佈，隨意設定。
+  do {
+    console.log(&quot;p = %j&quot;, p);
+    var pn = [ p[0]*0.7+p[1]*0.5, p[0]*0.3+p[1]*0.5 ];    // 下一輪的機率分布。
+    var diff = [ pn[0]-p[0], pn[1]-p[1] ];                // 兩輪間的差異。
+    var step = Math.sqrt(diff[0]*diff[0]+diff[1]*diff[1]);// 差異的大小
+    p = pn;
+  } while (step &gt; 0.001);  // 假如差異夠小的時候，就可以停止了。
+  console.log(&quot;5/8=%d 3/8=%d&quot;, 5/8, 3/8); // 印出標準答案，以便看看我們找到的答案是否夠接近。
+}
+
+gibbs();
+</code></pre>
+<p>執行結果：</p>
+<pre><code>D:\Dropbox\Public\web\ml\code\Gibbs&gt;node gibbs
+p = [0.5,0.5]
+p = [0.6,0.4]
+p = [0.62,0.38]
+p = [0.624,0.376]
+p = [0.6248,0.3752]
+5/8=0.625 3/8=0.375
+</code></pre><p>您可以看到上述程式所找到的答案 [0.6248,0.3752] 與我們用「聯立方程式」求出來的答案 [5/8, 3/8] 之間非常接近，這代表上述的 Gibbs 程式可以求出系統的穩態。</p>
+<p>當然、上述的算法只是一個極度簡化的範例，還不能完全代表 Gibbs Algorithm，現在讓我們用比較抽象但通用的講法來說明 Gibbs 演算法。</p>
+<h3 id="gibbs-">Gibbs 演算法的數學描述</h3>
+<p>Gibbs 取樣程序的使用時機是在聯合分布 P(X,Y) 未知，但是單一變數的條件機率 P(X|Y), P(Y|X), P(X), P(Y) 已知的情況。在此種情況下，我們可以利用亂數產生的樣本，統計聯合機率分布。</p>
+<p>該程序首先取得一個分布 Y0 作為初始值，然後利用蒙地卡羅法透過 (X, Y0) 產生 X1 分布，接著再利用 (X1, Y)  產生 Y1 分布。於是我們得到下列這個疊代程序 </p>
+<pre><code>Algorithm GibbsSampling(X, Y)
+　Y[0] = random initialize a distribution
+　for i = 1 to N
+　　generate X[i] from P(X | Y[i-1])
+　　generate Y[i] from P(Y | X[i]) 
+　return {X[N], Y[N]}
+End Algorithm
+</code></pre><p>以上疊代程序是針對兩個隨機變數的情況，假如我們希望延伸到 k 個隨機變數的情況，可以修改演算法如下。</p>
+<pre><code>Algorithm GibbsSampling(X[1...k])
+　X = random initialize a distribution
+　for i = 1 to N
+　　generate X&#39;[1] from X and P(X[1] | X[2], ..., X[k])
+    ...
+　　generate X&#39;[j] from X and P(X[i] | X[1], ..., X[j-1], X[j+1],...,X[k])
+    ...
+　　generate X&#39;[k] from X and P(X[k] | X[1], ..., X[k-1])
+    X = X&#39;
+  end
+　return X
+End Algorithm
+</code></pre><p>Gibbs 取樣程序是『蒙地卡羅馬可夫算法』(MCMC) 的一個案例，也是 Metropolis-Hasting 取樣程序的一個特例，我們可以利用 Gibbs 或 Metropolis-Hasting 取樣程序計算貝氏網路的聯合機率分布。</p>
+<h2 id="metropolis-hasting-">Metropolis-Hasting 演算法</h2>
+<p>「Metropolis-Hasting 演算法」(以下簡稱 MH 算法) 的設計，是建構在「馬可夫系統的細緻平衡條件」之上的，因此在說明「MH 算法」之前，必須先理解「細緻平衡條件」。</p>
+<h3 id="-">馬可夫系統的細緻平衡條件</h3>
+<p>讓我們再度回顧上述那個只有兩個狀態的馬可夫系統，如下圖所示。</p>
+<p><img src="../img/markov2state.jpg" alt="圖、一個只有兩個狀態的馬可夫隨機系統"></p>
+<p>在這個只有兩個狀態的簡單馬可夫系統中，我們曾經利用下列方程式手動計算求取解答。</p>
+<pre><code>P0*0.3 = P1*0.5 ; P0 的流出量 = P0 的流入量
+P0+P1 = 1       ; 狀態不是 s0 就是 s1
+</code></pre><p>上述方程式的第一條，代表狀態 s0&lt;=&gt;s1 這條線的流出量等於流入量，也就是符合下列條件：</p>
+<pre><code>P(s0)*P(s0=&gt;s1) = P(s1)*P(s1=&gt;s0)
+</code></pre><p>假如一個「馬可夫系統」裏的每條線都能達成這樣的平衡，那麼整個系統顯然也是處於一個穩定狀態。</p>
+<p>當我們想學習的是「狀態轉移矩陣」的機率 P(x =&gt; y) 而非 P(x) 時，只依靠 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mo>∑</mo><mi>y</mi></msub><mi>P</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>x</mi><mo>=</mo><mo>&gt;</mo><mi>y</mi><mo>)</mo><mo>=</mo><msub><mo>∑</mo><mi>y</mi></msub><mi>P</mi><mo>(</mo><mi>y</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>y</mi><mo>=</mo><mo>&gt;</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\sum_y P(x) P(x =&gt; y)  = \sum_y P(y) P(y =&gt; x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.185818em;vertical-align:-0.43581800000000004em;"></span><span class="base"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.0016819999999999613em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"></span></span></span></span></span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mrel">=</span><span class="mrel">&gt;</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mrel">=</span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.0016819999999999613em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"></span></span></span></span></span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mrel">=</span><span class="mrel">&gt;</span><span class="mord mathit">x</span><span class="mclose">)</span></span></span></span> 這個平衡條件是不夠的，此時我們可以要求系統符合下列的『細緻平衡條件』。</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>P</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>x</mi><mo>=</mo><mo>&gt;</mo><mi>y</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>y</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>y</mi><mo>=</mo><mo>&gt;</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">P(x) P(x =&gt; y)  = P(y) P(y =&gt; x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1em;vertical-align:-0.25em;"></span><span class="base"><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mrel">=</span><span class="mrel">&gt;</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mord mathit" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mrel">=</span><span class="mrel">&gt;</span><span class="mord mathit">x</span><span class="mclose">)</span></span></span></span></p>
+<p>只要符合細緻平衡條件要求，就能夠利用此一條件設計出學習程序，以便透過反覆的疊代運算找出讓 P(x=&gt;y) 達成平衡的數值，這就是整個 Metropolis-Hasting 程序的想法。</p>
+<h2 id="metropolis-hasting-">Metropolis-Hasting 演算法的設計理念</h2>
+<p>Metropolis-Hasting 演算法 (MH 程序) 是一個不斷調整 P(x=&gt;y) 的演算法，該算法所關注的焦點在於 (x, y) 通道上。</p>
+<p>假如目前 x 的機率過高，而且從 x 流向 y 的粒子較多，那麼就應當讓粒子全部從 x 流向 y，也就是 P(x=&gt;y) 的流量均可順利流出。但是如果從 y 流向 x 的粒子較多時，那麼我們就讓某些粒子卡住，不要流入 x。</p>
+<p>但是究竟要流出多少粒子，卡住多少粒子呢？MH 方法利用下列的 A(x=&gt;y) 比例進行調節，以便能透過堵塞通道 P(y=&gt;x) 的方法，讓系統趨向平衡。</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>A</mi><mo>(</mo><mi>x</mi><mo>=</mo><mo>&gt;</mo><mi>y</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>x</mi><mo>=</mo><mo>&gt;</mo><mi>y</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>y</mi><mo>)</mo><mi>P</mi><mo>(</mo><mi>y</mi><mo>=</mo><mo>&gt;</mo><mi>x</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">A(x=&gt;y) = \frac{P(x) P(x=&gt;y)}{P(y) P(y=&gt;x)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:1.01em;"></span><span class="strut bottom" style="height:1.53em;vertical-align:-0.52em;"></span><span class="base"><span class="mord mathit">A</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mrel">=</span><span class="mrel">&gt;</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span><span class="mclose mtight">)</span><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span><span class="mrel mtight">=</span><span class="mrel mtight">&gt;</span><span class="mord mathit mtight">x</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line hide-tail" style="height:0.04em;"><svg width='400em' height='400em' viewBox='0 0 400000 400000' preserveAspectRatio='xMinYMin slice'><path d='M0 0 h400000 v400000 h-400000z M0 0 h400000 v400000 h-400000z'/></svg></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">x</span><span class="mclose mtight">)</span><span class="mord mathit mtight" style="margin-right:0.13889em;">P</span><span class="mopen mtight">(</span><span class="mord mathit mtight">x</span><span class="mrel mtight">=</span><span class="mrel mtight">&gt;</span><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+<p>因此，Metropolis 設計出了下列通道流量的調整公式，以便用疊代的方式調整狀態轉移機率矩陣 P(x=&gt;y)。</p>
+<p>|$P_{t+1}(x=&gt;y) = \begin{cases} P_t(x=&gt;y) &amp; \;\;\; \text{if x \neq y  , A(x=&gt;y) \geq 1;}\P_t(x=&gt;y) A(x=&gt;y) &amp; \;\;\;\text{if x \neq y , A(x=&gt;y) &lt; 1;}\ P<em>t(x=&gt;y) + \sum</em>{z:A(x=&gt;z) &lt; 1} P_t(x=&gt;z) (1 - A(x=&gt;z)) &amp; \;\;\;\text{if x = y.} \end{cases}$|=&gt; katex error!</p>
+<h3 id="metropolis-hasting-">Metropolis-Hasting 算法</h3>
+<p>在理解了平衡條件與 MH 程序的想法後，我們就可以正式撰寫出 Metropolis-Hasting 程序的演算法。</p>
+<pre><code>Algorithm Metropolis-Hasting(P(S)) output P(S=&gt;S)
+  foreach (x,y) in (S, S)
+    P(x=&gt;y) = 1/|S|
+　while not converge
+　　　foreach (x,y) in (S, S) // 計算 A 矩陣
+　　　　　A(x=&gt;y) = (P(y) P(y=&gt;x)) / (P(x) P(x=&gt;y))
+
+　　　foreach (x,y) in (S, S) // 計算下一代的轉移矩陣 Q
+　　　　　if x = y
+　　　　　　　Q(x=&gt;y) = P(x=&gt;y) + sum { P(x=&gt;z) (1 - A(x=&gt;z)) for all z where A(x=&gt;z) &lt; 1 }
+　　　　　else
+　　　　　　　if A(x=&gt;y) &gt;= 1
+　　　　　　　　Q(x=&gt;y) = P(x=&gt;y)
+　　　　　　　else
+　　　　　　　　Q(x=&gt;y) = P(x=&gt;y) A(x=&gt;y)
+      foreach (x,y) in (S,S) // 將 Q 複製給 P
+  　　　P(x=&gt;y) = Q(x=&gt;y)
+　end while
+End Algorithm
+</code></pre><h3 id="mh-">MH 算法的進一步簡化</h3>
+<p>在上述的 MH 程序中，sum { P(x=&gt;z) (1 - A(x=&gt;z)) for all z where A(x=&gt;z) &lt; 1 }  的計算較為複雜，事實上，這個值就是為了讓 Q(x=&gt;y) 能夠『規一化』的條件，也就是讓 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mo>∑</mo><mi>y</mi></msub><mi>Q</mi><mo>(</mo><mi>x</mi><mo>=</mo><mo>&gt;</mo><mi>y</mi><mo>)</mo><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\sum_y Q(x=&gt;y)=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="strut" style="height:0.75em;"></span><span class="strut bottom" style="height:1.185818em;vertical-align:-0.43581800000000004em;"></span><span class="base"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.0016819999999999613em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathit mtight" style="margin-right:0.03588em;">y</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"></span></span></span></span></span><span class="mord mathit">Q</span><span class="mopen">(</span><span class="mord mathit">x</span><span class="mrel">=</span><span class="mrel">&gt;</span><span class="mord mathit" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mrel">=</span><span class="mord mathrm">1</span></span></span></span> 的差額補償值。因此我們也可以將上述演算法改寫如下。</p>
+<pre><code>Algorithm Metropolis-Hasting(P(S)) output Q(S,S)
+  foreach (x,y) in (S, S)
+    P(x=&gt;y) = 1/|S|
+　while not converge
+　　　foreach (x,y) in (S, S) // 計算 A 矩陣
+　　　　　Q(x=&gt;y) = P(x=&gt;y)
+　　　　　A(x=&gt;y) = (P(y) P(y=&gt;x)) / (P(x) P(x=&gt;y))
+
+　　　foreach (x,y) in (S, S) // 計算下一代的轉移矩陣 Q
+　　　　　if A(x,y) &lt; 1
+　　　　　　　Q(x=&gt;y) = P(x=&gt;y) A(x=&gt;y)
+　　　　　　　Q(x=&gt;x) = Q(x=&gt;x) + P(x=&gt;y) (1-A(x=&gt;y))
+
+      foreach (x,y) in (S,S) // 將 Q 複製給 P
+  　　　P(x=&gt;y) = Q(x=&gt;y)
+　end while
+End Algorithm
+</code></pre><h3 id="mh-">MH 算法的程式範例</h3>
+<p>檔案：metropolis.js</p>
+<pre><code class="lang-javascript">// Metropolis Hasting 的範例
+// 問題：機率式有限狀態機，P(s0)=0.3, P(s1)=0.5
+// 目標：尋找「轉移矩陣」的穩態，也就是 Q(x=&gt;y)=? 時系統會達到平衡。
+
+function rand(a, b) {
+  return (b-a)*Math.random() + a;
+}
+
+function MetropolisHasting() {
+  var P = [ 5.0/8, 3.0/8 ]; // 初始機率分佈，隨意設定。
+  var Q = [ [0.5, 0.5], [0.5, 0.5] ]; // 初始機率分佈，隨意設定。
+  var A = [ [0, 0], [0, 0]];
+  do {
+    console.log(&quot;Q = %j&quot;, Q);
+    var Qn= [ [0,0], [0,0]];
+    for (var x in Q) // 計算 A 矩陣
+      for (var y in Q[x]) {
+        Qn[x][y] = Q[x][y];
+        A[x][y] = (P[y]*Q[y][x]) / (P[x]*Q[x][y]); // 入出比 = 流入/流出
+      }
+
+    console.log(&quot;A = %j&quot;, A);
+    var diff = 0;
+    for (var x in Q) 
+      for (var y in Q[x]) { // 計算下一代 Qn 矩陣
+        if (A[x][y] &lt; 1) {  // 入出比 &lt; 1 ，代表流入太少，流出太多
+          Qn[x][y] = Q[x][y] * A[x][y]; // 降低流出量
+          Qn[x][x] = Qn[x][x]+Q[x][y]*(1-A[x][y]); // 『規一化』調整
+          diff += Math.abs(Qn[x][y]-Q[x][y]); // 計算新舊矩陣差異
+        }
+      }
+    Q = Qn;
+    console.log(&quot;diff = %d&quot;, diff);
+  } while (diff &gt; 0.001);  // 假如差異夠小的時候，就可以停止了。
+}
+
+MetropolisHasting();
+</code></pre>
+<p>執行結果</p>
+<pre><code>D:\Dropbox\Public\web\ml\code\Gibbs&gt;node metropolis.js
+Q = [[0.5,0.5],[0.5,0.5]]
+A = [[1,0.6],[1.6666666666666667,1]]
+diff = 0.2
+Q = [[0.7,0.3],[0.5,0.5]]
+A = [[1,1],[1,1]]
+diff = 0
+</code></pre><p>Metropolis-Hasting 程序可以用來學習具有『細緻平衡』特性的狀態轉移機率 P(x=&gt;y)，一但取得了狀態轉移機率，整個系統的機率行為就確定下來了，透過這樣的程序，我們可以學習到一個馬可夫模型，然後再利用這個模型進行『預測』，以便讓程式的行為模擬該馬可夫系統的行為。Metropolis-Hasting 程序對這些可用隨機系統描述的行為而言，是一個重要的學習程序，因此被廣泛應用在機器翻譯、文件分類、分群或貝氏網路的學習等領域上，這是數學領域在電腦上應用的一個優良方法。</p>
+<h2 id="-">結語</h2>
+<p>在本章中我們看到了兩種「馬可夫模型」的學習方法，Gibbs Algorithm 可以在已知「狀態轉移矩陣」 P(x=&gt;y) 的情況下，學習每個狀態的機率 P(x)。</p>
+<p>而 Metropolis-Hasting 程序則可以在已知每個狀態的機率 P(x) 的情況下，學習「狀態轉移矩陣」 P(x=&gt;y) 的機率值。</p>
+<p>當然、這是在沒有隱變數情況下的學習，如果有隱變數的時候，我們就必須採用「隱馬可夫模型」的學習方法才行。</p>
+<h2 id="-">參考文獻</h2>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Gibbs_sampling">Wikipedia:Gibbs Sampling</a></li>
+<li>3.4 The Gibbs Sampling Algorithm, <a href="http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/ebooks/html/csa/node28.html">http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/ebooks/html/csa/node28.html</a></li>
+<li>Handbook of Computational Statistics - <a href="http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/ebooks/html/csa/csahtml.html">http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/ebooks/html/csa/csahtml.html</a></li>
+</ul>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        作者：陳鍾誠, 授權： CC-BY-SA
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

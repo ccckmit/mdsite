@@ -1,0 +1,233 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>機率統計 -- 使用 R 軟體 >> </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">機率統計 -- 使用 R 軟體</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="prob.html" class="pure-menu-link">2. 機率的概念</a></li>
+<li class="pure-menu-item"><a href="randvar.html" class="pure-menu-link">3. 隨機變數</a></li>
+<li class="pure-menu-item"><a href="distribution.html" class="pure-menu-link">4. 機率分布</a></li>
+<li class="pure-menu-item"><a href="exp.html" class="pure-menu-link">5. 期望值</a></li>
+<li class="pure-menu-item"><a href="joint.html" class="pure-menu-link">6. 聯合分布</a></li>
+<li class="pure-menu-item"><a href="descriptive.html" class="pure-menu-link">7. 敘述統計</a></li>
+<li class="pure-menu-item"><a href="CentralLimit.html" class="pure-menu-link">8. 中央極限定理</a></li>
+<li class="pure-menu-item"><a href="test1.html" class="pure-menu-link">9. 估計與檢定</a></li>
+<li class="pure-menu-item"><a href="test2.html" class="pure-menu-link">10. 再論檢定</a></li>
+<li class="pure-menu-item"><a href="anova.html" class="pure-menu-link">11. 變異數分析</a></li>
+<li class="pure-menu-item"><a href="regression.html" class="pure-menu-link">12. 迴歸分析</a></li>
+<li class="pure-menu-item"><a href="PCA.html" class="pure-menu-link">13. 主成分分析</a></li>
+<li class="pure-menu-item"><a href="discrete.html" class="pure-menu-link">A. 離散分布</a></li>
+<li class="pure-menu-item"><a href="continuous.html" class="pure-menu-link">B. 連續分布</a></li>
+<li class="pure-menu-item"><a href="axiom.html" class="pure-menu-link">C. 機率公理系統</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><table>
+<thead>
+<tr>
+<th>書籍章節</th>
+<th>簡報</th>
+<th>教學影片</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 章. <a href="basic.html">機率統計簡介</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 2 章. <a href="prob.html">機率的概念</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 3 章. <a href="randvar.html">隨機變數</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 4 章. <a href="distribution.html">機率分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 5 章. <a href="exp.html">期望值與動差生成函數</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 6 章. <a href="joint.html">聯合分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 7 章. <a href="descriptive.html">抽樣與敘述統計</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 8 章. <a href="CentralLimit.html">中央極限定理</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 9 章. <a href="test1.html">平均值的估計與檢定</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 10 章. <a href="test2.html">再論估計與檢定</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 11 章. <a href="anova.html">變異數分析</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 12 章. <a href="regression.html">迴歸分析</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第 13 章. <a href="PCA.html">主成分分析與因子分析</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>附錄 A . <a href="discrete.html">離散分布列表</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dBinomial.html">二項分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dMultinom.html">多項分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dNbinomial.html">負二項分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dGenomial.html">幾何分配</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dHypergeometric.html">超幾何分配</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dPoisson.html">布瓦松分配</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>附錄 B . <a href="continuous.html">連續分布列表</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dUniform.html">均勻分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dNormal.html">常態分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dGamma.html">Gamma 分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dExp.html">指數分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dChiSquare.html">卡方分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dCauchy.html">柯西分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dWeibull.html">Weibull</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dT.html">T 分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dF.html">F 分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>─ <a href="dBeta.html">Beta 分布</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>附錄 C . <a href="axioms.html">《初等機率測度》與《Kolmogorov 機率測度》之間的差異！</a></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

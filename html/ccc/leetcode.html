@@ -1,0 +1,90 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陳鍾誠的網站 >>  Leetcode 測驗</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">陳鍾誠的網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">陳鍾誠</a></li>
+<li class="pure-menu-item"><a href="course.html" class="pure-menu-link">課程地圖</a></li>
+<li class="pure-menu-item"><a href="booklist.html" class="pure-menu-link">書籍著作</a></li>
+<li class="pure-menu-item"><a href="codelist.html" class="pure-menu-link">程式作品</a></li>
+<li class="pure-menu-item"><a href="novel.html" class="pure-menu-link">小說故事</a></li>
+<li class="pure-menu-item"><a href="article.html" class="pure-menu-link">散文記事</a></li>
+<li class="pure-menu-item"><a href="paper.html" class="pure-menu-link">論文研究</a></li>
+<li class="pure-menu-item"><a href="slide.html" class="pure-menu-link">十分鐘系列</a></li>
+<li class="pure-menu-item"><a href="license.html" class="pure-menu-link">授權聲明</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="leetcode-">Leetcode 測驗</h1>
+<ul>
+<li><a href="https://leetcode.com/problems/add-two-numbers/?tab=Description">Add Two Numbers</a></li>
+</ul>
+<p>我的解答：</p>
+<pre><code class="lang-javascript">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function(l1, l2) {
+    var l0=new ListNode(0), i0 = l0, carry=0, sum=0;
+    for (var i1=l1, i2=l2; i1 !== null || i2 !== null; ) {
+        sum = (sum-sum%10)/10;
+        if (i1 !== null) {
+            sum += i1.val;
+            i1 = i1.next;
+        }
+        if (i2 !== null) {
+            sum += i2.val;
+            i2 = i2.next;
+        }
+        i0.next = new ListNode(sum % 10);
+        i0 = i0.next;
+    }
+    if (sum &gt;= 10)
+        i0.next = new ListNode(1);
+    return l0.next;
+};
+</code></pre>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

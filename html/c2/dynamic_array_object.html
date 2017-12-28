@@ -1,0 +1,121 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高等 C 語言 >>  以 C 語言實作動態陣列</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">高等 C 語言</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">簡介</a></li>
+<li class="pure-menu-item"><a href="basic.html" class="pure-menu-link">語言基礎</a></li>
+<li class="pure-menu-item"><a href="string.html" class="pure-menu-link">字串處理</a></li>
+<li class="pure-menu-item"><a href="pointer.html" class="pure-menu-link">指標</a></li>
+<li class="pure-menu-item"><a href="structure.html" class="pure-menu-link">結構</a></li>
+<li class="pure-menu-item"><a href="oop.html" class="pure-menu-link">物件導向</a></li>
+<li class="pure-menu-item"><a href="memory.html" class="pure-menu-link">記憶體管理</a></li>
+<li class="pure-menu-item"><a href="file_system.html" class="pure-menu-link">檔案系統</a></li>
+<li class="pure-menu-item"><a href="error_handling.html" class="pure-menu-link">錯誤處理</a></li>
+<li class="pure-menu-item"><a href="macro.html" class="pure-menu-link">巨集處理</a></li>
+<li class="pure-menu-item"><a href="asm.html" class="pure-menu-link">C 與組合語言</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h2 id="-c-">以 C 語言實作動態陣列</h2>
+<p>在 C 語言當中，經常會碰到無法事先決定陣列大小的情況，像是實作某些符號表格時，就很難事先決定陣列大小，此時最好使用動態陣列來取代靜態陣列，這些動態陣列會實作自動長大的功能，如此就解決了無法事先決定陣列大小的問題，以下是筆者對動態陣列的一個實作。</p>
+<p>在以下程式中，我們學習了 Linux 當中以巨集巡迴鏈結串列的方法，模仿後實作出以巨集巡迴動態陣列的方法，也就是 ArrayEach()，這樣的函數可以讓您再陣列元素巡迴時省一點力氣。</p>
+<p>程式範例：動態陣列</p>
+<p><strong>檔案: darray.c</strong></p>
+<pre><code class="lang-c">#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct {
+  int size;    // 陣列目前的上限 
+  int count;   // 陣列目前的元素個數 
+  void **item; // 每個陣列元素的指標
+} Array;       // 動態陣列的資料結構 
+
+void ArrayNew(Array *array, int size) {
+  array-&gt;count = 0;
+  array-&gt;size = size;
+  array-&gt;item = malloc(array-&gt;size*sizeof(void*));
+}
+
+void ArrayAdd(Array *array, void *item) {
+ if (array-&gt;count == array-&gt;size) {
+    int newSize = array-&gt;size*2;
+    void **newItems = malloc(newSize*sizeof(void*));
+    memcpy(newItems, array-&gt;item, array-&gt;size*sizeof(void*));
+    free(array-&gt;item);
+    array-&gt;item = newItems;
+    array-&gt;size = newSize;
+    printf(&quot;Array growing : size = %d\n&quot;, array-&gt;size);
+  }
+  array-&gt;item[array-&gt;count++] = item;
+}
+
+#define ArrayEach(a, i, o) for (i=0, o=(a)-&gt;item[i]; i&lt;(a)-&gt;count; o=(a)-&gt;item[i],i++) 
+
+int main() {
+  char *names[] = { &quot;John&quot;, &quot;Mary&quot;, &quot;George&quot;, &quot;Bob&quot;, &quot;Tony&quot; };
+  int i;
+  Array array;
+  ArrayNew(&amp;array, 1);
+  for (i=0; i&lt;5; i++)
+    ArrayAdd(&amp;array, names[i]);
+  for (i=0; i&lt;array.count; i++)
+    printf(&quot;name[%d]=%s\n&quot;, i, (char*) array.item[i]);
+  void *obj;
+  ArrayEach(&amp;array, i, obj) {
+    printf(&quot;name[%d]=%s\n&quot;, i, (char*) obj);
+  }
+}
+</code></pre>
+<p><strong>執行結果</strong></p>
+<p>D:\cp&gt;gcc darray.c -o darray</p>
+<p>D:\cp&gt;darray
+Array growing : size = 2
+Array growing : size = 4
+Array growing : size = 8
+name[0]=John
+name[1]=Mary
+name[2]=George
+name[3]=Bob
+name[4]=Tony
+name[0]=John
+name[1]=John
+name[2]=Mary
+name[3]=George
+name[4]=Bob</p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

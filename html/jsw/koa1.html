@@ -1,0 +1,896 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 JavaScript 設計網站 >>  第 6 章 - Koa 伺服端框架</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">用 JavaScript 設計網站</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">1. 簡介</a></li>
+<li class="pure-menu-item"><a href="html.html" class="pure-menu-link">2. HTML</a></li>
+<li class="pure-menu-item"><a href="css.html" class="pure-menu-link">3. CSS</a></li>
+<li class="pure-menu-item"><a href="javascript.html" class="pure-menu-link">4. JavaScript</a></li>
+<li class="pure-menu-item"><a href="frontend.html" class="pure-menu-link">5. 前端網頁</a></li>
+<li class="pure-menu-item"><a href="template.html" class="pure-menu-link">6. 樣版引擎</a></li>
+<li class="pure-menu-item"><a href="backend.html" class="pure-menu-link">7. 後端 Server</a></li>
+<li class="pure-menu-item"><a href="communication.html" class="pure-menu-link">8. 前後端通訊</a></li>
+<li class="pure-menu-item"><a href="project.html" class="pure-menu-link">9. 完整專案</a></li>
+<li class="pure-menu-item"><a href="online.html" class="pure-menu-link">10. 上線營運</a></li>
+<li class="pure-menu-item"><a href="running.html" class="pure-menu-link">11. 網站維護</a></li>
+<li class="pure-menu-item"><a href="framework.html" class="pure-menu-link">12. 進階框架</a></li>
+<li class="pure-menu-item"><a href="appendix.html" class="pure-menu-link">附錄</a></li>
+<li class="pure-menu-item"><a href="nginx.html" class="pure-menu-link">a. Nginx 的用途</a></li>
+<li class="pure-menu-item"><a href="digitalocean.html" class="pure-menu-link">b. Digital Ocean</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="-6-koa-">第 6 章 - Koa 伺服端框架</h1>
+<ul>
+<li><a href="koa1.html">Koa 1 舊版</a></li>
+</ul>
+<p>在 Node.js 當中，目前最常被使用的 server 端框架應該是 Express.js ，但是我最喜歡的是 Koa.js 。</p>
+<p>Express.js 是比較早出來的 Node.js 伺服端框架，因此使用者比較多，但是自從 JavaScript 新標準 ECMAScript 6.0 出來之後，提出了新的 yield/Generator 語法，於是 Express.js 的創建者決定運用這種語法創造一個新的框架替代 Express.js ，這個新框架就是 Koa.js 。</p>
+<p>所以、Koa 基本上就是支援 yield/Generator 語法的 Express.js ，但是由於 Koa 是 2015 年才出現的框架，因此還是有很多人持續使用著 Express.js 。</p>
+<p>要學習 Koa 框架，最好的辦法就是直接去看 Koa 官方專案的範例，透過範例來學習 Koa 框架我認為是最快的方式。</p>
+<p>Koa 的官方網站上有十幾個經典範例，您可以從下列網址查看這些範例。</p>
+<ul>
+<li><a href="https://github.com/koajs/examples/">https://github.com/koajs/examples/</a></li>
+</ul>
+<p>如果想了解 koa2 的 async/await 到底是怎麼實做出來的，可以參考下列文章：</p>
+<ul>
+<li><a href="https://noootown.wordpress.com/2016/11/13/callback-promise-fetch-yield-async-await/">callback, promise, fetch, yield, async/await 發展簡易介紹</a></li>
+<li><a href="https://www.zhihu.com/question/39571954">ES next中async/await proposal实现原理是什么？</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/05/async.html">async 函数的含义和用法</a></li>
+<li><a href="http://3dobe.com/archives/252/">理解 Javascript 的 async await</a></li>
+<li>標準： <a href="https://tc39.github.io/ecmascript-asyncawait/">Async Functions</a></li>
+</ul>
+<p>現在、就讓我們挑選其中比較重要的範例，循序漸進的來學習 Koa 這個伺服端框架吧！</p>
+<h2 id="koa-">Koa 範例下載與安裝</h2>
+<p>您可以先安裝 git 之後，用下列指令下載 koa.js 官方範例，然後再開始執行每一個範例。</p>
+<pre><code>$ git clone https://github.com/koajs/examples.git
+$ cd examples
+$ npm install
+</code></pre><p>以下是我在 windows 8 當中執行這些指令的結果：</p>
+<pre><code>D:\jsweb&gt;git clone https://github.com/koajs/examples.git
+Cloning into &#39;examples&#39;...
+remote: Counting objects: 570, done.
+remote: Total 570 (delta 0), reused 0 (delta 0), pack-reused 570
+Receiving objects: 100% (570/570), 92.06 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (253/253), done.
+Checking connectivity... done.
+
+D:\jsweb&gt;cd examples
+
+D:\jsweb\examples&gt;npm install
+npm WARN deprecated jade@0.26.3: Jade has been renamed to pug, please install th
+e latest version of pug instead of jade
+npm WARN deprecated minimatch@0.3.0: Please update to minimatch 3.0.2 or higher
+to avoid a RegExp DoS issue
+koa-examples@0.0.1 D:\jsweb\examples
++-- co@4.6.0
++-- co-body@1.2.0
+| `-- qs@2.3.3
+...
+</code></pre><p>完成之後，您就可以試試這些範例執行後到底會發生甚麼事了！</p>
+<h2 id="koa-hello">Koa 範例 - Hello</h2>
+<p>這是最簡單的 Koa 範例，可以說是 koa 版的 HelloWorld 程式。</p>
+<ul>
+<li>原始碼： <a href="https://github.com/koajs/examples/tree/master/hello-world">https://github.com/koajs/examples/tree/master/hello-world</a></li>
+<li>使用方法：執行 node app 之後看 <a href="http://localhost:3000/">http://localhost:3000/</a></li>
+</ul>
+<p>檔案： app.js</p>
+<pre><code>var koa = require(&#39;koa&#39;);
+var app = module.exports = koa();
+
+app.use(function *(){
+  this.body = &#39;Hello World&#39;;
+});
+
+if (!module.parent) app.listen(3000);
+</code></pre><p>執行方法</p>
+<pre><code>D:\jsweb\examples&gt;cd hello-world
+
+D:\jsweb\examples\hello-world&gt;node app
+</code></pre><p>顯示結果：</p>
+<p><img src="koaHello.png" alt=""></p>
+<h2 id="koa-">Koa 範例 - 檔案回傳</h2>
+<p>這個檔案回傳的範例，基本上就是一個靜態檔案伺服器，因此事很重要的功能，幾乎每個網站都會使用到這樣的功能。</p>
+<ul>
+<li>原始碼： <a href="https://github.com/koajs/examples/tree/master/stream-file">https://github.com/koajs/examples/tree/master/stream-file</a></li>
+<li>使用方法：執行 node app 之後看 <a href="http://localhost:3000/README.md">http://localhost:3000/README.md</a></li>
+</ul>
+<p>檔案： app.js</p>
+<pre><code>var koa = require(&#39;koa&#39;);
+var fs = require(&#39;fs&#39;);
+var app = module.exports = koa();
+var path = require(&#39;path&#39;);
+var extname = path.extname;
+
+// try GET /app.js
+
+app.use(function *() {
+  var path = __dirname + this.path;
+  var fstat = yield stat(path);
+
+  if (fstat.isFile()) {
+    this.type = extname(path);
+    this.body = fs.createReadStream(path);
+  }
+});
+
+if (!module.parent) app.listen(3000);
+
+/**
+ * thunkify stat
+ */
+
+function stat(file) {
+  return function (done) {
+    fs.stat(file, done);
+  };
+}
+</code></pre><p>啟動伺服器</p>
+<pre><code>D:\jsweb\examples&gt;cd stream-file
+
+D:\jsweb\examples\stream-file&gt;dir
+ 磁碟區 D 中的磁碟是 Data
+ 磁碟區序號:  9EBE-C367
+
+ D:\jsweb\examples\stream-file 的目錄
+
+2016/07/08  上午 08:47    &lt;DIR&gt;          .
+2016/07/08  上午 08:47    &lt;DIR&gt;          ..
+2016/07/08  上午 08:47               506 app.js
+2016/07/08  上午 08:47             1,459 README.md
+2016/07/08  上午 08:47               628 test.js
+               3 個檔案           2,593 位元組
+               2 個目錄  112,044,572,672 位元組可用
+
+D:\jsweb\examples\stream-file&gt;node app
+</code></pre><p>執行畫面</p>
+<p><img src="koaStream.png" alt=""></p>
+<p>您可以在該資料夾當中放入自己的檔案，然後打上對應的網址後就可以看到該檔案了。</p>
+<h2 id="koa-">Koa 範例 - 檔案上傳</h2>
+<p>這個範例展示了如何接收瀏覽器傳來的檔案，以及如何用 <code>&lt;input type=&quot;file&quot; ...&gt;</code> 這樣的語法製作上傳檔案的網頁。</p>
+<ul>
+<li>原始碼： <a href="https://github.com/koajs/examples/blob/master/upload/index.js">https://github.com/koajs/examples/blob/master/upload/index.js</a></li>
+<li>使用方法：執行 node app 之後看 <a href="http://localhost:3000/">http://localhost:3000/</a></li>
+</ul>
+<p>檔案： <a href="https://github.com/koajs/examples/blob/master/upload/index.js">index.js</a></p>
+<pre><code>/**
+ * Module dependencies.
+ */
+
+var logger = require(&#39;koa-logger&#39;);
+var serve = require(&#39;koa-static&#39;);
+var parse = require(&#39;co-busboy&#39;);
+var koa = require(&#39;koa&#39;);
+var fs = require(&#39;fs&#39;);
+var app = koa();
+var os = require(&#39;os&#39;);
+var path = require(&#39;path&#39;);
+
+// log requests
+
+app.use(logger());
+
+// custom 404
+
+app.use(function *(next){
+  yield next;
+  if (this.body || !this.idempotent) return;
+  this.redirect(&#39;/404.html&#39;);
+});
+
+// serve files from ./public
+
+app.use(serve(__dirname + &#39;/public&#39;));
+
+// handle uploads
+
+app.use(function *(next){
+  // ignore non-POSTs
+  if (&#39;POST&#39; != this.method) return yield next;
+
+  // multipart upload
+  var parts = parse(this);
+  var part;
+
+  while (part = yield parts) {
+    var stream = fs.createWriteStream(path.join(os.tmpdir(), Math.random().toString()));
+    part.pipe(stream);
+    console.log(&#39;uploading %s -&gt; %s&#39;, part.filename, stream.path);
+  }
+
+  this.redirect(&#39;/&#39;);
+});
+
+// listen
+
+app.listen(3000);
+console.log(&#39;listening on port 3000&#39;);
+</code></pre><p>檔案： <a href="https://github.com/koajs/examples/blob/master/upload/public/index.html">public/index.html</a></p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Upload&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      padding: 50px;
+      font: 14px Helvetica, Arial;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;File Upload&lt;/h1&gt;
+  &lt;p&gt;Try uploading multiple files at a time.&lt;/p&gt;
+  &lt;form action=&quot;/&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
+    &lt;input type=&quot;file&quot; name=&quot;file&quot; multiple&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Upload&quot;&gt;
+  &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>啟動伺服器</p>
+<pre><code>D:\jsweb\examples\upload&gt;node index.js
+</code></pre><p>執行畫面</p>
+<p><img src="koaUpload.png" alt=""></p>
+<p>然後您可以按《選擇檔案》，選一個檔案後按下《Upload》，這樣就可以把檔案上傳到伺服器內。</p>
+<pre><code>D:\jsweb\examples\upload&gt;node index.js
+listening on port 3000
+  &lt;-- GET /index.html
+  --&gt; GET /index.html 200 56ms 410b
+  &lt;-- POST /
+uploading jquery_example.png -&gt; C:\Users\user\AppData\Local\Temp\0.5640067097265
+273
+  --&gt; POST / 302 52ms 33b
+  &lt;-- GET /
+  --&gt; GET / 200 8ms 410b
+</code></pre><p>上述案例中，我們上船的檔案被放到了<code>C:\Users\user\AppData\Local\Temp\0.5640067097265</code> 這個位置。</p>
+<p>當然、您可以修改程式，讓上船的內容放到您想要的位置，並且用指定的名稱存檔。</p>
+<h2 id="koa-blog">Koa 範例 - Blog</h2>
+<ul>
+<li>原始碼： <a href="https://github.com/koajs/examples/tree/master/blog">https://github.com/koajs/examples/tree/master/blog</a></li>
+</ul>
+<p>主要檔案: <a href="https://github.com/koajs/examples/blob/master/blog/index.js">index.js</a></p>
+<pre><code>
+/**
+ * Module dependencies.
+ */
+
+var render = require(&#39;./libender&#39;);
+var logger = require(&#39;koa-logger&#39;);
+var route = require(&#39;koa-route&#39;);
+var parse = require(&#39;co-body&#39;);
+var koa = require(&#39;koa&#39;);
+var app = koa();
+
+// &quot;database&quot;
+
+var posts = [];
+
+// middleware
+
+app.use(logger());
+
+// route middleware
+
+app.use(route.get(&#39;/&#39;, list));
+app.use(route.get(&#39;/post/new&#39;, add));
+app.use(route.get(&#39;/post/:id&#39;, show));
+app.use(route.post(&#39;/post&#39;, create));
+
+// route definitions
+
+/**
+ * Post listing.
+ */
+
+function *list() {
+  this.body = yield render(&#39;list&#39;, { posts: posts });
+}
+
+/**
+ * Show creation form.
+ */
+
+function *add() {
+  this.body = yield render(&#39;new&#39;);
+}
+
+/**
+ * Show post :id.
+ */
+
+function *show(id) {
+  var post = posts[id];
+  if (!post) this.throw(404, &#39;invalid post id&#39;);
+  this.body = yield render(&#39;show&#39;, { post: post });
+}
+
+/**
+ * Create a post.
+ */
+
+function *create() {
+  var post = yield parse(this);
+  var id = posts.push(post) - 1;
+  post.created_at = new Date;
+  post.id = id;
+  this.redirect(&#39;/&#39;);
+}
+
+// listen
+
+app.listen(3000);
+console.log(&#39;listening on port 3000&#39;);
+</code></pre><p>執行</p>
+<pre><code>D:\git\example&gt;npm install swig
+swig@1.4.2 node_modules\swig
+├── optimist@0.6.1 (wordwrap@0.0.2, minimist@0.0.10)
+└── uglify-js@2.4.19 (uglify-to-browserify@1.0.2, async@0.2.10, yargs@3.5.4,
+source-map@0.1.34)
+
+D:\git\example&gt;cd blog
+
+D:\git\example\blog&gt;node index
+listening on port 3000
+  &lt;-- GET /post
+  --&gt; GET /post 404 23ms -
+  &lt;-- GET /
+  --&gt; GET / 200 116ms -
+  &lt;-- GET /post/new
+  --&gt; GET /post/new 200 18ms -
+  &lt;-- POST /post
+  --&gt; POST /post 302 47ms -
+  &lt;-- GET /
+  --&gt; GET / 200 10ms -
+  &lt;-- GET /post/new
+  --&gt; GET /post/new 200 40ms -
+  &lt;-- POST /post
+  --&gt; POST /post 302 32ms -
+  &lt;-- GET /
+  --&gt; GET / 200 25ms -
+  &lt;-- GET /post/0
+  --&gt; GET /post/0 200 8ms -
+  &lt;-- GET /post/1
+  --&gt; GET /post/1 200 7ms -
+  &lt;-- GET /post/new
+  --&gt; GET /post/new 200 5ms -
+</code></pre><p>執行結果</p>
+<p><img src="koa_blog.jpg" alt=""></p>
+<p>上述的 Blog 範例寫法，是採用《請求、回應並換頁》的作法，這種作法裡面通常會搭配一個《樣板引擎》，這個範例搭配的樣板引擎是 swig。</p>
+<p>我們可以在 <a href="https://github.com/koajs/examples/blob/master/blog/lib/render.js">lib/render.js</a> 這個檔案裡看到下列程式碼，其中 <code>map: { html: &#39;swig&#39; }</code> 這行代表要使用 swig 樣板引擎來處理副檔名為 .html 的檔案。</p>
+<pre><code class="lang-javascript">var views = require(&#39;co-views&#39;);
+
+// setup views mapping .html
+// to the swig template engine
+
+module.exports = views(__dirname + &#39;/../views&#39;, {
+  map: { html: &#39;swig&#39; }
+});
+</code></pre>
+<p>接著我們會看到在 view 這個資料夾底下有下列檔案</p>
+<pre><code>index.html
+layout.html
+list.html
+new.html
+show.html
+</code></pre><p>這些就是所謂的樣版，其中 layout.html 是大家共用的上層樣版，內容如下：</p>
+<pre><code class="lang-html">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;{% block title %}Blog{% endblock %}&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      padding: 80px;
+      font: 16px Helvetica, Arial;
+    }
+    h1 {
+      font-size: 2em;
+    }
+    h2 {
+      font-size: 1.2em;
+    }
+    #posts {
+      margin: 0;
+      padding: 0;
+    }
+    #posts li {
+      margin: 40px 0;
+      padding: 0;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      list-style: none;
+    }
+    #posts li:last-child {
+      border-bottom: none;
+    }
+    textarea {
+      width: 500px;
+      height: 300px;
+    }
+    input[type=text],
+    textarea {
+      border: 1px solid #eee;
+      border-top-color: #ddd;
+      border-left-color: #ddd;
+      border-radius: 2px;
+      padding: 15px;
+      font-size: .8em;
+    }
+    input[type=text] {
+      width: 500px;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;section id=&quot;content&quot;&gt;
+    {% block content %}
+      &lt;p&gt;Missing content!&lt;/p&gt;
+    {% endblock %}
+  &lt;/section&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>您可以看到其中有下列語法，這兩個區塊是可以被下層樣版取代的區塊。</p>
+<pre><code>   {% block title %}Blog{% endblock %}
+...
+    {% block content %}
+      &lt;p&gt;Missing content!&lt;/p&gt;
+    {% endblock %}
+</code></pre><p>舉例而言，在 list.html 這個檔案裡，就用 <code>{% extends &#39;layout.html&#39; %</code> 這個指令引入了 layout.html 。</p>
+<pre><code class="lang-html">{% extends &#39;layout.html&#39; %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+  &lt;h1&gt;Posts&lt;/h1&gt;
+  &lt;p&gt;You have &lt;strong&gt;{{ posts.length }}&lt;/strong&gt; posts!&lt;/p&gt;
+  &lt;p&gt;&lt;a href=&quot;/post/new&quot;&gt;Create a Post&lt;/a&gt;&lt;/p&gt;
+  &lt;ul id=&quot;posts&quot;&gt;
+    {% for post in posts %}
+      &lt;li&gt;
+        &lt;h2&gt;{{ post.title }}&lt;/h2&gt;
+        &lt;p&gt;&lt;a href=&quot;/post/{{ post.id }}&quot;&gt;Read post&lt;/a&gt;&lt;/p&gt;
+      &lt;/li&gt;
+    {% endfor %}
+  &lt;/ul&gt;
+{% endblock %}
+</code></pre>
+<p>接著還用 <code>{% block title %}Posts{% endblock %}</code> 將 title 區塊的內容改為 Posts，然後又用 <code>{% block content %}</code> 這一大塊內容，取代原本的 content 區塊，並用 <code>{% for post in posts %}</code> 這樣的 swig 迴圈語法，逐個列出 posts 陣列中的每一個留言的標題與連結。</p>
+<p>這種做法就是典型的《樣板引擎》使用法，建議大家仔細地看看這個專案，您就會完全知道如何用 koa + swig 樣板引擎來設計網站了。</p>
+<h2 id="-koa-blog-">為 koa-blog 範例加上資料庫功能</h2>
+<p>上面的 blog 範例非常的簡潔有力，但該範例的資料是儲存在記憶體當中的，只要伺服器一關機，資料就不見了，因此還不能真正拿來上線使用。</p>
+<p>為了讓這個範例更實用，我們改將資料儲存在 mongodb 當中，這樣就能夠永久保存這些貼文訊息了。</p>
+<p>我們將 blog 專案中的 index.js 檔案修改如下：</p>
+<pre><code class="lang-javascript">
+/**
+ * Module dependencies.
+ */
+
+var MongoClient = require(&#39;mongodb&#39;).MongoClient;
+// http://stackoverflow.com/questions/7825700/convert-string-to-objectid-in-mongodb
+var ObjectId = require(&#39;mongodb&#39;).ObjectID;
+var render = require(&#39;./lib/render&#39;);
+var logger = require(&#39;koa-logger&#39;);
+var route = require(&#39;koa-route&#39;);
+var parse = require(&#39;co-body&#39;);
+var koa = require(&#39;koa&#39;);
+var app = koa();
+
+var db;
+MongoClient.connect(&quot;mongodb://localhost:27017/blog&quot;, function(err, pDb) {
+  if(err) { return console.dir(err); }
+  db = pDb;
+});
+
+// &quot;database&quot;
+
+// var posts = [];
+
+// middleware
+
+app.use(logger());
+
+// route middleware
+
+app.use(route.get(&#39;/&#39;, list));
+app.use(route.get(&#39;/post/new&#39;, add));
+app.use(route.get(&#39;/post/:id&#39;, show));
+app.use(route.post(&#39;/post&#39;, create));
+
+// route definitions
+
+/**
+ * Post listing.
+ */
+
+function *list() {
+  var collection = db.collection(&#39;post&#39;);
+  var posts = yield collection.find().toArray();
+  this.body = yield render(&#39;list&#39;, { posts: posts });
+}
+
+/**
+ * Show creation form.
+ */
+
+function *add() {
+  this.body = yield render(&#39;new&#39;);
+}
+
+/**
+ * Show post :id.
+ */
+
+function *show(id) {
+//  var post = posts[id];
+  var collection = db.collection(&#39;post&#39;);
+  var posts = yield collection.find({_id:ObjectId(id)}).toArray();
+  var post = posts[0];
+  if (!post) this.throw(404, &#39;invalid post id&#39;);
+  this.body = yield render(&#39;show&#39;, { post: post });
+}
+
+/**
+ * Create a post.
+ */
+
+function *create() {
+  var post = yield parse(this);
+//  var id = posts.push(post) - 1;
+  post.created_at = new Date;
+//  post.id = id;
+  var collection = db.collection(&#39;post&#39;);
+  var results = yield collection.insertMany([post], {w:1});
+  this.redirect(&#39;/&#39;);
+}
+
+// listen
+
+app.listen(3000);
+console.log(&#39;listening on port 3000&#39;);
+</code></pre>
+<p>在執行這個程式前，我們必須先安裝好 mongodb 資料庫系統，然後用 mongod 指令啟動資料庫伺服器。接著再用 <code>node index.js</code> 指令啟動 blog 程式。</p>
+<p>因此我們必須開兩個命令列視窗，一個用來啟動 mongodb 資料庫伺服器，另一個則用來執行 blog 程式。</p>
+<p>以下是我的執行過程：</p>
+<p>第一個命令列視窗：(建立 db 資料夾，並啟動 mongod 伺服器)</p>
+<pre><code>D:\jsweb&gt;mkdir db
+
+D:\jsweb&gt;mongod --dbpath db
+2016-07-08T09:42:09.205+0800 I CONTROL  [initandlisten] MongoDB starting : pid=4
+460 port=27017 dbpath=db 64-bit host=asus
+...
+2016-07-08T09:42:10.060+0800 I NETWORK  [initandlisten] waiting for connections
+on port 27017
+2016-07-08T09:42:53.767+0800 I NETWORK  [initandlisten] connection accepted from
+ 127.0.0.1:50852 #1 (1 connection now open)
+2016-07-08T09:42:53.838+0800 I NETWORK  [initandlisten] connection accepted from
+ 127.0.0.1:50853 #2 (2 connections now open)
+2016-07-08T09:42:53.889+0800 I NETWORK  [conn1] end connection 127.0.0.1:50852 (
+1 connection now open)
+2016-07-08T09:43:25.913+0800 I COMMAND  [conn2] command blog.post command: inser
+t { insert: &quot;post&quot;, documents: [ { title: &quot;Hello!&quot;, body: &quot;I am ccc.&quot;, created_a
+t: new Date(1467942205743), _id: ObjectId(&#39;577f053d2bef18cc093c231a&#39;) } ], order
+ed: true, writeConcern: { w: 1 } } ninserted:1 keyUpdates:0 writeConflicts:0 num
+Yields:0 reslen:40 locks:{ Global: { acquireCount: { r: 2, w: 2 } }, Database: {
+ acquireCount: { w: 1, W: 1 } }, Collection: { acquireCount: { W: 1 } } } protoc
+ol:op_query 158ms
+</code></pre><p>第二個命令列視窗：修改後的程式放在 mongoBlog 這個資料夾中，啟動該程式。</p>
+<pre><code>D:\jsweb\examples&gt;cd mongoBlog
+
+D:\jsweb\examples\mongoBlog&gt;node index.js
+listening on port 3000
+  &lt;-- GET /
+  --&gt; GET / 200 136ms 1008b
+  &lt;-- GET /post/new
+  --&gt; GET /post/new 200 30ms 1.12kb
+  &lt;-- POST /post
+  --&gt; POST /post 302 274ms 33b
+  &lt;-- GET /
+  --&gt; GET / 200 36ms 1.1kb
+  &lt;-- GET /post/new
+  --&gt; GET /post/new 200 23ms 1.12kb
+  &lt;-- POST /post
+  --&gt; POST /post 302 17ms 33b
+  &lt;-- GET /
+  --&gt; GET / 200 12ms 1.23kb
+</code></pre><p>一個執行畫面</p>
+<p><img src="koaMongoBlog.png" alt=""></p>
+<p>您可以直接下載 <a href="https://ccckmit.gitbooks.io/javascript-web/content/ch7/koaMongoBlog.zip">https://ccckmit.gitbooks.io/javascript-web/content/ch7/koaMongoBlog.zip</a> 這個已經修改好的專案，解開後放在 koa 範例資料夾中執行，並觀察一下這個程式的運作情況，相信您會從這個範例中學到完整的樣版式網站設計方法。</p>
+<h2 id="-fdbserver">通用伺服器 -- fdbserver</h2>
+<p>在網站設計的領域，前端網頁似乎千變萬化，但是後端網站所做的事情通常很固定。</p>
+<p>這些事情不外乎就是：接受前端送來的請求，將資料寫入檔案系統或資料庫，或讀出後傳回給前端瀏覽器。</p>
+<p>既然如此，當我們學會 koa 之後，其實就可以寫一個通用的伺服端程式，用來對《資料庫與檔案系統》進行《新增、修改、刪除、查詢》等等動作。</p>
+<p>於是我寫了 fdbserver 這個專案，並且上傳到 npm 上面，之後我們會用這個專案來作為 server 端，作為通用的伺服器。</p>
+<p>剩下的事情，就交給前端去處理了。</p>
+<p>Fdbserver 在 github 的網址如下：</p>
+<ul>
+<li><a href="https://github.com/ccckmit/fdbserver">https://github.com/ccckmit/fdbserver</a></li>
+</ul>
+<p>您可以用 git 把該專案抓取下來，然後安裝之後就可以啟動使用了。</p>
+<pre><code>git clone https://github.com/ccckmit/fdbserver.git
+cd fdbserver/
+npm install
+node fdbserver.js
+</code></pre><p>以下是 fdbserver.js 主程式的完整程式碼，您可以透過 ajax 或表單 form 的方式與這個程式互動，進行《檔案或資料庫》的《新增、修改、刪除、查詢》等動作。</p>
+<pre><code class="lang-javascript">var fs      = require(&#39;fs&#39;);
+var path    = require(&#39;path&#39;);
+var http    = require(&#39;http&#39;);
+var https   = require(&#39;https&#39;);
+var mzfs    = require(&#39;mz/fs&#39;);
+var mkdirp  = require(&#39;mkdirp&#39;);
+var koa     = require(&#39;koa&#39;);
+// 參考：http://codeforgeek.com/2014/09/handle-get-post-request-express-4/
+var bodyParser = require(&quot;koa-bodyparser&quot;);
+var session = require(&#39;koa-session&#39;);
+var router  = require(&#39;koa-router&#39;)();
+var co      = require(&#39;co&#39;);
+var parse   = require(&#39;co-busboy&#39;);
+var saveTo  = require(&#39;save-to&#39;);
+var mongodb = require(&#39;mongodb&#39;);
+var app = koa();
+
+function comkdir(path) {
+  var dir = path.split(&quot;/&quot;);
+  dir.pop();
+  return function (callback) {
+    mkdirp(dir.join(&quot;/&quot;), callback);
+  };
+}
+
+function loadSysFile(file) {
+  var filepath = path.join(process.cwd(), file);
+  if (!mzfs.existsSync(filepath)) {
+    filepath = path.join(__dirname, file);
+  }
+  return mzfs.readFileSync(filepath, &#39;utf-8&#39;);
+}
+
+var setting = JSON.parse(loadSysFile(&#39;setting.json&#39;));
+var passwords = setting.passwords;
+
+var db = {
+  db : null,
+  tableMap:{},
+}
+
+db.table=function(tableName) { 
+  var table = db.tableMap[tableName];
+  if (typeof table === &#39;undefined&#39;) {
+    table = db.tableMap[tableName] = db.db.collection(tableName);
+  }
+  return table;
+}
+
+mongodb.MongoClient.connect(setting.mongodb.dburl, function(err, db1){
+  if (err) 
+    console.error(&quot;db connect fail&quot;);
+  else
+    console.log(&#39;Connect to&#39;, setting.mongodb.dburl, &#39;success!&#39;);
+  db.db=db1;
+});
+
+var fdbserver = {
+  app:app,
+  router:router,
+  loadSysFile:loadSysFile,
+  run:function() { this.app.run(); }
+}
+
+var filedir = process.cwd()+&quot;/file/&quot;;
+if (!fs.existsSync(filedir)) {
+  fs.mkdir(filedir);  
+}
+
+app.keys = [setting.key];
+app.use(session(app));
+app.use(bodyParser({formLimit:5*1000*1000, jsonLimit:5*1000*1000}));
+
+function response(res, code, msg) {
+  res.status = code;
+  res.set({&#39;Content-Length&#39;:&#39;&#39;+msg.length,&#39;Content-Type&#39;:&#39;text/plain&#39;});
+  res.body = msg;
+  if (code !== 200) console.log(&#39;response error : &#39;, code, msg);
+}
+
+fdbserver.response = response;
+
+fdbserver.doAfterFilePost=function*(path, self) { 
+  yield Promise.resolve(false);
+}
+
+fdbserver.doBeforeFileGet=function*(path, self) {
+  // yield false; 在 co 裡面，這會導致錯誤 : TypeError: You may only yield a function, promise, generator, array, or object
+  yield Promise.resolve(false);
+}
+
+function isPass(req) {
+  if (setting.loginToSave === false) 
+    return true;
+  return typeof(req.session.user)!==&#39;undefined&#39;;
+}
+
+var dbOp=function*(table, op, body, self) {
+  var req = self.request, res = self.response;
+  if (!isPass(self)) {
+    response(res, 401, &#39;Please login to save!&#39;);
+    return;
+  }
+  if (!db.db) response(res, 404, &#39;db error!&#39;);
+  var results=null;
+  if (op === &#39;find&#39;) {
+    // 範例: http://localhost/db?table=filelog&amp;filter={&quot;path&quot;:&quot;/db.filelog&quot;}
+    var filter=JSON.parse(body.filter);
+    results = yield db.table(table).find(filter).toArray();
+  } else if (op === &#39;insert&#39;) {
+    var records = JSON.parse(body.records);
+    results = yield db.table(table).insertMany(records);
+  } else if (op === &#39;update&#39;) {
+    var filter = JSON.parse(body.filter);
+    var update = JSON.parse(body.update);
+    results = yield db.table(table).updateMany(filter, update);
+  } else if (op === &#39;delete&#39;) {
+    var filter = JSON.parse(body.filter);
+    results = yield db.table(table).deleteMany(filter);   
+  }
+  if (results) {
+    self.body = results;
+  } else {
+    response(res, 404, &#39;db error&#39;);
+  }
+  fdbserver.doAfterPostDb(table, op, body);
+}
+
+router
+ .post(&#39;/upload/&#39;, function*(next) {
+  var domain = this.request.url.split(&quot;/&quot;).pop();
+  if (!this.request.header[&quot;content-type&quot;].startsWith(&quot;multipart/form-data;&quot;)) return yield next;
+  var part, parts = parse(this);
+  var files = [], file;
+  while (part = yield parts) {
+    if (typeof part.filename !== &#39;undefined&#39;) {
+      files.push(file = path.join(filedir, domain, part.filename));
+      yield saveTo(part, file);
+    }
+  }
+  this.body = files;  
+ })
+ .post(&#39;/db/:table/:op&#39;, function*(next){
+  yield dbOp(this.params.table, this.params.op, this.request.body, this);
+ })
+ .get(&#39;/db/:table/:op&#39;,  function*(next){
+  yield dbOp(this.params.table, this.params.op, this.request.query, this);
+ })
+ .post(&quot;/login&quot;, function*(next) {
+  var req = this.request, res = this.response;
+  var p = this.request.body;
+  if (req.protocol !== &#39;https&#39;) {
+    response(res, 401, p.user+&quot;:login fail!&quot;);
+    return;
+  }  
+  if (p.user in passwords &amp;&amp; passwords[p.user].toUpperCase() === p.password.toUpperCase()) {
+    this.session.user = p.user;
+    response(res, 200, p.user+&quot;:login success!&quot;);
+  } else {
+    response(res, 401, p.user+&quot;:login fail!&quot;);
+  }
+ })
+ .post(&quot;/logout&quot;, function*(next) {
+  var req = this.request, res = this.response;
+  this.session = null;
+  response(res, 200, &quot;logout success!&quot;);
+ }) 
+ .post(/\/file\/.*/, function*(next) {
+  var req = this.request, res = this.response;
+  var text = this.request.body.text;
+  if (!isPass(this)) {
+    response(res, 401, &#39;Please login to save!&#39;);
+    return;
+  }
+  console.log(&#39;post %s&#39;, this.path)
+  var absPath = process.cwd()+this.path;
+  yield comkdir(absPath);
+  yield mzfs.writeFile(absPath, text).then(function() {
+    response(res, 200, &#39;write success!&#39;);
+  }).catch(function() {
+    response(res, 403, &#39;write fail!&#39;); // 403: Forbidden
+  });
+  fdbserver.doAfterFilePost(this.path, this)
+ })
+ .get(/.*/, function *(next) {
+  if (db.db) {
+    yield db.table(&#39;filelog&#39;).insert({path:this.path, time:new Date()});
+  }
+  if (yield *fdbserver.doBeforeFileGet(this.path, this))
+    return;
+  if (this.path===&quot;/&quot;)
+    this.redirect(setting.redirect);
+  console.log(&#39;get %s&#39;, this.path);
+  var root = process.cwd();
+  var tpath = path.join(root, this.path);
+  var tstat = yield mzfs.stat(tpath);
+  if (tstat.isDirectory()) {
+    var files = yield mzfs.readdir(tpath);
+    this.type = &#39;json&#39;;
+    this.body = {type:&quot;directory&quot;, &quot;files&quot;:files};
+  } else if (tstat.isFile()) {
+    var ext = path.extname(tpath)
+    this.type = ([&quot;.wd&quot;,&quot;.md&quot;].indexOf(ext)&gt;=0)?&#39;.txt&#39;:ext;
+    this.body = mzfs.createReadStream(tpath);
+  }
+ });
+
+app.run=function() {
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+
+  var port = setting.port || 80; // process.env.PORT for Heroku
+  console.log(&#39;Server started: http://localhost:&#39;+port);
+  http.createServer(app.callback()).listen(port);
+
+  // https version : in self signed certification
+  // You can save &amp; modify in SSL mode, no edit allowed in HTTP mode.
+  var sslPort = setting.portSsl || 443;
+  https.createServer({
+    key: loadSysFile(&#39;key.pem&#39;),
+    cert: loadSysFile(&#39;cert.pem&#39;),
+    // The folowing is for self signed certification.
+    requestCert: true, 
+    ca: [ loadSysFile(&#39;csr.pem&#39;) ]
+  }, app.callback()).listen(sslPort);
+  console.log(&#39;Ssl Server started: https://localhost:&#39;+sslPort);
+}
+
+module.exports = fdbserver;
+
+if (!module.parent) {
+  app.run();
+  console.log(&#39;app running&#39;);
+}
+</code></pre>
+<p>現在、您應該已經知道如何用 koa 框架撰寫伺服器的程式了，接下來的幾個章節，就讓我們來實作一些完整的系統吧！</p>
+<h2 id="koa-2">Koa@2</h2>
+<p>Koa@2 支援了 async/await 的 ES2017 語法，現在應該也有不少人開始採用了，想使用請參考下列文章：</p>
+<ul>
+<li><a href="http://www.jianshu.com/p/6b816c609669">「新手向」koa2从起步到填坑</a></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/001471087582981d6c0ea265bf241b59a04fa6f61d767f6000">创建koa2工程</a></li>
+</ul>
+<h2 id="-">習題</h2>
+<ol>
+<li>請用 koa 寫一個靜態檔案伺服器 (參考 koaStream.js 範例)</li>
+<li>Koa 官網中 koa-blog 範例的資料由於儲存在記憶體中，因此電腦一旦關機之後，資料就會消失。因此請您修改該專案，改將資料儲存在 mongodb 當中，這樣資料就可以永久儲存了！</li>
+</ol>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學習 JavaScript 進階技術 >>  JavaScript 遊戲設計</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-alpha2/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" href="../../book.css">
+</head>
+<body>
+
+<div class="header pure-menu pure-menu-horizontal">
+  <ul id="topBar" class="pure-menu-list">
+    <li id="bookTitle" class="pure-menu-item"><a href="README.html" class="pure-menu-link">學習 JavaScript 進階技術</a></li>
+  </ul>
+</div>
+
+<div id="layout">
+  <a href="#menu" id="menuLink" class="menu-link"><span></span></a>
+  <div id="menu">
+    <div id="sideMenu" class="pure-menu">
+      <div id="home" class="pure-menu-heading">
+        <a href="../../index.html">⮌</a>
+      </div>
+      <ul class="pure-menu-list" id="bookBox"><li class="pure-menu-item"><a href="README.html" class="pure-menu-link">前言</a></li>
+<li class="pure-menu-item"><a href="tool.html" class="pure-menu-link">開發工具</a></li>
+<li class="pure-menu-item"><a href="advance.html" class="pure-menu-link">進階概念</a></li>
+<li class="pure-menu-item"><a href="newSyntax.html" class="pure-menu-link">進階語法</a></li>
+<li class="pure-menu-item"><a href="es6.html" class="pure-menu-link">ES6 新語法</a></li>
+<li class="pure-menu-item"><a href="cssAdvance.html" class="pure-menu-link">CSS 進階</a></li>
+<li class="pure-menu-item"><a href="canvas.html" class="pure-menu-link">Canvas 繪圖</a></li>
+<li class="pure-menu-item"><a href="chart.html" class="pure-menu-link">統計圖表</a></li>
+<li class="pure-menu-item"><a href="game.html" class="pure-menu-link">遊戲設計</a></li>
+<li class="pure-menu-item"><a href="gpsmap.html" class="pure-menu-link">衛星地圖</a></li>
+<li class="pure-menu-item"><a href="image.html" class="pure-menu-link">影像處理</a></li>
+<li class="pure-menu-item"><a href="mt.html" class="pure-menu-link">機器翻譯</a></li>
+<li class="pure-menu-item"><a href="frontendFramework.html" class="pure-menu-link">前端框架</a></li>
+<li class="pure-menu-item"><a href="softwareEngineering.html" class="pure-menu-link">軟體工程</a></li></ul>
+    </div>
+  </div>
+  <div id="main">
+    <div class="content" id="viewBox">
+      <div id="mdBox"><h1 id="javascript-">JavaScript 遊戲設計</h1>
+<h2 id="-">簡介</h2>
+<ul>
+<li>maxwihlborg -- 怎麼用 Canvas 寫遊戲的教學影片！<ul>
+<li>首頁： <a href="http://maxwihlborg.com/experiments/">http://maxwihlborg.com/experiments/</a></li>
+<li>程式專案： <a href="https://github.com/maxwihlborg/youtube-tutorials/">https://github.com/maxwihlborg/youtube-tutorials/</a></li>
+<li>線上展示： <a href="http://www.maxwihlborg.com/youtube-demos/">http://www.maxwihlborg.com/youtube-demos/</a></li>
+<li>影片： <a href="https://www.youtube.com/playlist?list=PLDu4C7CHISoKbi-do2VKUfS6cv36C57y4">https://www.youtube.com/playlist?list=PLDu4C7CHISoKbi-do2VKUfS6cv36C57y4</a></li>
+<li>原始碼： <a href="https://github.com/maxwihlborg/youtube-tutorials">https://github.com/maxwihlborg/youtube-tutorials</a></li>
+</ul>
+</li>
+<li>乒乓球遊戲： <a href="http://maxwihlborg.com/2014/02/08/pong/">http://maxwihlborg.com/2014/02/08/pong/</a><ul>
+<li>程式碼： <a href="https://github.com/maxwihlborg/youtube-tutorials/blob/master/pong/index.html">https://github.com/maxwihlborg/youtube-tutorials/blob/master/pong/index.html</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="-">範例一 : 移動球 (不順暢)</h2>
+<p>檔案： @<a href="code/canvas/ballmove1.html">[ballmove1.html]</a></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;img id=&quot;ball&quot; src=&quot;ball.jpg&quot; alt=&quot;The Scream&quot;&gt;
+&lt;p&gt;Canvas:&lt;/p&gt;
+&lt;canvas id=&quot;myCanvas&quot; width=&quot;300&quot; height=&quot;300&quot; style=&quot;border:1px solid #d3d3d3;&quot;/&gt;
+&lt;script&gt;
+var img, ctx, canvas;
+var x=0, y=0;
+
+window.onload = function() {
+  canvas = document.getElementById(&quot;myCanvas&quot;);
+  ctx = canvas.getContext(&quot;2d&quot;);
+  img = document.getElementById(&quot;ball&quot;);
+  setTimeout(draw, 100);
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, x, y);
+  x+=10; y+=10;
+  setTimeout(draw, 100);  
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="-">範例二 : 移動球 (順暢)</h2>
+<p>檔案： @<a href="code/canvas/ballmove2.html">[ballmove2.html]</a></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;img id=&quot;ball&quot; src=&quot;ball.jpg&quot; alt=&quot;The Scream&quot; style=&quot;display:none&quot;&gt;
+&lt;p&gt;Canvas:&lt;/p&gt;
+&lt;canvas id=&quot;myCanvas&quot; width=&quot;240&quot; height=&quot;297&quot; style=&quot;border:1px solid #d3d3d3;&quot;/&gt;
+&lt;script&gt;
+var img, ctx, canvas;
+var x=0, y=0;
+
+window.onload = main;
+
+function update() {
+  x+=2; y+=2;
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, x, y);
+}
+
+function main() {
+  img = document.getElementById(&quot;ball&quot;);
+  canvas = document.getElementById(&quot;myCanvas&quot;);
+  ctx = canvas.getContext(&quot;2d&quot;);
+  var loop = function() {
+    update();
+    draw();
+    window.requestAnimationFrame(loop, canvas);
+  };
+  window.requestAnimationFrame(loop, canvas);
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="-">遊戲設計 -- 碰撞球</h2>
+<p>檔案： @<a href="code/canvas/ballgame1.html">[ballgame1.html]</a></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;img id=&quot;ball&quot; src=&quot;ball.jpg&quot; alt=&quot;The Scream&quot; style=&quot;display:none&quot;&gt;
+&lt;p&gt;Canvas:&lt;/p&gt;
+&lt;canvas id=&quot;myCanvas&quot; width=&quot;240&quot; height=&quot;297&quot; style=&quot;border:1px solid #d3d3d3;&quot;/&gt;
+&lt;script&gt;
+var img, ctx, canvas;
+var x=0, y=0;
+
+window.onload = main;
+
+var dx = 2, dy=2;
+function update() {
+  x+=dx; y+=dy;
+  if (x &lt; 0 &amp;&amp; dx &lt; 0)
+    dx = -1 * dx;
+  else if (x+img.width &gt;= canvas.width &amp;&amp; dx &gt; 0)
+    dx = -1 * dx;
+  if (y &lt; 0 &amp;&amp; dy &lt; 0)
+    dy = -1 * dy;
+  else if (y+img.height &gt;= canvas.height &amp;&amp; dy &gt; 0)
+    dy = -1 * dy;
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, x, y);
+}
+
+function main() {
+  img = document.getElementById(&quot;ball&quot;);
+  canvas = document.getElementById(&quot;myCanvas&quot;);
+  ctx = canvas.getContext(&quot;2d&quot;);
+  var loop = function() {
+    update();
+    draw();
+    window.requestAnimationFrame(loop, canvas);
+  };
+  window.requestAnimationFrame(loop, canvas);
+}
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="-">進階參考</h2>
+<p>課程： <a href="https://www.udacity.com/course/html5-game-development--cs255">HTML5 Game Development</a></p>
+</div>
+      <div style="text-align:center">
+        <span class="footnote">
+        
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="../../book.js"></script>
+</body>
+</html>
