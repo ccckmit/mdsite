@@ -88,7 +88,7 @@ NVM 則可以用來選擇 node 與套件的環境版本！
 
 相關參考：
 
-* [如何使用Travis CI自動測試?](http://oomusou.io/ci/travis-ci-setup/) (讚！)
+* [如何使用Travis CI自動測試?](https://old-oomusou.goodjack.tw/ci/travis-ci-setup/) (讚！)
 * [持續整合 (Continuous integration, CI) 簡介](http://www.dotblogs.com.tw/hatelove/archive/2011/12/25/introducing-continuous-integration.aspx)
 
 ```
